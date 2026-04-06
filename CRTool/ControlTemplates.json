@@ -1,0 +1,172 @@
+{
+  "appinfo": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/appinfo",
+    "IsComponentTemplate": false,
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "appinfo",
+    "Version": "1.0"
+  },
+  "screen": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/screen",
+    "IsComponentTemplate": false,
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "screen",
+    "Version": "1.0"
+  },
+  "groupContainer": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/groupContainer",
+    "IsComponentTemplate": false,
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "groupContainer",
+    "Version": "1.0"
+  },
+  "gallery": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/gallery",
+    "IsComponentTemplate": false,
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "gallery",
+    "Version": "1.0"
+  },
+  "galleryTemplate": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/galleryTemplate",
+    "IsComponentTemplate": false,
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "galleryTemplate",
+    "Version": "1.0"
+  },
+  "label": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/label",
+    "IsComponentTemplate": false,
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "label",
+    "Version": "1.0"
+  },
+  "rectangle": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/rectangle",
+    "IsComponentTemplate": false,
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "rectangle",
+    "Version": "1.0"
+  },
+  "button": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/button",
+    "IsComponentTemplate": false,
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "button",
+    "Version": "1.0"
+  },
+  "text": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/text",
+    "IsComponentTemplate": false,
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "text",
+    "Version": "1.0"
+  },
+  "dropdown": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/dropdown",
+    "IsComponentTemplate": false,
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "dropdown",
+    "Version": "1.0"
+  },
+  "image": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/image",
+    "IsComponentTemplate": false,
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "image",
+    "Version": "1.0"
+  },
+  "checkbox": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/checkbox",
+    "IsComponentTemplate": false,
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "checkbox",
+    "Version": "1.0"
+  },
+  "toggle": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/toggle",
+    "IsComponentTemplate": false,
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "toggle",
+    "Version": "1.0"
+  },
+  "combobox": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/combobox",
+    "IsComponentTemplate": false,
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "combobox",
+    "Version": "1.0"
+  },
+  "scrollablecanvas": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/scrollablecanvas",
+    "IsComponentTemplate": false,
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "scrollablecanvas",
+    "Version": "1.0"
+  },
+  "rating": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/rating",
+    "IsComponentTemplate": false,
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "rating",
+    "Version": "1.0"
+  },
+  "datatable": {
+    "FirstParty": true,
+    "Id": "http://microsoft.com/appmagic/datatable",
+    "IsComponentTemplate": false,
+    "IsPcfControl": false,
+    "IsWidgetTemplate": false,
+    "LastModifiedTimestamp": "0",
+    "Name": "datatable",
+    "Version": "1.0"
+  }
+}

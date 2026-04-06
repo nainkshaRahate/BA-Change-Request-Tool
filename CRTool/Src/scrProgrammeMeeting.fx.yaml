@@ -137,33 +137,18 @@ scrProgrammeMeeting As screen:
             Font: =Font.'Segoe UI'
             Size: =12
 
-        galRAGMiniBar As gallery:
+        lblRAGSummaryPM As label:
             X: =12
             Y: =68
             Width: =200
             Height: =28
-            TemplateWidth: =28
-            TemplatePadding: =4
-            Layout: =Layout.Horizontal
-            Items: =Filter(CRStakeholderReviews, CRNumber.CRNumber = ThisItem.CRNumber)
-
-            rectRAGSquare As rectangle:
-                X: =0
-                Y: =0
-                Width: =20
-                Height: =20
-                RadiusTopLeft: =3
-                RadiusTopRight: =3
-                RadiusBottomLeft: =3
-                RadiusBottomRight: =3
-                Fill: |
-                    =Switch(ThisItem.RAGStatus,
-                      "Green", RGBA(39,174,96,1),
-                      "Amber", RGBA(243,156,18,1),
-                      "Red", RGBA(192,57,43,1),
-                      "Grey", RGBA(149,165,166,1),
-                      RGBA(174,214,241,1)
-                    )
+            Text: |
+                =Concat(
+                  Filter(CRStakeholderReviews, CRNumber.CRNumber = ThisItem.CRNumber),
+                  Switch(RAGStatus,"Green","🟢","Amber","🟡","Red","🔴","Grey","⬜","🔵") & " "
+                )
+            Font: =Font.'Segoe UI'
+            Size: =14
 
         chkAttendance As checkbox:
             X: =220

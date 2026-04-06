@@ -110,7 +110,7 @@ scrViewCRs As screen:
         Size: =12
         BorderColor: =RGBA(200, 200, 200, 1)
 
-    ddlAIPSG As dropdown:
+    ddlAIPSGView As dropdown:
         X: =726
         Y: =103
         Width: =200
