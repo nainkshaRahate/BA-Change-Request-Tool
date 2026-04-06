@@ -14,9 +14,12 @@
 #>
 
 $SiteUrl = "https://baplc.sharepoint.com/sites/Engprog"
+# PnP Management Shell client ID - Microsoft's standard app for PnP PowerShell
+$ClientId = "31359c7f-bd7e-475c-86db-fdb8c937548d"
 
 Write-Host "Connecting to $SiteUrl..." -ForegroundColor Cyan
-Connect-PnPOnline -Url $SiteUrl -Interactive
+Write-Host "A browser window will open for you to sign in to your BA Microsoft account." -ForegroundColor Yellow
+Connect-PnPOnline -Url $SiteUrl -Interactive -ClientId $ClientId
 
 Write-Host "Connected. Creating CR Tool lists..." -ForegroundColor Green
 
