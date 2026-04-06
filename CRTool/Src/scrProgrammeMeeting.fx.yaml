@@ -1,0 +1,247 @@
+scrProgrammeMeeting As screen:
+    Fill: =RGBA(245, 247, 250, 1)
+
+    rectHeaderPM As rectangle:
+        X: =0
+        Y: =0
+        Width: =Parent.Width
+        Height: =50
+        Fill: =RGBA(31, 55, 100, 1)
+
+    imgLogoPM As image:
+        X: =8
+        Y: =5
+        Width: =40
+        Height: =20
+        Image: =BALogo
+        ImagePosition: =ImagePosition.Fit
+
+    lblHeaderPM As label:
+        X: =0
+        Y: =0
+        Width: =Parent.Width
+        Height: =50
+        Text: ="Programme Meeting View"
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        Size: =16
+        FontWeight: =FontWeight.Semibold
+        Align: =Align.Center
+
+    rectSubNavPM As rectangle:
+        X: =0
+        Y: =50
+        Width: =Parent.Width
+        Height: =45
+        Fill: =RGBA(24, 44, 82, 1)
+
+    btnHomePM As button:
+        X: =8
+        Y: =57
+        Width: =36
+        Height: =36
+        Text: ="🏠"
+        Fill: =RGBA(24, 44, 82, 1)
+        Color: =RGBA(255, 255, 255, 1)
+        BorderThickness: =0
+        Size: =16
+        OnSelect: =Navigate(scrHome, None)
+
+    lblFilterAIPSG As label:
+        X: =16
+        Y: =103
+        Width: =140
+        Height: =20
+        Text: ="AIPSG Meeting Date:"
+        Color: =RGBA(33, 33, 33, 1)
+        Font: =Font.'Segoe UI'
+        Size: =12
+
+    ddlPMFilter As dropdown:
+        X: =160
+        Y: =100
+        Width: =240
+        Height: =34
+        Items: =AddColumns(Filter(AIPSGMeetings, IsActive), "DisplayValue", Text(MeetingDate, "dd mmm yyyy"))
+        Font: =Font.'Segoe UI'
+        Size: =12
+        BorderColor: =RGBA(200, 200, 200, 1)
+
+    galProgrammeMeeting As gallery:
+        X: =0
+        Y: =145
+        Width: =Parent.Width
+        Height: =Parent.Height - 145
+        TemplateHeight: =140
+        TemplatePadding: =8
+        Items: =Filter(CRRequests, CRStatus = "Programme Meeting")
+
+        rectPMCardBg As rectangle:
+            X: =0
+            Y: =0
+            Width: =Parent.Width - 16
+            Height: =132
+            Fill: =RGBA(255, 255, 255, 1)
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+
+        rectPMCardBorder As rectangle:
+            X: =0
+            Y: =0
+            Width: =4
+            Height: =132
+            Fill: =RGBA(31, 55, 100, 1)
+
+        lblPMCRNumber As label:
+            X: =12
+            Y: =8
+            Width: =80
+            Height: =28
+            Text: =ThisItem.CRNumber
+            Color: =RGBA(31, 55, 100, 1)
+            Font: =Font.'Segoe UI'
+            Size: =14
+            FontWeight: =FontWeight.Bold
+
+        lblPMCRTitle As label:
+            X: =100
+            Y: =8
+            Width: =Parent.Width - 360
+            Height: =28
+            Text: =ThisItem.CRTitle
+            Color: =RGBA(33, 33, 33, 1)
+            Font: =Font.'Segoe UI'
+            Size: =13
+            FontWeight: =FontWeight.Semibold
+            Overflow: =Overflow.Hidden
+
+        lblPMProgramme As label:
+            X: =12
+            Y: =40
+            Width: =200
+            Height: =22
+            Text: =ThisItem.ProgrammeName
+            Color: =RGBA(117, 117, 117, 1)
+            Font: =Font.'Segoe UI'
+            Size: =12
+
+        lblPMProjectManager As label:
+            X: =220
+            Y: =40
+            Width: =200
+            Height: =22
+            Text: =ThisItem.ProjectManager.DisplayName
+            Color: =RGBA(117, 117, 117, 1)
+            Font: =Font.'Segoe UI'
+            Size: =12
+
+        galRAGMiniBar As gallery:
+            X: =12
+            Y: =68
+            Width: =200
+            Height: =28
+            TemplateWidth: =28
+            TemplatePadding: =4
+            Layout: =Layout.Horizontal
+            Items: =Filter(CRStakeholderReviews, CRNumber.CRNumber = ThisItem.CRNumber)
+
+            rectRAGSquare As rectangle:
+                X: =0
+                Y: =0
+                Width: =20
+                Height: =20
+                RadiusTopLeft: =3
+                RadiusTopRight: =3
+                RadiusBottomLeft: =3
+                RadiusBottomRight: =3
+                Fill: |
+                    =Switch(ThisItem.RAGStatus,
+                      "Green", RGBA(39,174,96,1),
+                      "Amber", RGBA(243,156,18,1),
+                      "Red", RGBA(192,57,43,1),
+                      "Grey", RGBA(149,165,166,1),
+                      RGBA(174,214,241,1)
+                    )
+
+        chkAttendance As checkbox:
+            X: =220
+            Y: =68
+            Width: =200
+            Height: =28
+            Text: ="✓ Owner Attending"
+            Default: =ThisItem.AttendanceConfirmed
+            Font: =Font.'Segoe UI'
+            Size: =12
+            OnCheck: =Patch(CRRequests, ThisItem, {AttendanceConfirmed: true})
+            OnUncheck: =Patch(CRRequests, ThisItem, {AttendanceConfirmed: false})
+
+        lblDelegateLabel As label:
+            X: =430
+            Y: =68
+            Width: =80
+            Height: =28
+            Text: ="⚠ Delegate:"
+            Color: =RGBA(243, 156, 18, 1)
+            Font: =Font.'Segoe UI'
+            Size: =12
+
+        txtDelegate As text:
+            X: =514
+            Y: =68
+            Width: =200
+            Height: =28
+            Default: =ThisItem.DelegateAttending
+            HintText: ="Delegate name..."
+            Font: =Font.'Segoe UI'
+            Size: =12
+            BorderColor: =RGBA(200, 200, 200, 1)
+            BorderThickness: =1
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+
+        btnDeferCR As button:
+            X: =Parent.Width - 370
+            Y: =96
+            Width: =140
+            Height: =32
+            Text: ="Defer This CR"
+            Fill: =RGBA(149, 165, 166, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Size: =12
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            BorderThickness: =0
+            Visible: =gblIsPMO
+            OnSelect: |
+                =Patch(CRRequests, ThisItem, {CRStatus: "Deferred", SGDecisionNotes: "Deferred at Programme Meeting - no attendance"});
+                Notify(ThisItem.CRNumber & " deferred — no attending owner or delegate.", NotificationType.Warning)
+
+        btnProceedToPreSG As button:
+            X: =Parent.Width - 220
+            Y: =96
+            Width: =180
+            Height: =32
+            Text: ="Proceed to Pre-SG"
+            Fill: =RGBA(39, 174, 96, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Size: =12
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            BorderThickness: =0
+            Visible: =gblIsPMO
+            OnSelect: |
+                =If(Not(ThisItem.AttendanceConfirmed) And IsBlank(ThisItem.DelegateAttending),
+                  Notify("Cannot proceed — no attendance confirmed. Per CR Process Guide V1, a CR with no attending owner or delegate cannot be discussed and must be deferred.", NotificationType.Warning),
+                  Patch(CRRequests, ThisItem, {CRStatus: "Pre-SG Distribution", DelegateAttending: txtDelegate.Text});
+                  Notify(ThisItem.CRNumber & " moved to Pre-SG Distribution.", NotificationType.Success)
+                )

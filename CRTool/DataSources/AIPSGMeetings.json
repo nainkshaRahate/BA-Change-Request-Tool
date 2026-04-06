@@ -1,0 +1,17 @@
+{
+  "Type": "DataSourceInfo",
+  "Kind": "SharePointList",
+  "Name": "AIPSGMeetings",
+  "DataSourceId": "AIPSGMeetings",
+  "ConnectionId": "c56c4e0bc70a04e6f6b0b5a9e3d74f8d",
+  "SiteUrl": "https://[tenant].sharepoint.com/sites/BA-CR-Tool",
+  "ListName": "AIPSGMeetings",
+  "ListId": "00000000-0000-0000-0000-000000000004",
+  "Columns": [
+    { "Name": "Title", "Type": "Text" },
+    { "Name": "MeetingDate", "Type": "Date" },
+    { "Name": "SubmissionDeadline", "Type": "Date" },
+    { "Name": "PreSGDistributionDate", "Type": "Date" },
+    { "Name": "IsActive", "Type": "Boolean" }
+  ]
+}

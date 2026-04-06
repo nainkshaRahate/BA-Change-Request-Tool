@@ -1,0 +1,14 @@
+App As appinfo:
+    BackEnabled: =false
+    OnStart: |
+        =Set(gblCurrentUser, LookUp(CRUserAdmin, Email = User().Email));
+        Set(gblCurrentUserRole, gblCurrentUser.Role);
+        Set(gblStakeholderGroup, gblCurrentUser.StakeholderGroup);
+        Set(gblIsPMO, gblCurrentUserRole = "PMO" Or gblCurrentUserRole = "Admin");
+        Set(gblIsAdmin, gblCurrentUserRole = "Admin");
+        Set(gblIsProgMgr, gblCurrentUserRole = "Programme Manager");
+        Set(gblCRMode, "View");
+        Set(gblDetailCR, Blank());
+        Set(gblConsolidationCR, Blank());
+        Set(gblFormError, "")
+    StartScreen: =scrHome

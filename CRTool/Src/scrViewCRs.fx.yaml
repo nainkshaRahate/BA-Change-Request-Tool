@@ -1,0 +1,277 @@
+scrViewCRs As screen:
+    Fill: =RGBA(245, 247, 250, 1)
+
+    rectHeader As rectangle:
+        X: =0
+        Y: =0
+        Width: =Parent.Width
+        Height: =50
+        Fill: =RGBA(31, 55, 100, 1)
+
+    imgLogoViewCRs As image:
+        X: =8
+        Y: =5
+        Width: =40
+        Height: =20
+        Image: =BALogo
+        ImagePosition: =ImagePosition.Fit
+
+    lblHeaderViewCRs As label:
+        X: =0
+        Y: =0
+        Width: =Parent.Width
+        Height: =50
+        Text: ="Engineering Change Requests"
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        Size: =16
+        FontWeight: =FontWeight.Semibold
+        Align: =Align.Center
+
+    rectSubNav As rectangle:
+        X: =0
+        Y: =50
+        Width: =Parent.Width
+        Height: =45
+        Fill: =RGBA(24, 44, 82, 1)
+
+    btnHomeViewCRs As button:
+        X: =8
+        Y: =57
+        Width: =36
+        Height: =36
+        Text: ="🏠"
+        Fill: =RGBA(24, 44, 82, 1)
+        Color: =RGBA(255, 255, 255, 1)
+        BorderThickness: =0
+        Size: =16
+        OnSelect: =Navigate(scrHome, None)
+
+    btnAddCR As button:
+        X: =Parent.Width - 52
+        Y: =57
+        Width: =36
+        Height: =36
+        Text: ="+"
+        Fill: =RGBA(192, 57, 43, 1)
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        Size: =20
+        FontWeight: =FontWeight.Bold
+        RadiusTopLeft: =4
+        RadiusTopRight: =4
+        RadiusBottomLeft: =4
+        RadiusBottomRight: =4
+        BorderThickness: =0
+        OnSelect: |
+            =Set(gblCRMode, "New");
+            Set(gblDetailCR, Defaults(CRRequests));
+            Navigate(scrSubmitCR, None)
+
+    rectFilterBar As rectangle:
+        X: =0
+        Y: =95
+        Width: =Parent.Width
+        Height: =50
+        Fill: =RGBA(255, 255, 255, 1)
+
+    txtSearch As text:
+        X: =16
+        Y: =103
+        Width: =300
+        Height: =34
+        HintText: ="Search CR number or title..."
+        Font: =Font.'Segoe UI'
+        Size: =13
+        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderThickness: =1
+        RadiusTopLeft: =4
+        RadiusTopRight: =4
+        RadiusBottomLeft: =4
+        RadiusBottomRight: =4
+
+    ddlStatus As dropdown:
+        X: =326
+        Y: =103
+        Width: =180
+        Height: =34
+        Items: =["All","Draft","Submitted","PMO Review","In Assessment","PMO Consolidation","Programme Meeting","Pre-SG Distribution","SG Review","Post-Meeting Edits","Approved","Deferred","Rejected","Closed"]
+        Font: =Font.'Segoe UI'
+        Size: =12
+        BorderColor: =RGBA(200, 200, 200, 1)
+
+    ddlProgramme As dropdown:
+        X: =516
+        Y: =103
+        Width: =200
+        Height: =34
+        Items: =Distinct(CRRequests, ProgrammeName)
+        Font: =Font.'Segoe UI'
+        Size: =12
+        BorderColor: =RGBA(200, 200, 200, 1)
+
+    ddlAIPSG As dropdown:
+        X: =726
+        Y: =103
+        Width: =200
+        Height: =34
+        Items: =AddColumns(Filter(AIPSGMeetings, IsActive), "DisplayValue", Text(MeetingDate, "dd mmm yyyy"))
+        Font: =Font.'Segoe UI'
+        Size: =12
+        BorderColor: =RGBA(200, 200, 200, 1)
+
+    galCRs As gallery:
+        X: =0
+        Y: =145
+        Width: =Parent.Width
+        Height: =Parent.Height - 145
+        TemplateHeight: =90
+        TemplatePadding: =0
+        ShowScrollbar: =true
+        Items: |
+            =Sort(
+              Filter(CRRequests,
+                (IsBlank(txtSearch.Text) Or txtSearch.Text in Title Or txtSearch.Text in CRNumber),
+                (ddlStatus.Selected.Value = "All" Or CRStatus = ddlStatus.Selected.Value),
+                (ddlProgramme.Selected.Value = "All Programmes" Or ProgrammeName = ddlProgramme.Selected.Value),
+                (Not(IsDraft) Or Originator.Email = User().Email Or gblIsPMO)
+              ),
+              AIPSGTargetDate, Ascending
+            )
+        OnSelect: |
+            =Set(gblDetailCR, ThisItem);
+            Navigate(scrCRDetail, None)
+
+        rectRowBg As rectangle:
+            X: =0
+            Y: =0
+            Width: =Parent.Width
+            Height: =89
+            Fill: =If(IsEven(ThisItem.ID), RGBA(249, 249, 249, 1), RGBA(255, 255, 255, 1))
+
+        rectRowBorder As rectangle:
+            X: =0
+            Y: =88
+            Width: =Parent.Width
+            Height: =1
+            Fill: =RGBA(224, 224, 224, 1)
+
+        lblGalCRNumber As label:
+            X: =12
+            Y: =8
+            Width: =80
+            Height: =30
+            Text: =ThisItem.CRNumber
+            Color: =RGBA(31, 55, 100, 1)
+            Font: =Font.'Segoe UI'
+            Size: =14
+            FontWeight: =FontWeight.Bold
+
+        lblGalTitle As label:
+            X: =100
+            Y: =8
+            Width: =400
+            Height: =30
+            Text: =ThisItem.CRTitle
+            Color: =RGBA(33, 33, 33, 1)
+            Font: =Font.'Segoe UI'
+            Size: =13
+            Overflow: =Overflow.Hidden
+
+        rectStatusPill As rectangle:
+            X: =Parent.Width - 280
+            Y: =10
+            Width: =80
+            Height: =24
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            Fill: |
+                =Switch(ThisItem.CRStatus,
+                  "Draft", RGBA(149,165,166,1),
+                  "Submitted", RGBA(110,140,176,1),
+                  "PMO Review", RGBA(31,55,100,1),
+                  "In Assessment", RGBA(243,156,18,1),
+                  "PMO Consolidation", RGBA(243,156,18,1),
+                  "Programme Meeting", RGBA(31,55,100,1),
+                  "Pre-SG Distribution", RGBA(31,55,100,1),
+                  "SG Review", RGBA(31,55,100,1),
+                  "Post-Meeting Edits", RGBA(243,156,18,1),
+                  "Approved", RGBA(39,174,96,1),
+                  "Deferred", RGBA(149,165,166,1),
+                  "Rejected", RGBA(192,57,43,1),
+                  "Closed", RGBA(149,165,166,1),
+                  RGBA(31,55,100,1)
+                )
+
+        lblStatusPill As label:
+            X: =Parent.Width - 280
+            Y: =10
+            Width: =80
+            Height: =24
+            Text: =ThisItem.CRStatus
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Size: =10
+            Align: =Align.Center
+            FontWeight: =FontWeight.Semibold
+
+        lblGalAIPSGDate As label:
+            X: =Parent.Width - 190
+            Y: =10
+            Width: =90
+            Height: =24
+            Text: =Text(ThisItem.AIPSGTargetDate, "dd mmm yyyy")
+            Color: |
+                =If(
+                  ThisItem.AIPSGTargetDate < Today() And Not(ThisItem.CRStatus In ["Closed","Approved","Rejected"]),
+                  RGBA(192, 57, 43, 1),
+                  DateDiff(Today(), ThisItem.AIPSGTargetDate, Days) <= 14,
+                  RGBA(243, 156, 18, 1),
+                  RGBA(117, 117, 117, 1)
+                )
+            Font: =Font.'Segoe UI'
+            Size: =12
+
+        lblGalProgramme As label:
+            X: =12
+            Y: =52
+            Width: =180
+            Height: =22
+            Text: =ThisItem.ProgrammeName
+            Color: =RGBA(117, 117, 117, 1)
+            Font: =Font.'Segoe UI'
+            Size: =12
+
+        lblGalPM As label:
+            X: =200
+            Y: =52
+            Width: =160
+            Height: =22
+            Text: =ThisItem.ProjectManager.DisplayName
+            Color: =RGBA(117, 117, 117, 1)
+            Font: =Font.'Segoe UI'
+            Size: =12
+
+        rectDaysOpenBadge As rectangle:
+            X: =Parent.Width - 80
+            Y: =52
+            Width: =68
+            Height: =22
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            Fill: =RGBA(31, 55, 100, 1)
+
+        lblDaysOpen As label:
+            X: =Parent.Width - 80
+            Y: =52
+            Width: =68
+            Height: =22
+            Text: =Text(DateDiff(ThisItem.SubmittedDate, Today(), Days)) & " Days"
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Size: =11
+            Align: =Align.Center

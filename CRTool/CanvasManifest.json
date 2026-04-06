@@ -1,0 +1,54 @@
+{
+  "FormatVersion": 0,
+  "SavedFromStudioVersion": "3.22112.32",
+  "Name": "CRTool",
+  "LocalConnectionReferences": {
+    "c56c4e0bc70a04e6f6b0b5a9e3d74f8d": {
+      "displayName": "SharePoint",
+      "connectorId": "/providers/Microsoft.PowerApps/apis/shared_sharepointonline",
+      "type": "NotShared",
+      "referenceName": "shared_sharepointonline"
+    }
+  },
+  "LocalDatabaseReferences": {},
+  "AppCheckerResult": {
+    "RuleSetVersion": "1.0",
+    "Results": []
+  },
+  "DocumentLayoutWidth": 1366,
+  "DocumentLayoutHeight": 768,
+  "DocumentAppType": "CanvasApp",
+  "PublishInfo": {
+    "AppId": "00000000-0000-0000-0000-000000000000",
+    "AppName": "CRTool",
+    "Description": "BA Cabin Programme Change Request Tracking Tool",
+    "Publisher": "BA Cabin Programme",
+    "Version": "1.0.0.0",
+    "TimerFrequency": 0,
+    "Locale": "en-GB"
+  },
+  "ExtensionData": {
+    "IsEmbedded": false,
+    "BackgroundColor": "rgba(31, 55, 100, 1)",
+    "EnableNetworkAccessCalls": true
+  },
+  "Layouts": [
+    {
+      "DisplayName": "Tablet",
+      "Width": 1366,
+      "Height": 768
+    }
+  ],
+  "ScreenOrder": [
+    "scrHome",
+    "scrViewCRs",
+    "scrSubmitCR",
+    "scrCRDetail",
+    "scrStakeholderAssessment",
+    "scrPMOConsolidation",
+    "scrProgrammeMeeting",
+    "scrDashboard",
+    "scrUserAdmin"
+  ],
+  "UsedTemplates": []
+}

@@ -1,0 +1,18 @@
+{
+  "Type": "DataSourceInfo",
+  "Kind": "SharePointList",
+  "Name": "CRUserAdmin",
+  "DataSourceId": "CRUserAdmin",
+  "ConnectionId": "c56c4e0bc70a04e6f6b0b5a9e3d74f8d",
+  "SiteUrl": "https://[tenant].sharepoint.com/sites/BA-CR-Tool",
+  "ListName": "CRUserAdmin",
+  "ListId": "00000000-0000-0000-0000-000000000003",
+  "Columns": [
+    { "Name": "Title", "Type": "Text" },
+    { "Name": "Email", "Type": "Text" },
+    { "Name": "Role", "Type": "Choice", "Choices": ["Admin","PMO","Programme Manager","Stakeholder"] },
+    { "Name": "StakeholderGroup", "Type": "Choice", "Choices": ["Engineering Programmes","Engineering Technical","Onboard Experience","Finance","Procurement","Other"] },
+    { "Name": "Team", "Type": "Text" },
+    { "Name": "IsActive", "Type": "Boolean" }
+  ]
+}
