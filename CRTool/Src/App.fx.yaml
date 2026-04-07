@@ -16,5 +16,10 @@ App As appinfo:
         Set(gblIsAdmin,   gblCurrentUserRole = "Admin");
         Set(gblIsProgMgr, gblCurrentUserRole = "Programme Manager");
         // gblIsMaker: set true in Studio to reveal developer debug labels.
-        Set(gblIsMaker, false)
+        Set(gblIsMaker, false);
+        // App-level state defaults — also reset per-screen in OnVisible.
+        Set(gblCRMode, "View");
+        Set(gblDetailCR, Blank());
+        Set(gblConsolidationCR, Blank());
+        Set(gblFormError, "")
     StartScreen: ='Home Screen'
