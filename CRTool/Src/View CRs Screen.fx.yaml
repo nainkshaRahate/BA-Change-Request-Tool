@@ -1,81 +1,108 @@
-scrViewCRs As screen:
+'View CRs Screen' As screen:
     Fill: =RGBA(245, 247, 250, 1)
+    OnVisible: |
+        =/*
+          View CRs Screen — OnVisible
+          Purpose: Refresh the CR list on every visit so status changes are current.
+          Author:  IAG Tech Developer
+          Date:    07 Apr 2026
+        */
+        // Reset any stale form error from a previous submission attempt.
+        Set(gblFormError, "")
 
-    rectHeader As rectangle:
+    conMainVCS As container:
         X: =0
         Y: =0
         Width: =Parent.Width
-        Height: =50
-        Fill: =RGBA(31, 55, 100, 1)
+        Height: =Parent.Height
 
-    imgLogoViewCRs As image:
-        X: =8
-        Y: =5
-        Width: =40
-        Height: =20
-        Image: =BALogo
-        ImagePosition: =ImagePosition.Fit
+        conHeaderVCS As container:
+            X: =0
+            Y: =0
+            Width: =Parent.Width
+            Height: =50
 
-    lblHeaderViewCRs As label:
-        X: =0
-        Y: =0
-        Width: =Parent.Width
-        Height: =50
-        Text: ="Engineering Change Requests"
-        Color: =RGBA(255, 255, 255, 1)
-        Font: =Font.'Segoe UI'
-        Size: =16
-        FontWeight: =FontWeight.Semibold
-        Align: =Align.Center
+            recHeaderVCS As rectangle:
+                X: =0
+                Y: =0
+                Width: =Parent.Width
+                Height: =Parent.Height
+                Fill: =RGBA(31, 55, 100, 1)
 
-    rectSubNav As rectangle:
-        X: =0
-        Y: =50
-        Width: =Parent.Width
-        Height: =45
-        Fill: =RGBA(24, 44, 82, 1)
+            imgLogoVCS As image:
+                X: =8
+                Y: =15
+                Width: =40
+                Height: =20
+                Image: =""
+                ImagePosition: =ImagePosition.Fit
 
-    btnHomeViewCRs As button:
-        X: =8
-        Y: =57
-        Width: =36
-        Height: =36
-        Text: ="🏠"
-        Fill: =RGBA(24, 44, 82, 1)
-        Color: =RGBA(255, 255, 255, 1)
-        BorderThickness: =0
-        Size: =16
-        OnSelect: =Navigate(scrHome, None)
+            lblHeaderVCS As label:
+                X: =0
+                Y: =0
+                Width: =Parent.Width
+                Height: =Parent.Height
+                Text: ="Engineering Change Requests"
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.'Segoe UI'
+                Size: =16
+                FontWeight: =FontWeight.Semibold
+                Align: =Align.Center
 
-    btnAddCR As button:
-        X: =Parent.Width - 52
-        Y: =57
-        Width: =36
-        Height: =36
-        Text: ="+"
-        Fill: =RGBA(192, 57, 43, 1)
-        Color: =RGBA(255, 255, 255, 1)
-        Font: =Font.'Segoe UI'
-        Size: =20
-        FontWeight: =FontWeight.Bold
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
-        BorderThickness: =0
-        OnSelect: |
-            =Set(gblCRMode, "New");
-            Set(gblDetailCR, Defaults(CRRequests));
-            Navigate(scrSubmitCR, None)
+        conSubNavVCS As container:
+            X: =0
+            Y: =conHeaderVCS.Y + conHeaderVCS.Height
+            Width: =Parent.Width
+            Height: =45
 
-    rectFilterBar As rectangle:
+            recSubNavVCS As rectangle:
+                X: =0
+                Y: =0
+                Width: =Parent.Width
+                Height: =Parent.Height
+                Fill: =RGBA(24, 44, 82, 1)
+
+            btnHomeVCS As button:
+                X: =8
+                Y: =4
+                Width: =36
+                Height: =36
+                Text: ="🏠"
+                Fill: =RGBA(24, 44, 82, 1)
+                Color: =RGBA(255, 255, 255, 1)
+                BorderThickness: =0
+                Size: =16
+                OnSelect: =Navigate('Home Screen', None)
+
+            btnAddCRVCS As button:
+                X: =Parent.Width - 44
+                Y: =btnHomeVCS.Y
+                Width: =36
+                Height: =36
+                Text: ="+"
+                Fill: =RGBA(192, 57, 43, 1)
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.'Segoe UI'
+                Size: =20
+                FontWeight: =FontWeight.Bold
+                RadiusTopLeft: =4
+                RadiusTopRight: =4
+                RadiusBottomLeft: =4
+                RadiusBottomRight: =4
+                BorderThickness: =0
+                OnSelect: |
+                    =Set(gblCRMode, "New");
+                    Set(gblDetailCR, Defaults(CRRequests));
+                    Navigate('Submit CR Screen', None)
+
+    recFilterBarVCS As rectangle:
         X: =0
         Y: =95
         Width: =Parent.Width
         Height: =50
         Fill: =RGBA(255, 255, 255, 1)
 
-    txtSearch As text:
+    txtSearchVCS As text:
         X: =16
         Y: =103
         Width: =300
@@ -90,7 +117,7 @@ scrViewCRs As screen:
         RadiusBottomLeft: =4
         RadiusBottomRight: =4
 
-    ddlStatus As dropdown:
+    ddlStatusVCS As dropdown:
         X: =326
         Y: =103
         Width: =180
@@ -100,7 +127,7 @@ scrViewCRs As screen:
         Size: =12
         BorderColor: =RGBA(200, 200, 200, 1)
 
-    ddlProgramme As dropdown:
+    ddlProgrammeVCS As dropdown:
         X: =516
         Y: =103
         Width: =200
@@ -110,7 +137,7 @@ scrViewCRs As screen:
         Size: =12
         BorderColor: =RGBA(200, 200, 200, 1)
 
-    ddlAIPSGView As dropdown:
+    ddlAIPSGVCS As dropdown:
         X: =726
         Y: =103
         Width: =200
@@ -120,7 +147,7 @@ scrViewCRs As screen:
         Size: =12
         BorderColor: =RGBA(200, 200, 200, 1)
 
-    galCRs As gallery:
+    galCRsVCS As gallery:
         X: =0
         Y: =145
         Width: =Parent.Width
@@ -131,32 +158,32 @@ scrViewCRs As screen:
         Items: |
             =Sort(
               Filter(CRRequests,
-                (IsBlank(txtSearch.Text) Or txtSearch.Text in Title Or txtSearch.Text in CRNumber),
-                (ddlStatus.Selected.Value = "All" Or CRStatus = ddlStatus.Selected.Value),
-                (ddlProgramme.Selected.Value = "All Programmes" Or ProgrammeName = ddlProgramme.Selected.Value),
+                (IsBlank(txtSearchVCS.Text) Or txtSearchVCS.Text in Title Or txtSearchVCS.Text in CRNumber),
+                (ddlStatusVCS.Selected.Value = "All" Or CRStatus.Value = ddlStatusVCS.Selected.Value),
+                (ddlProgrammeVCS.Selected.Value = "All Programmes" Or ProgrammeName = ddlProgrammeVCS.Selected.Value),
                 (Not(IsDraft) Or Originator.Email = User().Email Or gblIsPMO)
               ),
               AIPSGTargetDate, Ascending
             )
         OnSelect: |
             =Set(gblDetailCR, ThisItem);
-            Navigate(scrCRDetail, None)
+            Navigate('CR Detail Screen', None)
 
-        rectRowBg As rectangle:
+        recRowBgVCS As rectangle:
             X: =0
             Y: =0
             Width: =Parent.Width
             Height: =89
             Fill: =If(IsEven(ThisItem.ID), RGBA(249, 249, 249, 1), RGBA(255, 255, 255, 1))
 
-        rectRowBorder As rectangle:
+        recRowBorderVCS As rectangle:
             X: =0
             Y: =88
             Width: =Parent.Width
             Height: =1
             Fill: =RGBA(224, 224, 224, 1)
 
-        lblGalCRNumber As label:
+        lblCRNumVCS As label:
             X: =12
             Y: =8
             Width: =80
@@ -167,7 +194,7 @@ scrViewCRs As screen:
             Size: =14
             FontWeight: =FontWeight.Bold
 
-        lblGalTitle As label:
+        lblTitleVCS As label:
             X: =100
             Y: =8
             Width: =400
@@ -178,7 +205,7 @@ scrViewCRs As screen:
             Size: =13
             Overflow: =Overflow.Hidden
 
-        rectStatusPill As rectangle:
+        recStatusPillVCS As rectangle:
             X: =Parent.Width - 280
             Y: =10
             Width: =80
@@ -188,7 +215,7 @@ scrViewCRs As screen:
             RadiusBottomLeft: =4
             RadiusBottomRight: =4
             Fill: |
-                =Switch(ThisItem.CRStatus,
+                =Switch(ThisItem.CRStatus.Value,
                   "Draft", RGBA(149,165,166,1),
                   "Submitted", RGBA(110,140,176,1),
                   "PMO Review", RGBA(31,55,100,1),
@@ -205,19 +232,19 @@ scrViewCRs As screen:
                   RGBA(31,55,100,1)
                 )
 
-        lblStatusPill As label:
+        lblStatusPillVCS As label:
             X: =Parent.Width - 280
             Y: =10
             Width: =80
             Height: =24
-            Text: =ThisItem.CRStatus
+            Text: =ThisItem.CRStatus.Value
             Color: =RGBA(255, 255, 255, 1)
             Font: =Font.'Segoe UI'
             Size: =10
             Align: =Align.Center
             FontWeight: =FontWeight.Semibold
 
-        lblGalAIPSGDate As label:
+        lblAIPSGDateVCS As label:
             X: =Parent.Width - 190
             Y: =10
             Width: =90
@@ -225,7 +252,7 @@ scrViewCRs As screen:
             Text: =Text(ThisItem.AIPSGTargetDate, "dd mmm yyyy")
             Color: |
                 =If(
-                  ThisItem.AIPSGTargetDate < Today() And Not(ThisItem.CRStatus In ["Closed","Approved","Rejected"]),
+                  ThisItem.AIPSGTargetDate < Today() And Not(ThisItem.CRStatus.Value In ["Closed","Approved","Rejected"]),
                   RGBA(192, 57, 43, 1),
                   DateDiff(Today(), ThisItem.AIPSGTargetDate, Days) <= 14,
                   RGBA(243, 156, 18, 1),
@@ -234,7 +261,7 @@ scrViewCRs As screen:
             Font: =Font.'Segoe UI'
             Size: =12
 
-        lblGalProgramme As label:
+        lblProgrammeVCS As label:
             X: =12
             Y: =52
             Width: =180
@@ -244,7 +271,7 @@ scrViewCRs As screen:
             Font: =Font.'Segoe UI'
             Size: =12
 
-        lblGalPM As label:
+        lblPMVCS As label:
             X: =200
             Y: =52
             Width: =160
@@ -254,7 +281,7 @@ scrViewCRs As screen:
             Font: =Font.'Segoe UI'
             Size: =12
 
-        rectDaysOpenBadge As rectangle:
+        recDaysOpenVCS As rectangle:
             X: =Parent.Width - 80
             Y: =52
             Width: =68
@@ -265,7 +292,7 @@ scrViewCRs As screen:
             RadiusBottomRight: =4
             Fill: =RGBA(31, 55, 100, 1)
 
-        lblDaysOpen As label:
+        lblDaysOpenVCS As label:
             X: =Parent.Width - 80
             Y: =52
             Width: =68

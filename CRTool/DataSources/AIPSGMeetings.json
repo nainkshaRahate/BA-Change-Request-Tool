@@ -4,7 +4,7 @@
   "Name": "AIPSGMeetings",
   "DataSourceId": "AIPSGMeetings",
   "ConnectionId": "c56c4e0bc70a04e6f6b0b5a9e3d74f8d",
-  "SiteUrl": "https://[tenant].sharepoint.com/sites/BA-CR-Tool",
+  "SiteUrl": "https://baplc.sharepoint.com/sites/Engprog",
   "ListName": "AIPSGMeetings",
   "ListId": "00000000-0000-0000-0000-000000000004",
   "Columns": [

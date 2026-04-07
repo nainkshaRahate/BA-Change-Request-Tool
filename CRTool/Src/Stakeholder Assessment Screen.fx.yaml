@@ -1,96 +1,123 @@
-scrStakeholderAssessment As screen:
+'Stakeholder Assessment Screen' As screen:
     Fill: =RGBA(245, 247, 250, 1)
+    OnVisible: |
+        =/*
+          Stakeholder Assessment Screen — OnVisible
+          Purpose: Part B view — stakeholder RAG ratings and impact statements for a CR.
+          Author:  IAG Tech Developer
+          Date:    07 Apr 2026
+        */
+        // No additional data load needed — galStakeholderSAS filters live from CRStakeholderReviews.
+        Set(gblFormError, "")
 
-    rectHeaderSA As rectangle:
+    conMainSAS As container:
         X: =0
         Y: =0
         Width: =Parent.Width
-        Height: =50
-        Fill: =RGBA(31, 55, 100, 1)
+        Height: =Parent.Height
 
-    imgLogoSA As image:
-        X: =8
-        Y: =5
-        Width: =40
-        Height: =20
-        Image: =BALogo
-        ImagePosition: =ImagePosition.Fit
+        conHeaderSAS As container:
+            X: =0
+            Y: =0
+            Width: =Parent.Width
+            Height: =50
 
-    lblHeaderSA As label:
-        X: =0
-        Y: =0
-        Width: =Parent.Width
-        Height: =50
-        Text: ="Stakeholder Assessment — Part B"
-        Color: =RGBA(255, 255, 255, 1)
-        Font: =Font.'Segoe UI'
-        Size: =16
-        FontWeight: =FontWeight.Semibold
-        Align: =Align.Center
+            recHeaderSAS As rectangle:
+                X: =0
+                Y: =0
+                Width: =Parent.Width
+                Height: =Parent.Height
+                Fill: =RGBA(31, 55, 100, 1)
 
-    rectSubNavSA As rectangle:
-        X: =0
-        Y: =50
-        Width: =Parent.Width
-        Height: =45
-        Fill: =RGBA(24, 44, 82, 1)
+            imgLogoSAS As image:
+                X: =8
+                Y: =15
+                Width: =40
+                Height: =20
+                Image: =""
+                ImagePosition: =ImagePosition.Fit
 
-    btnHomeSA As button:
-        X: =8
-        Y: =57
-        Width: =36
-        Height: =36
-        Text: ="🏠"
-        Fill: =RGBA(24, 44, 82, 1)
-        Color: =RGBA(255, 255, 255, 1)
-        BorderThickness: =0
-        Size: =16
-        OnSelect: =Navigate(scrHome, None)
+            lblHeaderSAS As label:
+                X: =0
+                Y: =0
+                Width: =Parent.Width
+                Height: =Parent.Height
+                Text: ="Stakeholder Assessment — Part B"
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.'Segoe UI'
+                Size: =16
+                FontWeight: =FontWeight.Semibold
+                Align: =Align.Center
 
-    btnBackSA As button:
-        X: =50
-        Y: =57
-        Width: =80
-        Height: =36
-        Text: ="← Part A"
-        Fill: =RGBA(24, 44, 82, 1)
-        Color: =RGBA(255, 255, 255, 1)
-        BorderThickness: =0
-        Size: =12
-        OnSelect: =Navigate(scrCRDetail, None)
+        conSubNavSAS As container:
+            X: =0
+            Y: =conHeaderSAS.Y + conHeaderSAS.Height
+            Width: =Parent.Width
+            Height: =45
 
-    rectProgHeaderSA As rectangle:
-        X: =0
-        Y: =95
-        Width: =Parent.Width
-        Height: =60
-        Fill: =RGBA(13, 71, 88, 1)
+            recSubNavSAS As rectangle:
+                X: =0
+                Y: =0
+                Width: =Parent.Width
+                Height: =Parent.Height
+                Fill: =RGBA(24, 44, 82, 1)
 
-    lblProgLabelSA As label:
-        X: =0
-        Y: =95
-        Width: =Parent.Width / 6
-        Height: =25
-        Text: ="PROGRAMME"
-        Color: =RGBA(174, 214, 241, 1)
-        Font: =Font.'Segoe UI'
-        Size: =9
-        FontWeight: =FontWeight.Semibold
-        Align: =Align.Center
+            btnHomeSAS As button:
+                X: =8
+                Y: =4
+                Width: =36
+                Height: =36
+                Text: ="🏠"
+                Fill: =RGBA(24, 44, 82, 1)
+                Color: =RGBA(255, 255, 255, 1)
+                BorderThickness: =0
+                Size: =16
+                OnSelect: =Navigate('Home Screen', None)
 
-    lblProgValueSA As label:
-        X: =0
-        Y: =120
-        Width: =Parent.Width / 6
-        Height: =35
-        Text: =gblDetailCR.ProgrammeName
-        Color: =RGBA(255, 255, 255, 1)
-        Font: =Font.'Segoe UI'
-        Size: =12
-        FontWeight: =FontWeight.Bold
-        Align: =Align.Center
+            btnBackSAS As button:
+                X: =48
+                Y: =btnHomeSAS.Y
+                Width: =80
+                Height: =36
+                Text: ="← Part A"
+                Fill: =RGBA(24, 44, 82, 1)
+                Color: =RGBA(255, 255, 255, 1)
+                BorderThickness: =0
+                Size: =12
+                OnSelect: =Navigate('CR Detail Screen', None)
 
-    lblSupplierLabelSA As label:
+        recProgHeaderSAS As rectangle:
+            X: =0
+            Y: =conSubNavSAS.Y + conSubNavSAS.Height
+            Width: =Parent.Width
+            Height: =60
+            Fill: =RGBA(13, 71, 88, 1)
+
+        lblProgLblSAS As label:
+            X: =0
+            Y: =recProgHeaderSAS.Y
+            Width: =Parent.Width / 6
+            Height: =25
+            Text: ="PROGRAMME"
+            Color: =RGBA(174, 214, 241, 1)
+            Font: =Font.'Segoe UI'
+            Size: =9
+            FontWeight: =FontWeight.Semibold
+            Align: =Align.Center
+
+        lblProgValSAS As label:
+            X: =0
+            Y: =lblProgLblSAS.Y + lblProgLblSAS.Height
+            Width: =Parent.Width / 6
+            Height: =35
+            Text: =gblDetailCR.ProgrammeName
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Size: =12
+            FontWeight: =FontWeight.Bold
+            Align: =Align.Center
+
+    lblSupplierLblSAS As label:
         X: =Parent.Width / 6
         Y: =95
         Width: =Parent.Width / 6
@@ -102,7 +129,7 @@ scrStakeholderAssessment As screen:
         FontWeight: =FontWeight.Semibold
         Align: =Align.Center
 
-    lblSupplierValueSA As label:
+    lblSupplierValSAS As label:
         X: =Parent.Width / 6
         Y: =120
         Width: =Parent.Width / 6
@@ -113,7 +140,7 @@ scrStakeholderAssessment As screen:
         Size: =12
         Align: =Align.Center
 
-    lblPMLabelSA As label:
+    lblPMLblSAS As label:
         X: =Parent.Width / 3
         Y: =95
         Width: =Parent.Width / 6
@@ -125,7 +152,7 @@ scrStakeholderAssessment As screen:
         FontWeight: =FontWeight.Semibold
         Align: =Align.Center
 
-    lblPMValueSA As label:
+    lblPMValSAS As label:
         X: =Parent.Width / 3
         Y: =120
         Width: =Parent.Width / 6
@@ -136,7 +163,7 @@ scrStakeholderAssessment As screen:
         Size: =12
         Align: =Align.Center
 
-    lblCRNumberLabelSA As label:
+    lblCRNumLblSAS As label:
         X: =Parent.Width / 2
         Y: =95
         Width: =Parent.Width / 6
@@ -148,7 +175,7 @@ scrStakeholderAssessment As screen:
         FontWeight: =FontWeight.Semibold
         Align: =Align.Center
 
-    lblCRNumberValueSA As label:
+    lblCRNumValSAS As label:
         X: =Parent.Width / 2
         Y: =120
         Width: =Parent.Width / 6
@@ -160,7 +187,7 @@ scrStakeholderAssessment As screen:
         FontWeight: =FontWeight.Bold
         Align: =Align.Center
 
-    lblAIPSGLabelSA As label:
+    lblAIPSGLblSAS As label:
         X: =2 * Parent.Width / 3
         Y: =95
         Width: =Parent.Width / 6
@@ -172,7 +199,7 @@ scrStakeholderAssessment As screen:
         FontWeight: =FontWeight.Semibold
         Align: =Align.Center
 
-    lblAIPSGValueSA As label:
+    lblAIPSGValSAS As label:
         X: =2 * Parent.Width / 3
         Y: =120
         Width: =Parent.Width / 6
@@ -183,7 +210,7 @@ scrStakeholderAssessment As screen:
         Size: =12
         Align: =Align.Center
 
-    rectPaleBlueBanner As rectangle:
+    recPaleBlueBannerSAS As rectangle:
         X: =0
         Y: =155
         Width: =Parent.Width
@@ -191,28 +218,28 @@ scrStakeholderAssessment As screen:
         Fill: =RGBA(174, 214, 241, 0.3)
         BorderColor: =RGBA(174, 214, 241, 1)
         BorderThickness: =1
-        Visible: =CountRows(Filter(CRStakeholderReviews, CRNumber.CRNumber = gblDetailCR.CRNumber, RAGStatus = "Pale Blue")) > 0
+        Visible: =CountRows(Filter(CRStakeholderReviews, CRNumber.CRNumber = gblDetailCR.CRNumber, RAGStatus.Value = "Pale Blue")) > 0
 
-    lblPaleBlueBanner As label:
+    lblPaleBlueBannerSAS As label:
         X: =16
         Y: =155
         Width: =Parent.Width - 32
         Height: =40
         Text: |
-            ="⚠  " & Text(CountRows(Filter(CRStakeholderReviews, CRNumber.CRNumber = gblDetailCR.CRNumber, RAGStatus = "Pale Blue"))) & " stakeholder group(s) still showing Pale Blue. All must be updated before this CR can go to the SG."
+            ="⚠  " & Text(CountRows(Filter(CRStakeholderReviews, CRNumber.CRNumber = gblDetailCR.CRNumber, RAGStatus.Value = "Pale Blue"))) & " stakeholder group(s) still showing Pale Blue. All must be updated before this CR can go to the SG."
         Color: =RGBA(31, 55, 100, 1)
         Font: =Font.'Segoe UI'
         Size: =12
-        Visible: =CountRows(Filter(CRStakeholderReviews, CRNumber.CRNumber = gblDetailCR.CRNumber, RAGStatus = "Pale Blue")) > 0
+        Visible: =CountRows(Filter(CRStakeholderReviews, CRNumber.CRNumber = gblDetailCR.CRNumber, RAGStatus.Value = "Pale Blue")) > 0
 
-    rectTableHeader As rectangle:
+    recTableHeaderSAS As rectangle:
         X: =0
         Y: =195
         Width: =Parent.Width
         Height: =36
         Fill: =RGBA(31, 55, 100, 1)
 
-    lblColStakeholder As label:
+    lblColStakeholderSAS As label:
         X: =0
         Y: =195
         Width: =200
@@ -224,7 +251,7 @@ scrStakeholderAssessment As screen:
         FontWeight: =FontWeight.Semibold
         Align: =Align.Center
 
-    lblColRAG As label:
+    lblColRAGSAS As label:
         X: =200
         Y: =195
         Width: =100
@@ -236,7 +263,7 @@ scrStakeholderAssessment As screen:
         FontWeight: =FontWeight.Semibold
         Align: =Align.Center
 
-    lblColImpact As label:
+    lblColImpactSAS As label:
         X: =300
         Y: =195
         Width: =Parent.Width - 550
@@ -248,7 +275,7 @@ scrStakeholderAssessment As screen:
         FontWeight: =FontWeight.Semibold
         Align: =Align.Center
 
-    lblColReviewer As label:
+    lblColReviewerSAS As label:
         X: =Parent.Width - 250
         Y: =195
         Width: =150
@@ -260,7 +287,7 @@ scrStakeholderAssessment As screen:
         FontWeight: =FontWeight.Semibold
         Align: =Align.Center
 
-    lblColDate As label:
+    lblColDateSAS As label:
         X: =Parent.Width - 100
         Y: =195
         Width: =100
@@ -272,7 +299,7 @@ scrStakeholderAssessment As screen:
         FontWeight: =FontWeight.Semibold
         Align: =Align.Center
 
-    galStakeholderRows As gallery:
+    galStakeholderSAS As gallery:
         X: =0
         Y: =231
         Width: =Parent.Width
@@ -281,44 +308,44 @@ scrStakeholderAssessment As screen:
         TemplatePadding: =0
         Items: =Filter(CRStakeholderReviews, CRNumber.CRNumber = gblDetailCR.CRNumber)
 
-        rectRowBgSA As rectangle:
+        recRowBgSAS As rectangle:
             X: =0
             Y: =0
             Width: =Parent.Width
             Height: =79
             Fill: =If(IsEven(ThisItem.ID), RGBA(249, 249, 249, 1), RGBA(255, 255, 255, 1))
 
-        lblGalStakeholderGroup As label:
+        lblGroupSAS As label:
             X: =8
             Y: =12
             Width: =190
             Height: =56
-            Text: =ThisItem.StakeholderGroup
+            Text: =ThisItem.StakeholderGroup.Value
             Color: =RGBA(31, 55, 100, 1)
             Font: =Font.'Segoe UI'
             Size: =13
             FontWeight: =FontWeight.Bold
 
-        galRAGDDL As dropdown:
+        ddlRAGSAS As dropdown:
             X: =202
             Y: =20
             Width: =94
             Height: =36
             Items: |
-                =If(ThisItem.StakeholderGroup = "Other",
+                =If(ThisItem.StakeholderGroup.Value = "Other",
                   ["Pale Blue","Green","Amber","Red","Grey"],
                   ["Pale Blue","Green","Amber","Red"]
                 )
-            Default: =ThisItem.RAGStatus
+            Default: =ThisItem.RAGStatus.Value
             DisplayMode: |
-                =If(gblIsPMO Or gblStakeholderGroup = ThisItem.StakeholderGroup,
+                =If(gblIsPMO Or gblStakeholderGroup = ThisItem.StakeholderGroup.Value,
                   DisplayMode.Edit,
                   DisplayMode.View
                 )
             Font: =Font.'Segoe UI'
             Size: =12
 
-        txtImpactStatement As text:
+        txtImpactSAS As text:
             X: =302
             Y: =8
             Width: =Parent.Width - 554
@@ -328,7 +355,7 @@ scrStakeholderAssessment As screen:
             Font: =Font.'Segoe UI'
             Size: =12
             DisplayMode: |
-                =If(gblIsPMO Or gblStakeholderGroup = ThisItem.StakeholderGroup,
+                =If(gblIsPMO Or gblStakeholderGroup = ThisItem.StakeholderGroup.Value,
                   DisplayMode.Edit,
                   DisplayMode.View
                 )
@@ -339,7 +366,7 @@ scrStakeholderAssessment As screen:
             RadiusBottomLeft: =4
             RadiusBottomRight: =4
 
-        lblGalReviewer As label:
+        lblReviewerSAS As label:
             X: =Parent.Width - 248
             Y: =12
             Width: =146
@@ -349,7 +376,7 @@ scrStakeholderAssessment As screen:
             Font: =Font.'Segoe UI'
             Size: =12
 
-        lblGalReviewDate As label:
+        lblReviewDateSAS As label:
             X: =Parent.Width - 98
             Y: =24
             Width: =94
@@ -359,7 +386,7 @@ scrStakeholderAssessment As screen:
             Font: =Font.'Segoe UI'
             Size: =11
 
-    btnSaveStakeholderReviews As button:
+    btnSaveSAS As button:
         X: =Parent.Width - 260
         Y: =Parent.Height - 64
         Width: =244
@@ -376,22 +403,25 @@ scrStakeholderAssessment As screen:
         RadiusBottomRight: =4
         BorderThickness: =0
         OnSelect: |
-            =ForAll(galStakeholderRows.AllItems,
+            =ForAll(galStakeholderSAS.AllItems,
               Patch(CRStakeholderReviews,
                 LookUp(CRStakeholderReviews,
-                  CRNumber.CRNumber = gblDetailCR.CRNumber And StakeholderGroup = ThisRecord.StakeholderGroup),
+                  CRNumber.CRNumber = gblDetailCR.CRNumber And StakeholderGroup.Value = ThisRecord.StakeholderGroup.Value),
                 {
-                  RAGStatus: ThisRecord.galRAGDDL.Selected.Value,
-                  ImpactStatement: ThisRecord.txtImpactStatement.Text,
-                  Reviewer: {Claims: "i:0#.f|membership|" & User().Email, DisplayName: User().FullName},
+                  RAGStatus: {Value: ThisRecord.ddlRAGSAS.Selected.Value},
+                  ImpactStatement: ThisRecord.txtImpactSAS.Text,
+                  Reviewer: {Claims: "i:0#.f|membership|" & User().Email, DisplayName: User().FullName, Department: ""},
                   ReviewDate: Today(),
-                  IsComplete: Not(ThisRecord.galRAGDDL.Selected.Value = "Pale Blue") And Not(IsBlank(ThisRecord.txtImpactStatement.Text))
+                  IsComplete: Not(ThisRecord.ddlRAGSAS.Selected.Value = "Pale Blue") And Not(IsBlank(ThisRecord.txtImpactSAS.Text))
                 }
               )
             );
-            Notify("Stakeholder reviews saved.", NotificationType.Success)
+            If(IsEmpty(Errors(CRStakeholderReviews)),
+              Notify("Stakeholder reviews saved.", NotificationType.Success),
+              Notify("Save failed — " & First(Errors(CRStakeholderReviews)).Message, NotificationType.Error)
+            )
 
-    lblPMOCommentsHeader As label:
+    lblPMOCommentsLblSAS As label:
         X: =16
         Y: =Parent.Height - 120
         Width: =200
@@ -403,7 +433,7 @@ scrStakeholderAssessment As screen:
         FontWeight: =FontWeight.Bold
         Visible: =gblIsPMO
 
-    txtPMONotes As text:
+    txtPMONotesSAS As text:
         X: =16
         Y: =Parent.Height - 94
         Width: =Parent.Width - 280
