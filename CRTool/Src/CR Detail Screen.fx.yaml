@@ -116,22 +116,22 @@
                 RadiusBottomLeft: =4
                 RadiusBottomRight: =4
                 Fill: |
-            =Switch(gblDetailCR.CRStatus.Value,
-              "Draft", RGBA(149,165,166,1),
-              "Submitted", RGBA(110,140,176,1),
-              "PMO Review", RGBA(31,55,100,1),
-              "In Assessment", RGBA(243,156,18,1),
-              "PMO Consolidation", RGBA(243,156,18,1),
-              "Programme Meeting", RGBA(31,55,100,1),
-              "Pre-SG Distribution", RGBA(31,55,100,1),
-              "SG Review", RGBA(31,55,100,1),
-              "Post-Meeting Edits", RGBA(243,156,18,1),
-              "Approved", RGBA(39,174,96,1),
-              "Deferred", RGBA(149,165,166,1),
-              "Rejected", RGBA(192,57,43,1),
-              "Closed", RGBA(149,165,166,1),
-              RGBA(31,55,100,1)
-            )
+                    =Switch(gblDetailCR.CRStatus.Value,
+                      "Draft", RGBA(149,165,166,1),
+                      "Submitted", RGBA(110,140,176,1),
+                      "PMO Review", RGBA(31,55,100,1),
+                      "In Assessment", RGBA(243,156,18,1),
+                      "PMO Consolidation", RGBA(243,156,18,1),
+                      "Programme Meeting", RGBA(31,55,100,1),
+                      "Pre-SG Distribution", RGBA(31,55,100,1),
+                      "SG Review", RGBA(31,55,100,1),
+                      "Post-Meeting Edits", RGBA(243,156,18,1),
+                      "Approved", RGBA(39,174,96,1),
+                      "Deferred", RGBA(149,165,166,1),
+                      "Rejected", RGBA(192,57,43,1),
+                      "Closed", RGBA(149,165,166,1),
+                      RGBA(31,55,100,1)
+                    )
 
     lblStatusPillCDS As label:
         X: =Parent.Width - 280

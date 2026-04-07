@@ -116,12 +116,12 @@
                 X: =16
                 Y: =8
                 Width: =200
-            Height: =44
-            Text: =ThisItem.Title
-            Color: =RGBA(33, 33, 33, 1)
-            Font: =Font.'Segoe UI'
-            Size: =13
-            FontWeight: =FontWeight.Bold
+                Height: =44
+                Text: =ThisItem.Title
+                Color: =RGBA(33, 33, 33, 1)
+                Font: =Font.'Segoe UI'
+                Size: =13
+                FontWeight: =FontWeight.Bold
 
         lblUserTeamUAS As label:
             X: =224

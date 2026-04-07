@@ -118,57 +118,57 @@
                         IsDraft: true
                       }
                     );
-            If(IsEmpty(Errors(CRRequests)),
-              Notify("Draft saved.", NotificationType.Success),
-              Notify("Save failed — " & First(Errors(CRRequests)).Message, NotificationType.Error)
-            )
+                    If(IsEmpty(Errors(CRRequests)),
+                      Notify("Draft saved.", NotificationType.Success),
+                      Notify("Save failed — " & First(Errors(CRRequests)).Message, NotificationType.Error)
+                    )
 
-    btnSubmitSCB As button:
-        X: =Parent.Width - 162
-        Y: =58
-        Width: =150
-        Height: =34
-        Text: ="Submit Formally"
-        Fill: =RGBA(192, 57, 43, 1)
-        Color: =RGBA(255, 255, 255, 1)
-        Font: =Font.'Segoe UI'
-        Size: =13
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
-        BorderThickness: =0
-        OnSelect: |
-            =If(
-              IsBlank(txtDescSCB.Text),
-              Set(gblFormError, "CR Description is required before formal submission"),
-              If(CountRows(Filter(CRRequests, CRNumber = gblDetailCR.CRNumber And ID <> gblDetailCR.ID)) > 0,
-                Set(gblFormError, gblDetailCR.CRNumber & " already exists — check the CR number"),
-                Set(gblFormError, "");
-                Patch(CRRequests, gblDetailCR, {
-                  CRDescription: txtDescSCB.Text,
-                  ReasonForChange: txtReasonSCB.Text,
-                  DoNothingOption: txtDoNothingSCB.Text,
-                  AdditionalInformation: txtAdditionalSCB.Text,
-                  RE_Delta_PerAircraft: txtRESCB.Text,
-                  NRE_Delta: txtNRESCB.Text,
-                  TotalCostDelta: txtTotalSCB.Text,
-                  WeightDelta_PerAircraft: txtW1SCB.Text,
-                  WeightDelta_AllAircraft: txtWAllSCB.Text,
-                  AnnualCoWImpact: txtCoWSCB.Text,
-                  CostCurrency: {Value: ddlCurrencySCB.Selected.Value},
-                  IsConfidential: ddlConfidentialitySCB.Selected.Value = "Confidential",
-                  IsDraft: false,
-                  CRStatus: {Value: "Submitted"},
-                  SubmittedDate: Today()
-                });
-                If(IsEmpty(Errors(CRRequests)),
-                  Navigate('View CRs Screen', None);
-                  Notify(gblDetailCR.CRNumber & " submitted successfully.", NotificationType.Success),
-                  Set(gblFormError, "Submission failed — " & First(Errors(CRRequests)).Message)
+        btnSubmitSCB As button:
+            X: =Parent.Width - 162
+            Y: =58
+            Width: =150
+            Height: =34
+            Text: ="Submit Formally"
+            Fill: =RGBA(192, 57, 43, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Size: =13
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            BorderThickness: =0
+            OnSelect: |
+                =If(
+                  IsBlank(txtDescSCB.Text),
+                  Set(gblFormError, "CR Description is required before formal submission"),
+                  If(CountRows(Filter(CRRequests, CRNumber = gblDetailCR.CRNumber And ID <> gblDetailCR.ID)) > 0,
+                    Set(gblFormError, gblDetailCR.CRNumber & " already exists — check the CR number"),
+                    Set(gblFormError, "");
+                    Patch(CRRequests, gblDetailCR, {
+                      CRDescription: txtDescSCB.Text,
+                      ReasonForChange: txtReasonSCB.Text,
+                      DoNothingOption: txtDoNothingSCB.Text,
+                      AdditionalInformation: txtAdditionalSCB.Text,
+                      RE_Delta_PerAircraft: txtRESCB.Text,
+                      NRE_Delta: txtNRESCB.Text,
+                      TotalCostDelta: txtTotalSCB.Text,
+                      WeightDelta_PerAircraft: txtW1SCB.Text,
+                      WeightDelta_AllAircraft: txtWAllSCB.Text,
+                      AnnualCoWImpact: txtCoWSCB.Text,
+                      CostCurrency: {Value: ddlCurrencySCB.Selected.Value},
+                      IsConfidential: ddlConfidentialitySCB.Selected.Value = "Confidential",
+                      IsDraft: false,
+                      CRStatus: {Value: "Submitted"},
+                      SubmittedDate: Today()
+                    });
+                    If(IsEmpty(Errors(CRRequests)),
+                      Navigate('View CRs Screen', None);
+                      Notify(gblDetailCR.CRNumber & " submitted successfully.", NotificationType.Success),
+                      Set(gblFormError, "Submission failed — " & First(Errors(CRRequests)).Message)
+                    )
+                  )
                 )
-              )
-            )
 
     lblErrorSCB As label:
         X: =16

@@ -8,11 +8,43 @@
   "ListName": "CRUserAdmin",
   "ListId": "00000000-0000-0000-0000-000000000003",
   "Columns": [
-    { "Name": "Title", "Type": "Text" },
-    { "Name": "Email", "Type": "Text" },
-    { "Name": "Team", "Type": "Text" },
-    { "Name": "Role", "Type": "Choice", "Choices": ["Admin","PMO","Programme Manager","Stakeholder"] },
-    { "Name": "StakeholderGroup", "Type": "Choice", "Choices": ["Engineering Programmes","Engineering Technical","Onboard Experience","Finance","Procurement","Other"] },
-    { "Name": "IsActive", "Type": "Boolean" }
+    {
+      "Name": "Title",
+      "Type": "Text"
+    },
+    {
+      "Name": "Email",
+      "Type": "Text"
+    },
+    {
+      "Name": "Team",
+      "Type": "Text"
+    },
+    {
+      "Name": "Role",
+      "Type": "Choice",
+      "Choices": [
+        "Admin",
+        "PMO",
+        "Programme Manager",
+        "Stakeholder"
+      ]
+    },
+    {
+      "Name": "StakeholderGroup",
+      "Type": "Choice",
+      "Choices": [
+        "Engineering Programmes",
+        "Engineering Technical",
+        "Onboard Experience",
+        "Finance",
+        "Procurement",
+        "Other"
+      ]
+    },
+    {
+      "Name": "IsActive",
+      "Type": "Boolean"
+    }
   ]
 }

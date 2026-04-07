@@ -40,16 +40,16 @@
     }
   ],
   "ScreenOrder": [
-    "Home Screen",
-    "View CRs Screen",
     "Submit CR Screen",
-    "Submit CR B Screen",
-    "CR Detail Screen",
+    "View CRs Screen",
     "Stakeholder Assessment Screen",
     "PMO Consolidation Screen",
+    "User Admin Screen",
+    "Home Screen",
     "Programme Meeting Screen",
-    "Dashboard Screen",
-    "User Admin Screen"
+    "CR Detail Screen",
+    "Submit CR B Screen",
+    "Dashboard Screen"
   ],
   "UsedTemplates": []
 }

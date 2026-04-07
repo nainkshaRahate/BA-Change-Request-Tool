@@ -8,10 +8,25 @@
   "ListName": "AIPSGMeetings",
   "ListId": "00000000-0000-0000-0000-000000000004",
   "Columns": [
-    { "Name": "Title", "Type": "Text" },
-    { "Name": "MeetingDate", "Type": "Date" },
-    { "Name": "SubmissionDeadline", "Type": "Date" },
-    { "Name": "PreSGDistributionDate", "Type": "Date" },
-    { "Name": "IsActive", "Type": "Boolean" }
+    {
+      "Name": "Title",
+      "Type": "Text"
+    },
+    {
+      "Name": "MeetingDate",
+      "Type": "Date"
+    },
+    {
+      "Name": "SubmissionDeadline",
+      "Type": "Date"
+    },
+    {
+      "Name": "PreSGDistributionDate",
+      "Type": "Date"
+    },
+    {
+      "Name": "IsActive",
+      "Type": "Boolean"
+    }
   ]
 }

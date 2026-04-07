@@ -116,15 +116,15 @@
                         SubmissionDeadline: dteDeadlineSCS.SelectedDate,
                         IsDraft: true,
                         CRStatus: {Value: "Draft"},
-                Originator: {Claims: "i:0#.f|membership|" & User().Email, DisplayName: User().FullName, Department: ""}
-              }
-            );
-            // Verify save succeeded before navigating away.
-            If(IsEmpty(Errors(CRRequests)),
-              Navigate('View CRs Screen', None);
-              Notify("Draft saved.", NotificationType.Success),
-              Notify("Save failed — " & First(Errors(CRRequests)).Message, NotificationType.Error)
-            )
+                        Originator: {Claims: "i:0#.f|membership|" & User().Email, DisplayName: User().FullName, Department: ""}
+                      }
+                    );
+                    // Verify save succeeded before navigating away.
+                    If(IsEmpty(Errors(CRRequests)),
+                      Navigate('View CRs Screen', None);
+                      Notify("Draft saved.", NotificationType.Success),
+                      Notify("Save failed — " & First(Errors(CRRequests)).Message, NotificationType.Error)
+                    )
 
     btnContinueSCS As button:
         X: =Parent.Width - 162
