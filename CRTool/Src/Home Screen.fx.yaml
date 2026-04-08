@@ -25,220 +25,199 @@
             Height: =Parent.Height
             Fill: =RGBA(31, 55, 100, 1)
 
-        conHeaderHS As GroupContainer:
-            Fill: =RGBA(0, 0, 0, 0)
+        imgLogoHS As image:
+            X: =24
+            Y: =20
+            Width: =80
+            Height: =40
+            Image: =""
+            ImagePosition: =ImagePosition.Fit
+
+        lblTitleHS As label:
             X: =0
-            Y: =0
+            Y: =100
             Width: =Parent.Width
-            Height: =80
+            Height: =40
+            Text: ="Change Request Management"
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Size: =20
+            Align: =Align.Center
 
-            imgLogoHS As image:
-                X: =24
-                Y: =20
-                Width: =80
-                Height: =40
-                Image: =""
-                ImagePosition: =ImagePosition.Fit
-
-        conBodyHS As GroupContainer:
-            Fill: =RGBA(0, 0, 0, 0)
+        lblSubtitleHS As label:
             X: =0
-            Y: =conHeaderHS.Y + conHeaderHS.Height + 20
+            Y: =lblTitleHS.Y + lblTitleHS.Height + 5
             Width: =Parent.Width
-            Height: =Parent.Height - 160
+            Height: =28
+            Text: ="British Airways Cabin Programme"
+            Color: =RGBA(174, 214, 241, 1)
+            Font: =Font.'Segoe UI'
+            Size: =13
+            Align: =Align.Center
 
-            lblTitleHS As label:
-                X: =0
-                Y: =0
-                Width: =Parent.Width
-                Height: =40
-                Text: ="Change Request Management"
-                Color: =RGBA(255, 255, 255, 1)
-                Font: =Font.'Segoe UI'
-                FontWeight: =FontWeight.Bold
-                Size: =20
-                Align: =Align.Center
+        btnViewCRsHS As button:
+            X: =(Parent.Width - 1010) / 2
+            Y: =lblSubtitleHS.Y + lblSubtitleHS.Height + 40
+            Width: =500
+            Height: =52
+            Text: ="View Change Requests"
+            Fill: =RGBA(110, 140, 176, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Size: =15
+            FontWeight: =FontWeight.Semibold
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            BorderThickness: =0
+            OnSelect: =Navigate('View CRs Screen', None)
 
-            lblSubtitleHS As label:
-                X: =0
-                Y: =lblTitleHS.Y + lblTitleHS.Height + 5
-                Width: =Parent.Width
-                Height: =28
-                Text: ="British Airways Cabin Programme"
-                Color: =RGBA(174, 214, 241, 1)
-                Font: =Font.'Segoe UI'
-                Size: =13
-                Align: =Align.Center
+        btnSubmitCRHS As button:
+            X: =btnViewCRsHS.X + btnViewCRsHS.Width + 10
+            Y: =btnViewCRsHS.Y
+            Width: =500
+            Height: =52
+            Text: ="Submit New Change Request"
+            Fill: =RGBA(192, 57, 43, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Size: =15
+            FontWeight: =FontWeight.Semibold
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            BorderThickness: =0
+            OnSelect: |
+                =Set(gblCRMode, "New");
+                Set(gblDetailCR, Defaults(CRRequests));
+                Navigate('Submit CR Screen', None)
 
-            btnViewCRsHS As button:
-                X: =(Parent.Width - 1010) / 2
-                Y: =lblSubtitleHS.Y + lblSubtitleHS.Height + 40
-                Width: =500
-                Height: =52
-                Text: ="View Change Requests"
-                Fill: =RGBA(110, 140, 176, 1)
-                Color: =RGBA(255, 255, 255, 1)
-                Font: =Font.'Segoe UI'
-                Size: =15
-                FontWeight: =FontWeight.Semibold
-                RadiusTopLeft: =4
-                RadiusTopRight: =4
-                RadiusBottomLeft: =4
-                RadiusBottomRight: =4
-                BorderThickness: =0
-                OnSelect: =Navigate('View CRs Screen', None)
+        btnTemplatesHS As button:
+            X: =btnViewCRsHS.X
+            Y: =btnViewCRsHS.Y + btnViewCRsHS.Height + 16
+            Width: =500
+            Height: =52
+            Text: ="CR Templates & Docs"
+            Fill: =RGBA(39, 174, 96, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Size: =15
+            FontWeight: =FontWeight.Semibold
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            BorderThickness: =0
+            OnSelect: =Launch("https://[tenant].sharepoint.com/sites/BA-CR-Tool/CR-Templates")
 
-            btnSubmitCRHS As button:
-                X: =btnViewCRsHS.X + btnViewCRsHS.Width + 10
-                Y: =btnViewCRsHS.Y
-                Width: =500
-                Height: =52
-                Text: ="Submit New Change Request"
-                Fill: =RGBA(192, 57, 43, 1)
-                Color: =RGBA(255, 255, 255, 1)
-                Font: =Font.'Segoe UI'
-                Size: =15
-                FontWeight: =FontWeight.Semibold
-                RadiusTopLeft: =4
-                RadiusTopRight: =4
-                RadiusBottomLeft: =4
-                RadiusBottomRight: =4
-                BorderThickness: =0
-                OnSelect: |
-                    =Set(gblCRMode, "New");
-                    Set(gblDetailCR, Defaults(CRRequests));
-                    Navigate('Submit CR Screen', None)
+        btnDashboardHS As button:
+            X: =btnSubmitCRHS.X
+            Y: =btnTemplatesHS.Y
+            Width: =500
+            Height: =52
+            Text: ="Dashboard"
+            Fill: =RGBA(243, 156, 18, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Size: =15
+            FontWeight: =FontWeight.Semibold
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            BorderThickness: =0
+            OnSelect: =Navigate('Dashboard Screen', None)
 
-            btnTemplatesHS As button:
-                X: =btnViewCRsHS.X
-                Y: =btnViewCRsHS.Y + btnViewCRsHS.Height + 16
-                Width: =500
-                Height: =52
-                Text: ="CR Templates & Docs"
-                Fill: =RGBA(39, 174, 96, 1)
-                Color: =RGBA(255, 255, 255, 1)
-                Font: =Font.'Segoe UI'
-                Size: =15
-                FontWeight: =FontWeight.Semibold
-                RadiusTopLeft: =4
-                RadiusTopRight: =4
-                RadiusBottomLeft: =4
-                RadiusBottomRight: =4
-                BorderThickness: =0
-                OnSelect: =Launch("https://[tenant].sharepoint.com/sites/BA-CR-Tool/CR-Templates")
+        btnPMOConsHS As button:
+            X: =btnViewCRsHS.X
+            Y: =btnTemplatesHS.Y + btnTemplatesHS.Height + 16
+            Width: =500
+            Height: =52
+            Text: ="PMO Consolidation"
+            Fill: =RGBA(52, 73, 134, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Size: =15
+            FontWeight: =FontWeight.Semibold
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            BorderThickness: =0
+            Visible: =gblIsPMO
+            OnSelect: =Navigate('PMO Consolidation Screen', None)
 
-            btnDashboardHS As button:
-                X: =btnSubmitCRHS.X
-                Y: =btnTemplatesHS.Y
-                Width: =500
-                Height: =52
-                Text: ="Dashboard"
-                Fill: =RGBA(243, 156, 18, 1)
-                Color: =RGBA(255, 255, 255, 1)
-                Font: =Font.'Segoe UI'
-                Size: =15
-                FontWeight: =FontWeight.Semibold
-                RadiusTopLeft: =4
-                RadiusTopRight: =4
-                RadiusBottomLeft: =4
-                RadiusBottomRight: =4
-                BorderThickness: =0
-                OnSelect: =Navigate('Dashboard Screen', None)
+        btnProgMeetHS As button:
+            X: =btnSubmitCRHS.X
+            Y: =btnPMOConsHS.Y
+            Width: =500
+            Height: =52
+            Text: ="Programme Meeting"
+            Fill: =RGBA(142, 68, 173, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Size: =15
+            FontWeight: =FontWeight.Semibold
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            BorderThickness: =0
+            Visible: =gblIsPMO
+            OnSelect: =Navigate('Programme Meeting Screen', None)
 
-            btnPMOConsHS As button:
-                X: =btnViewCRsHS.X
-                Y: =btnTemplatesHS.Y + btnTemplatesHS.Height + 16
-                Width: =500
-                Height: =52
-                Text: ="PMO Consolidation"
-                Fill: =RGBA(52, 73, 134, 1)
-                Color: =RGBA(255, 255, 255, 1)
-                Font: =Font.'Segoe UI'
-                Size: =15
-                FontWeight: =FontWeight.Semibold
-                RadiusTopLeft: =4
-                RadiusTopRight: =4
-                RadiusBottomLeft: =4
-                RadiusBottomRight: =4
-                BorderThickness: =0
-                Visible: =gblIsPMO
-                OnSelect: =Navigate('PMO Consolidation Screen', None)
+        btnUserAdminHS As button:
+            X: =btnViewCRsHS.X
+            Y: =btnPMOConsHS.Y + btnPMOConsHS.Height + 16
+            Width: =1010
+            Height: =52
+            Text: ="User Admin"
+            Fill: =RGBA(149, 165, 166, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Size: =15
+            FontWeight: =FontWeight.Semibold
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            BorderThickness: =0
+            Visible: =gblIsAdmin
+            OnSelect: =Navigate('User Admin Screen', None)
 
-            btnProgMeetHS As button:
-                X: =btnSubmitCRHS.X
-                Y: =btnPMOConsHS.Y
-                Width: =500
-                Height: =52
-                Text: ="Programme Meeting"
-                Fill: =RGBA(142, 68, 173, 1)
-                Color: =RGBA(255, 255, 255, 1)
-                Font: =Font.'Segoe UI'
-                Size: =15
-                FontWeight: =FontWeight.Semibold
-                RadiusTopLeft: =4
-                RadiusTopRight: =4
-                RadiusBottomLeft: =4
-                RadiusBottomRight: =4
-                BorderThickness: =0
-                Visible: =gblIsPMO
-                OnSelect: =Navigate('Programme Meeting Screen', None)
+        recRoleBadgeHS As rectangle:
+            X: =16
+            Y: =Parent.Height - 44
+            Width: =80
+            Height: =28
+            RadiusTopLeft: =4
+            RadiusTopRight: =4
+            RadiusBottomLeft: =4
+            RadiusBottomRight: =4
+            Fill: =Switch(gblCurrentUserRole, "Admin", RGBA(192,57,43,1), "PMO", RGBA(31,55,100,1), "Programme Manager", RGBA(31,55,100,1), RGBA(39,174,96,1))
 
-            btnUserAdminHS As button:
-                X: =btnViewCRsHS.X
-                Y: =btnPMOConsHS.Y + btnPMOConsHS.Height + 16
-                Width: =1010
-                Height: =52
-                Text: ="User Admin"
-                Fill: =RGBA(149, 165, 166, 1)
-                Color: =RGBA(255, 255, 255, 1)
-                Font: =Font.'Segoe UI'
-                Size: =15
-                FontWeight: =FontWeight.Semibold
-                RadiusTopLeft: =4
-                RadiusTopRight: =4
-                RadiusBottomLeft: =4
-                RadiusBottomRight: =4
-                BorderThickness: =0
-                Visible: =gblIsAdmin
-                OnSelect: =Navigate('User Admin Screen', None)
+        lblRoleBadgeHS As label:
+            X: =recRoleBadgeHS.X
+            Y: =recRoleBadgeHS.Y
+            Width: =recRoleBadgeHS.Width
+            Height: =recRoleBadgeHS.Height
+            Text: =gblCurrentUserRole
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Size: =10
+            Align: =Align.Center
+            FontWeight: =FontWeight.Semibold
 
-        conFooterHS As GroupContainer:
-            Fill: =RGBA(0, 0, 0, 0)
-            X: =0
-            Y: =Parent.Height - 60
-            Width: =Parent.Width
-            Height: =60
-
-            recRoleBadgeHS As rectangle:
-                X: =16
-                Y: =16
-                Width: =80
-                Height: =28
-                RadiusTopLeft: =4
-                RadiusTopRight: =4
-                RadiusBottomLeft: =4
-                RadiusBottomRight: =4
-                Fill: =Switch(gblCurrentUserRole, "Admin", RGBA(192,57,43,1), "PMO", RGBA(31,55,100,1), "Programme Manager", RGBA(31,55,100,1), RGBA(39,174,96,1))
-
-            lblRoleBadgeHS As label:
-                X: =recRoleBadgeHS.X
-                Y: =recRoleBadgeHS.Y
-                Width: =recRoleBadgeHS.Width
-                Height: =recRoleBadgeHS.Height
-                Text: =gblCurrentUserRole
-                Color: =RGBA(255, 255, 255, 1)
-                Font: =Font.'Segoe UI'
-                Size: =10
-                Align: =Align.Center
-                FontWeight: =FontWeight.Semibold
-
-            lblVersionHS As label:
-                X: =Parent.Width - 60
-                Y: =28
-                Width: =50
-                Height: =20
-                Text: ="v1.0"
-                Color: =RGBA(255, 255, 255, 0.5)
-                Font: =Font.'Segoe UI'
-                Size: =10
-                Align: =Align.Right
+        lblVersionHS As label:
+            X: =Parent.Width - 60
+            Y: =Parent.Height - 32
+            Width: =50
+            Height: =20
+            Text: ="v1.0"
+            Color: =RGBA(255, 255, 255, 0.5)
+            Font: =Font.'Segoe UI'
+            Size: =10
+            Align: =Align.Right
