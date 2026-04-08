@@ -75,7 +75,7 @@
                 Color: =RGBA(255, 255, 255, 1)
                 BorderThickness: =0
                 Size: =16
-                OnSelect: =Navigate('Home Screen', None)
+                OnSelect: =Navigate('Home Screen', ScreenTransition.None)
 
             btnAddCRVCS As button:
                 X: =Parent.Width - 44
@@ -96,7 +96,7 @@
                 OnSelect: |
                     =Set(gblCRMode, "New");
                     Set(gblDetailCR, Defaults(CRRequests));
-                    Navigate('Submit CR Screen', None)
+                    Navigate('Submit CR Screen', ScreenTransition.None)
 
     recFilterBarVCS As rectangle:
         X: =0
@@ -170,7 +170,7 @@
             )
         OnSelect: |
             =Set(gblDetailCR, ThisItem);
-            Navigate('CR Detail Screen', None)
+            Navigate('CR Detail Screen', ScreenTransition.None)
 
         recRowBgVCS As rectangle:
             X: =0
@@ -300,7 +300,7 @@
             Y: =52
             Width: =68
             Height: =22
-            Text: =Text(DateDiff(ThisItem.SubmittedDate, Today(), Days)) & " Days"
+            Text: =If(IsBlank(ThisItem.SubmittedDate), "—", Text(DateDiff(ThisItem.SubmittedDate, Today(), Days)) & " Days")
             Color: =RGBA(255, 255, 255, 1)
             Font: =Font.'Segoe UI'
             Size: =11

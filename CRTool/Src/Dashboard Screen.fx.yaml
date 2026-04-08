@@ -86,7 +86,7 @@
                 Color: =RGBA(255, 255, 255, 1)
                 BorderThickness: =0
                 Size: =16
-                OnSelect: =Navigate('Home Screen', None)
+                OnSelect: =Navigate('Home Screen', ScreenTransition.None)
 
         recTileAllDS As rectangle:
             X: =16
@@ -213,7 +213,7 @@
                 Y: =4
                 Width: =114
                 Height: =28
-                Text: =ThisItem.Value
+                Text: =ThisItem
                 Color: =RGBA(174, 214, 241, 1)
                 Font: =Font.'Segoe UI'
                 Size: =10
@@ -325,7 +325,7 @@
             Width: =400
             Height: =32
             Text: =Text(CountRows(Filter(CRRequests, AIPSGTargetDate < Today(), Not(CRStatus.Value In ["Closed","Approved","Rejected"]))))
-            Color: =RGBA(192, 57, 43, 1)
+            Color: =RGBA(255, 255, 255, 1)
             Font: =Font.'Segoe UI'
             Size: =28
             FontWeight: =FontWeight.Bold
@@ -622,4 +622,4 @@
                 Font: =Font.'Segoe UI'
                 Size: =13
                 FontWeight: =FontWeight.Semibold
-                Align: =Align.Center.Center
+                Align: =Align.Center

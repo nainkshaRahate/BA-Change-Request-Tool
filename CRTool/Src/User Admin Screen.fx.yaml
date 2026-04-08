@@ -8,7 +8,7 @@
           Date:    07 Apr 2026
         */
         // Guard: redirect non-admin users immediately.
-        If(Not(gblIsAdmin), Navigate('Home Screen', None))
+        If(Not(gblIsAdmin), Navigate('Home Screen', ScreenTransition.None))
 
     conMainUAS As GroupContainer:
         Fill: =RGBA(0, 0, 0, 0)
@@ -75,7 +75,7 @@
                 Color: =RGBA(255, 255, 255, 1)
                 BorderThickness: =0
                 Size: =16
-                OnSelect: =Navigate('Home Screen', None)
+                OnSelect: =Navigate('Home Screen', ScreenTransition.None)
 
         txtSearchUAS As text:
             X: =16

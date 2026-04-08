@@ -74,19 +74,19 @@
                 Color: =RGBA(255, 255, 255, 1)
                 BorderThickness: =0
                 Size: =16
-                OnSelect: =Navigate('Home Screen', None)
+                OnSelect: =Navigate('Home Screen', ScreenTransition.None)
 
             btnBackSCB As button:
                 X: =48
                 Y: =btnHomeSCB.Y
                 Width: =80
                 Height: =36
-                Text: ="← Part A"
+                Text: ="← Previous"
                 Fill: =RGBA(24, 44, 82, 1)
                 Color: =RGBA(255, 255, 255, 1)
                 BorderThickness: =0
                 Size: =12
-                OnSelect: =Navigate('Submit CR Screen', None)
+                OnSelect: =Navigate('Submit CR Screen', ScreenTransition.None)
 
             btnSaveDraftSCB As button:
                 X: =Parent.Width - 300
@@ -166,7 +166,7 @@
                       SubmittedDate: Today()
                     });
                     If(IsEmpty(Errors(CRRequests)),
-                      Navigate('View CRs Screen', None);
+                      Navigate('View CRs Screen', ScreenTransition.None);
                       Notify(gblDetailCR.CRNumber & " submitted successfully.", NotificationType.Success),
                       Set(gblFormError, "Submission failed — " & First(Errors(CRRequests)).Message)
                     )

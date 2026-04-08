@@ -9,7 +9,7 @@
           Date:    07 Apr 2026
         */
         // Guard: redirect non-PMO users immediately.
-        If(Not(gblIsPMO), Navigate('Home Screen', None));
+        If(Not(gblIsPMO), Navigate('Home Screen', ScreenTransition.None));
         // Reset right-panel selection on each visit.
         Set(gblConsolidationCR, Blank())
 
@@ -78,7 +78,7 @@
                 Color: =RGBA(255, 255, 255, 1)
                 BorderThickness: =0
                 Size: =16
-                OnSelect: =Navigate('Home Screen', None)
+                OnSelect: =Navigate('Home Screen', ScreenTransition.None)
 
         recOverdueBannerPCS As rectangle:
             X: =0

@@ -78,7 +78,7 @@
                 Color: =RGBA(255, 255, 255, 1)
                 BorderThickness: =0
                 Size: =16
-                OnSelect: =Navigate('Home Screen', None)
+                OnSelect: =Navigate('Home Screen', ScreenTransition.None)
 
             btnBackCDS As button:
                 X: =48
@@ -90,7 +90,7 @@
                 Color: =RGBA(255, 255, 255, 1)
                 BorderThickness: =0
                 Size: =12
-                OnSelect: =Navigate('View CRs Screen', None)
+                OnSelect: =Navigate('View CRs Screen', ScreenTransition.None)
 
             btnPartBCDS As button:
                 X: =Parent.Width - 390
@@ -107,7 +107,7 @@
                 RadiusBottomLeft: =4
                 RadiusBottomRight: =4
                 BorderThickness: =0
-                OnSelect: =Navigate('Stakeholder Assessment Screen', None)
+                OnSelect: =Navigate('Stakeholder Assessment Screen', ScreenTransition.None)
 
             recStatusPillCDS As rectangle:
                 X: =Parent.Width - 280
@@ -184,7 +184,7 @@
         OnSelect: |
             =If(Confirm("Delete this CR? This cannot be undone."),
               Remove(CRRequests, gblDetailCR);
-              Navigate('View CRs Screen', None);
+              Navigate('View CRs Screen', ScreenTransition.None);
               Notify("CR deleted.", NotificationType.Warning)
             )
 

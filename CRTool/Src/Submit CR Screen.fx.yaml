@@ -75,7 +75,7 @@
                 Color: =RGBA(255, 255, 255, 1)
                 BorderThickness: =0
                 Size: =16
-                OnSelect: =Navigate('Home Screen', None)
+                OnSelect: =Navigate('Home Screen', ScreenTransition.None)
 
             btnCancelSCS As button:
                 X: =48
@@ -87,7 +87,7 @@
                 Color: =RGBA(255, 255, 255, 1)
                 BorderThickness: =0
                 Size: =16
-                OnSelect: =Navigate('View CRs Screen', None)
+                OnSelect: =Navigate('View CRs Screen', ScreenTransition.None)
 
             btnSaveDraftSCS As button:
                 X: =Parent.Width - 300
@@ -122,9 +122,8 @@
                         Originator: {Claims: "i:0#.f|membership|" & User().Email, DisplayName: User().FullName, Department: ""}
                       }
                     );
-                    // Verify save succeeded before navigating away.
                     If(IsEmpty(Errors(CRRequests)),
-                      Navigate('View CRs Screen', None);
+                      Navigate('View CRs Screen', ScreenTransition.None);
                       Notify("Draft saved.", NotificationType.Success),
                       Notify("Save failed — " & First(Errors(CRRequests)).Message, NotificationType.Error)
                     )
@@ -134,7 +133,7 @@
         Y: =58
         Width: =150
         Height: =34
-        Text: ="Continue: Content →"
+        Text: ="Next →"
         Fill: =RGBA(31, 55, 100, 1)
         Color: =RGBA(255, 255, 255, 1)
         Font: =Font.'Segoe UI'
@@ -146,7 +145,7 @@
         BorderThickness: =0
         OnSelect: |
             =If(
-              IsBlank(txtCRNumSCS.Text) Or IsBlank(txtProgCodeSCS.Text) Or IsBlank(txtProgNameSCS.Text) Or IsBlank(txtTitleSCS.Text) Or IsBlank(cmbPMSCS.Selected) Or IsBlank(cmbSponsorSCS.Selected) Or IsBlank(dteAIPSGSCS.SelectedDate),
+              IsBlank(txtCRNumSCS.Text) Or IsBlank(txtProgCodeSCS.Text) Or IsBlank(txtProgNameSCS.Text) Or IsBlank(txtTitleSCS.Text) Or IsBlank(cmbPMSCS.Selected.Email) Or IsBlank(cmbSponsorSCS.Selected.Email) Or IsBlank(dteAIPSGSCS.SelectedDate),
               Set(gblFormError, "Please complete all required fields (*) before continuing"),
               Set(gblFormError, "");
               Set(gblDetailCR,
@@ -172,7 +171,7 @@
               );
               If(IsEmpty(Errors(CRRequests)),
                 Set(gblCRMode, "Edit");
-                Navigate('Submit CR B Screen', None),
+                Navigate('Submit CR B Screen', ScreenTransition.None),
                 Set(gblFormError, "Save failed — " & First(Errors(CRRequests)).Message)
               )
             )
@@ -419,7 +418,7 @@
         Y: =524
         Width: =640
         Height: =36
-        SelectedDate: =gblDetailCR.AIPSGTargetDate
+        DefaultDate: =gblDetailCR.AIPSGTargetDate
         Format: =DateTimeFormat.ShortDate
         Font: =Font.'Segoe UI'
         Size: =13
@@ -441,7 +440,7 @@
         Y: =524
         Width: =Parent.Width - 716
         Height: =36
-        SelectedDate: =gblDetailCR.SubmissionDeadline
+        DefaultDate: =gblDetailCR.SubmissionDeadline
         Format: =DateTimeFormat.ShortDate
         Font: =Font.'Segoe UI'
         Size: =13
