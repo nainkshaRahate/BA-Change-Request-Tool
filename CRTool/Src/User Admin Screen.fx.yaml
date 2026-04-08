@@ -10,13 +10,15 @@
         // Guard: redirect non-admin users immediately.
         If(Not(gblIsAdmin), Navigate('Home Screen', None))
 
-    conMainUAS As container:
+    conMainUAS As GroupContainer:
+        Fill: =RGBA(0, 0, 0, 0)
         X: =0
         Y: =0
         Width: =Parent.Width
         Height: =Parent.Height
 
-        conHeaderUAS As container:
+        conHeaderUAS As GroupContainer:
+            Fill: =RGBA(0, 0, 0, 0)
             X: =0
             Y: =0
             Width: =Parent.Width
@@ -49,7 +51,8 @@
                 FontWeight: =FontWeight.Semibold
                 Align: =Align.Center
 
-        conSubNavUAS As container:
+        conSubNavUAS As GroupContainer:
+            Fill: =RGBA(0, 0, 0, 0)
             X: =0
             Y: =conHeaderUAS.Y + conHeaderUAS.Height
             Width: =Parent.Width

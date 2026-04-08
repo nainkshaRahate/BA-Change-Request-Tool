@@ -10,13 +10,15 @@
         // Reset any stale form error from a previous submission attempt.
         Set(gblFormError, "")
 
-    conMainVCS As container:
+    conMainVCS As GroupContainer:
+        Fill: =RGBA(0, 0, 0, 0)
         X: =0
         Y: =0
         Width: =Parent.Width
         Height: =Parent.Height
 
-        conHeaderVCS As container:
+        conHeaderVCS As GroupContainer:
+            Fill: =RGBA(0, 0, 0, 0)
             X: =0
             Y: =0
             Width: =Parent.Width
@@ -49,7 +51,8 @@
                 FontWeight: =FontWeight.Semibold
                 Align: =Align.Center
 
-        conSubNavVCS As container:
+        conSubNavVCS As GroupContainer:
+            Fill: =RGBA(0, 0, 0, 0)
             X: =0
             Y: =conHeaderVCS.Y + conHeaderVCS.Height
             Width: =Parent.Width

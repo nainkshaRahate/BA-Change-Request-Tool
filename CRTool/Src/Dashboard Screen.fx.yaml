@@ -21,13 +21,15 @@
           )
         )
 
-    conMainDS As container:
+    conMainDS As GroupContainer:
+        Fill: =RGBA(0, 0, 0, 0)
         X: =0
         Y: =0
         Width: =Parent.Width
         Height: =Parent.Height
 
-        conHeaderDS As container:
+        conHeaderDS As GroupContainer:
+            Fill: =RGBA(0, 0, 0, 0)
             X: =0
             Y: =0
             Width: =Parent.Width
@@ -60,7 +62,8 @@
                 FontWeight: =FontWeight.Semibold
                 Align: =Align.Center
 
-        conSubNavDS As container:
+        conSubNavDS As GroupContainer:
+            Fill: =RGBA(0, 0, 0, 0)
             X: =0
             Y: =conHeaderDS.Y + conHeaderDS.Height
             Width: =Parent.Width

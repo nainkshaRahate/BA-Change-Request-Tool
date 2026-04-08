@@ -9,13 +9,15 @@
         */
         Set(gblFormError, "")
 
-    conMainSCB As container:
+    conMainSCB As GroupContainer:
+        Fill: =RGBA(0, 0, 0, 0)
         X: =0
         Y: =0
         Width: =Parent.Width
         Height: =Parent.Height
 
-        conHeaderSCB As container:
+        conHeaderSCB As GroupContainer:
+            Fill: =RGBA(0, 0, 0, 0)
             X: =0
             Y: =0
             Width: =Parent.Width
@@ -48,7 +50,8 @@
                 FontWeight: =FontWeight.Semibold
                 Align: =Align.Center
 
-        conSubNavSCB As container:
+        conSubNavSCB As GroupContainer:
+            Fill: =RGBA(0, 0, 0, 0)
             X: =0
             Y: =conHeaderSCB.Y + conHeaderSCB.Height
             Width: =Parent.Width

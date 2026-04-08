@@ -13,13 +13,15 @@
           Set(gblDetailCR, LookUp(CRRequests, ID = gblDetailCR.ID))
         )
 
-    conMainCDS As container:
+    conMainCDS As GroupContainer:
+        Fill: =RGBA(0, 0, 0, 0)
         X: =0
         Y: =0
         Width: =Parent.Width
         Height: =Parent.Height
 
-        conHeaderCDS As container:
+        conHeaderCDS As GroupContainer:
+            Fill: =RGBA(0, 0, 0, 0)
             X: =0
             Y: =0
             Width: =Parent.Width
@@ -52,7 +54,8 @@
                 FontWeight: =FontWeight.Semibold
                 Align: =Align.Center
 
-        conSubNavCDS As container:
+        conSubNavCDS As GroupContainer:
+            Fill: =RGBA(0, 0, 0, 0)
             X: =0
             Y: =conHeaderCDS.Y + conHeaderCDS.Height
             Width: =Parent.Width

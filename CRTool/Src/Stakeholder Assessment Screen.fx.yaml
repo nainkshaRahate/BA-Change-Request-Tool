@@ -10,13 +10,15 @@
         // No additional data load needed — galStakeholderSAS filters live from CRStakeholderReviews.
         Set(gblFormError, "")
 
-    conMainSAS As container:
+    conMainSAS As GroupContainer:
+        Fill: =RGBA(0, 0, 0, 0)
         X: =0
         Y: =0
         Width: =Parent.Width
         Height: =Parent.Height
 
-        conHeaderSAS As container:
+        conHeaderSAS As GroupContainer:
+            Fill: =RGBA(0, 0, 0, 0)
             X: =0
             Y: =0
             Width: =Parent.Width
@@ -49,7 +51,8 @@
                 FontWeight: =FontWeight.Semibold
                 Align: =Align.Center
 
-        conSubNavSAS As container:
+        conSubNavSAS As GroupContainer:
+            Fill: =RGBA(0, 0, 0, 0)
             X: =0
             Y: =conHeaderSAS.Y + conHeaderSAS.Height
             Width: =Parent.Width

@@ -10,13 +10,15 @@
         */
         Set(gblFormError, "")
 
-    conMainPMS As container:
+    conMainPMS As GroupContainer:
+        Fill: =RGBA(0, 0, 0, 0)
         X: =0
         Y: =0
         Width: =Parent.Width
         Height: =Parent.Height
 
-        conHeaderPMS As container:
+        conHeaderPMS As GroupContainer:
+            Fill: =RGBA(0, 0, 0, 0)
             X: =0
             Y: =0
             Width: =Parent.Width
@@ -49,7 +51,8 @@
                 FontWeight: =FontWeight.Semibold
                 Align: =Align.Center
 
-        conSubNavPMS As container:
+        conSubNavPMS As GroupContainer:
+            Fill: =RGBA(0, 0, 0, 0)
             X: =0
             Y: =conHeaderPMS.Y + conHeaderPMS.Height
             Width: =Parent.Width

@@ -10,13 +10,15 @@
         // Clear any stale validation error from a previous navigation.
         Set(gblFormError, "")
 
-    conMainSCS As container:
+    conMainSCS As GroupContainer:
+        Fill: =RGBA(0, 0, 0, 0)
         X: =0
         Y: =0
         Width: =Parent.Width
         Height: =Parent.Height
 
-        conHeaderSCS As container:
+        conHeaderSCS As GroupContainer:
+            Fill: =RGBA(0, 0, 0, 0)
             X: =0
             Y: =0
             Width: =Parent.Width
@@ -49,7 +51,8 @@
                 FontWeight: =FontWeight.Semibold
                 Align: =Align.Center
 
-        conSubNavSCS As container:
+        conSubNavSCS As GroupContainer:
+            Fill: =RGBA(0, 0, 0, 0)
             X: =0
             Y: =conHeaderSCS.Y + conHeaderSCS.Height
             Width: =Parent.Width

@@ -11,7 +11,8 @@
         Set(gblDetailCR, Blank());
         Set(gblConsolidationCR, Blank())
 
-    conMainHS As container:
+    conMainHS As GroupContainer:
+        Fill: =RGBA(0, 0, 0, 0)
         X: =0
         Y: =0
         Width: =Parent.Width
@@ -24,7 +25,8 @@
             Height: =Parent.Height
             Fill: =RGBA(31, 55, 100, 1)
 
-        conHeaderHS As container:
+        conHeaderHS As GroupContainer:
+            Fill: =RGBA(0, 0, 0, 0)
             X: =0
             Y: =0
             Width: =Parent.Width
@@ -38,7 +40,8 @@
                 Image: =""
                 ImagePosition: =ImagePosition.Fit
 
-        conBodyHS As container:
+        conBodyHS As GroupContainer:
+            Fill: =RGBA(0, 0, 0, 0)
             X: =0
             Y: =conHeaderHS.Y + conHeaderHS.Height + 20
             Width: =Parent.Width
@@ -161,7 +164,8 @@
                 Visible: =gblIsAdmin
                 OnSelect: =Navigate('User Admin Screen', None)
 
-        conFooterHS As container:
+        conFooterHS As GroupContainer:
+            Fill: =RGBA(0, 0, 0, 0)
             X: =0
             Y: =Parent.Height - 60
             Width: =Parent.Width
