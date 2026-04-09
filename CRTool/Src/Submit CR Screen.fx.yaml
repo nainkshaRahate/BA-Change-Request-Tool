@@ -29,7 +29,15 @@
                 Y: =0
                 Width: =Parent.Width
                 Height: =Parent.Height
-                Fill: =RGBA(31, 55, 100, 1)
+                Fill: =RGBA(1, 37, 84, 1)
+
+
+            recGoldAccentSCS As rectangle:
+                X: =0
+                Y: =47
+                Width: =Parent.Width
+                Height: =3
+                Fill: =RGBA(186, 150, 46, 1)
 
             imgLogoSCS As image:
                 X: =8
@@ -63,7 +71,7 @@
                 Y: =0
                 Width: =Parent.Width
                 Height: =Parent.Height
-                Fill: =RGBA(24, 44, 82, 1)
+                Fill: =RGBA(0, 22, 55, 1)
 
             btnHomeSCS As button:
                 X: =8
@@ -71,7 +79,7 @@
                 Width: =36
                 Height: =36
                 Text: ="🏠"
-                Fill: =RGBA(24, 44, 82, 1)
+                Fill: =RGBA(0, 22, 55, 1)
                 Color: =RGBA(255, 255, 255, 1)
                 BorderThickness: =0
                 Size: =16
@@ -83,7 +91,7 @@
                 Width: =36
                 Height: =36
                 Text: ="✕"
-                Fill: =RGBA(24, 44, 82, 1)
+                Fill: =RGBA(0, 22, 55, 1)
                 Color: =RGBA(255, 255, 255, 1)
                 BorderThickness: =0
                 Size: =16
@@ -99,10 +107,10 @@
                 Color: =RGBA(255, 255, 255, 1)
                 Font: =Font.'Segoe UI'
                 Size: =13
-                RadiusTopLeft: =4
-                RadiusTopRight: =4
-                RadiusBottomLeft: =4
-                RadiusBottomRight: =4
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
                 BorderThickness: =0
                 OnSelect: |
                     =Patch(CRRequests,
@@ -134,14 +142,14 @@
         Width: =150
         Height: =34
         Text: ="Next →"
-        Fill: =RGBA(31, 55, 100, 1)
+        Fill: =RGBA(1, 37, 84, 1)
         Color: =RGBA(255, 255, 255, 1)
         Font: =Font.'Segoe UI'
         Size: =13
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
         BorderThickness: =0
         OnSelect: |
             =If(
@@ -192,7 +200,7 @@
         Y: =128
         Width: =Parent.Width
         Height: =28
-        Fill: =RGBA(31, 55, 100, 1)
+        Fill: =RGBA(1, 37, 84, 1)
 
     lblSectionIdSCS As label:
         X: =16
@@ -224,12 +232,12 @@
         Default: =gblDetailCR.CRNumber
         Font: =Font.'Segoe UI'
         Size: =13
-        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderColor: =RGBA(180, 196, 218, 1)
         BorderThickness: =1
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
 
     lblProgCodeLblSCS As label:
         X: =16
@@ -250,12 +258,12 @@
         Default: =gblDetailCR.ProgrammeCode
         Font: =Font.'Segoe UI'
         Size: =13
-        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderColor: =RGBA(180, 196, 218, 1)
         BorderThickness: =1
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
 
     lblProgNameLblSCS As label:
         X: =700
@@ -276,12 +284,12 @@
         Default: =gblDetailCR.ProgrammeName
         Font: =Font.'Segoe UI'
         Size: =13
-        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderColor: =RGBA(180, 196, 218, 1)
         BorderThickness: =1
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
 
     lblTitleLblSCS As label:
         X: =16
@@ -302,12 +310,12 @@
         Default: =gblDetailCR.CRTitle
         Font: =Font.'Segoe UI'
         Size: =13
-        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderColor: =RGBA(180, 196, 218, 1)
         BorderThickness: =1
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
 
     lblSupplierLblSCS As label:
         X: =16
@@ -327,12 +335,12 @@
         Default: =gblDetailCR.Supplier
         Font: =Font.'Segoe UI'
         Size: =13
-        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderColor: =RGBA(180, 196, 218, 1)
         BorderThickness: =1
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
 
     lblSupRefLblSCS As label:
         X: =700
@@ -352,12 +360,12 @@
         Default: =gblDetailCR.SupplierReference
         Font: =Font.'Segoe UI'
         Size: =13
-        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderColor: =RGBA(180, 196, 218, 1)
         BorderThickness: =1
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
 
     lblPMLblSCS As label:
         X: =16
@@ -379,7 +387,7 @@
         DefaultSelectedItems: =Filter(CRUserAdmin, Email = gblDetailCR.ProjectManager.Email)
         Font: =Font.'Segoe UI'
         Size: =13
-        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderColor: =RGBA(180, 196, 218, 1)
 
     lblSponsorLblSCS As label:
         X: =700
@@ -401,7 +409,7 @@
         DefaultSelectedItems: =Filter(CRUserAdmin, Email = gblDetailCR.CRSponsor.Email)
         Font: =Font.'Segoe UI'
         Size: =13
-        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderColor: =RGBA(180, 196, 218, 1)
 
     lblAIPSGLblSCS As label:
         X: =16
@@ -422,7 +430,7 @@
         Format: =DateTimeFormat.ShortDate
         Font: =Font.'Segoe UI'
         Size: =13
-        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderColor: =RGBA(180, 196, 218, 1)
         BorderThickness: =1
 
     lblSubDeadlineLblSCS As label:
@@ -444,5 +452,5 @@
         Format: =DateTimeFormat.ShortDate
         Font: =Font.'Segoe UI'
         Size: =13
-        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderColor: =RGBA(180, 196, 218, 1)
         BorderThickness: =1

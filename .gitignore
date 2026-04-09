@@ -1,0 +1,8 @@
+# OpenWolf tool state — local only
+.wolf/
+
+# macOS
+.DS_Store
+
+# Power Apps build artifacts (import CRTool_v1.msapp directly)
+*.msapp

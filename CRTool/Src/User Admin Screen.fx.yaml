@@ -29,7 +29,15 @@
                 Y: =0
                 Width: =Parent.Width
                 Height: =Parent.Height
-                Fill: =RGBA(31, 55, 100, 1)
+                Fill: =RGBA(1, 37, 84, 1)
+
+
+            recGoldAccentUAS As rectangle:
+                X: =0
+                Y: =47
+                Width: =Parent.Width
+                Height: =3
+                Fill: =RGBA(186, 150, 46, 1)
 
             imgLogoUAS As image:
                 X: =8
@@ -63,7 +71,7 @@
                 Y: =0
                 Width: =Parent.Width
                 Height: =Parent.Height
-                Fill: =RGBA(24, 44, 82, 1)
+                Fill: =RGBA(0, 22, 55, 1)
 
             btnHomeUAS As button:
                 X: =8
@@ -71,7 +79,7 @@
                 Width: =36
                 Height: =36
                 Text: ="🏠"
-                Fill: =RGBA(24, 44, 82, 1)
+                Fill: =RGBA(0, 22, 55, 1)
                 Color: =RGBA(255, 255, 255, 1)
                 BorderThickness: =0
                 Size: =16
@@ -85,12 +93,12 @@
             HintText: ="Search by name..."
             Font: =Font.'Segoe UI'
             Size: =13
-            BorderColor: =RGBA(200, 200, 200, 1)
+            BorderColor: =RGBA(180, 196, 218, 1)
             BorderThickness: =1
-            RadiusTopLeft: =4
-            RadiusTopRight: =4
-            RadiusBottomLeft: =4
-            RadiusBottomRight: =4
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
 
         galUsersUAS As gallery:
             X: =0
@@ -141,10 +149,10 @@
             Y: =14
             Width: =80
             Height: =24
-            RadiusTopLeft: =4
-            RadiusTopRight: =4
-            RadiusBottomLeft: =4
-            RadiusBottomRight: =4
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
             Fill: |
                 =Switch(ThisItem.Role.Value,
                   "Admin", RGBA(192,57,43,1),
@@ -170,10 +178,10 @@
             Y: =14
             Width: =140
             Height: =24
-            RadiusTopLeft: =4
-            RadiusTopRight: =4
-            RadiusBottomLeft: =4
-            RadiusBottomRight: =4
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
             Fill: =RGBA(149, 165, 166, 1)
             Visible: =Not(IsBlank(ThisItem.StakeholderGroup.Value))
 
@@ -208,7 +216,7 @@
             Default: =ThisItem.Role.Value
             Font: =Font.'Segoe UI'
             Size: =11
-            BorderColor: =RGBA(200, 200, 200, 1)
+            BorderColor: =RGBA(180, 196, 218, 1)
 
         lblEditGroupLblUAS As label:
             X: =800
@@ -229,7 +237,7 @@
             Default: =ThisItem.StakeholderGroup.Value
             Font: =Font.'Segoe UI'
             Size: =11
-            BorderColor: =RGBA(200, 200, 200, 1)
+            BorderColor: =RGBA(180, 196, 218, 1)
 
         lblActiveLblUAS As label:
             X: =1010
@@ -258,14 +266,14 @@
             Width: =80
             Height: =30
             Text: ="Save"
-            Fill: =RGBA(31, 55, 100, 1)
+            Fill: =RGBA(1, 37, 84, 1)
             Color: =RGBA(255, 255, 255, 1)
             Font: =Font.'Segoe UI'
             Size: =12
-            RadiusTopLeft: =4
-            RadiusTopRight: =4
-            RadiusBottomLeft: =4
-            RadiusBottomRight: =4
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
             BorderThickness: =0
             OnSelect: |
                 =Patch(CRUserAdmin, ThisItem, {

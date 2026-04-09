@@ -32,7 +32,15 @@
                 Y: =0
                 Width: =Parent.Width
                 Height: =Parent.Height
-                Fill: =RGBA(31, 55, 100, 1)
+                Fill: =RGBA(1, 37, 84, 1)
+
+
+            recGoldAccentCDS As rectangle:
+                X: =0
+                Y: =47
+                Width: =Parent.Width
+                Height: =3
+                Fill: =RGBA(186, 150, 46, 1)
 
             imgLogoCDS As image:
                 X: =8
@@ -66,7 +74,7 @@
                 Y: =0
                 Width: =Parent.Width
                 Height: =Parent.Height
-                Fill: =RGBA(24, 44, 82, 1)
+                Fill: =RGBA(0, 22, 55, 1)
 
             btnHomeCDS As button:
                 X: =8
@@ -74,7 +82,7 @@
                 Width: =36
                 Height: =36
                 Text: ="🏠"
-                Fill: =RGBA(24, 44, 82, 1)
+                Fill: =RGBA(0, 22, 55, 1)
                 Color: =RGBA(255, 255, 255, 1)
                 BorderThickness: =0
                 Size: =16
@@ -86,7 +94,7 @@
                 Width: =60
                 Height: =36
                 Text: ="← Back"
-                Fill: =RGBA(24, 44, 82, 1)
+                Fill: =RGBA(0, 22, 55, 1)
                 Color: =RGBA(255, 255, 255, 1)
                 BorderThickness: =0
                 Size: =12
@@ -98,14 +106,14 @@
                 Width: =100
                 Height: =34
                 Text: ="Part B →"
-                Fill: =RGBA(31, 55, 100, 1)
+                Fill: =RGBA(1, 37, 84, 1)
                 Color: =RGBA(255, 255, 255, 1)
                 Font: =Font.'Segoe UI'
                 Size: =12
-                RadiusTopLeft: =4
-                RadiusTopRight: =4
-                RadiusBottomLeft: =4
-                RadiusBottomRight: =4
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
                 BorderThickness: =0
                 OnSelect: =Navigate('Stakeholder Assessment Screen', ScreenTransition.None)
 
@@ -114,10 +122,10 @@
                 Y: =btnHomeCDS.Y + 4
                 Width: =90
                 Height: =28
-                RadiusTopLeft: =4
-                RadiusTopRight: =4
-                RadiusBottomLeft: =4
-                RadiusBottomRight: =4
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
                 Fill: |
                     =Switch(gblDetailCR.CRStatus.Value,
                       "Draft", RGBA(149,165,166,1),
@@ -153,10 +161,10 @@
         Y: =61
         Width: =70
         Height: =28
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
         Fill: =RGBA(39, 174, 96, 1)
 
     lblDaysOpenCDS As label:
@@ -198,10 +206,10 @@
         Color: =RGBA(255, 255, 255, 1)
         Font: =Font.'Segoe UI'
         Size: =12
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
         BorderThickness: =0
         Visible: =gblIsPMO And gblDetailCR.CRStatus.Value = "PMO Review"
         OnSelect: |
@@ -222,10 +230,10 @@
         Color: =RGBA(255, 255, 255, 1)
         Font: =Font.'Segoe UI'
         Size: =12
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
         BorderThickness: =0
         Visible: =gblIsPMO And gblDetailCR.CRStatus.Value = "PMO Review"
         OnSelect: |
@@ -242,14 +250,14 @@
         Width: =150
         Height: =34
         Text: ="Mark Ready for SG"
-        Fill: =RGBA(31, 55, 100, 1)
+        Fill: =RGBA(1, 37, 84, 1)
         Color: =RGBA(255, 255, 255, 1)
         Font: =Font.'Segoe UI'
         Size: =12
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
         BorderThickness: =0
         Visible: =gblIsPMO And gblDetailCR.CRStatus.Value = "PMO Consolidation"
         OnSelect: |
@@ -277,10 +285,10 @@
         Color: =RGBA(255, 255, 255, 1)
         Font: =Font.'Segoe UI'
         Size: =12
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
         BorderThickness: =0
         Visible: =gblIsPMO And gblDetailCR.CRStatus.Value = "SG Review"
         OnSelect: =Notify("Use the SG Decision panel below to record the outcome.", NotificationType.Information)
@@ -295,10 +303,10 @@
         Color: =RGBA(255, 255, 255, 1)
         Font: =Font.'Segoe UI'
         Size: =12
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
         BorderThickness: =0
         Visible: =gblIsPMO And gblDetailCR.CRStatus.Value = "Approved"
         OnSelect: |
@@ -314,7 +322,7 @@
         Y: =95
         Width: =Parent.Width
         Height: =40
-        Fill: =RGBA(31, 55, 100, 1)
+        Fill: =RGBA(1, 37, 84, 1)
 
     lblCRTitleCDS As label:
         X: =16
@@ -478,7 +486,7 @@
         Y: =195
         Width: =Parent.Width
         Height: =28
-        Fill: =RGBA(31, 55, 100, 1)
+        Fill: =RGBA(1, 37, 84, 1)
 
     lblDescHeaderCDS As label:
         X: =16
@@ -506,7 +514,7 @@
         Y: =318
         Width: =Parent.Width
         Height: =28
-        Fill: =RGBA(31, 55, 100, 1)
+        Fill: =RGBA(1, 37, 84, 1)
         Visible: =Not(IsBlank(gblDetailCR.ReasonForChange))
 
     lblReasonHeaderCDS As label:
@@ -537,7 +545,7 @@
         Y: =421
         Width: =Parent.Width
         Height: =28
-        Fill: =RGBA(31, 55, 100, 1)
+        Fill: =RGBA(1, 37, 84, 1)
         Visible: =Not(IsBlank(gblDetailCR.DoNothingOption))
 
     lblDoNothingHeaderCDS As label:
@@ -568,7 +576,7 @@
         Y: =524
         Width: =Parent.Width
         Height: =60
-        Fill: =RGBA(31, 55, 100, 1)
+        Fill: =RGBA(1, 37, 84, 1)
 
     lblCostBarTitleCDS As label:
         X: =8
@@ -712,7 +720,7 @@
         Y: =592
         Width: =Parent.Width
         Height: =60
-        Fill: =RGBA(31, 55, 100, 1)
+        Fill: =RGBA(1, 37, 84, 1)
 
     lblRAGBarTitleCDS As label:
         X: =8
@@ -751,10 +759,10 @@
             Y: =4
             Width: =30
             Height: =28
-            RadiusTopLeft: =4
-            RadiusTopRight: =4
-            RadiusBottomLeft: =4
-            RadiusBottomRight: =4
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
             Fill: |
                 =Switch(ThisItem.RAGStatus.Value,
                   "Green", RGBA(39,174,96,1),

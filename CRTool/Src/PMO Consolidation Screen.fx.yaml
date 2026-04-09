@@ -32,7 +32,15 @@
                 Y: =0
                 Width: =Parent.Width
                 Height: =Parent.Height
-                Fill: =RGBA(31, 55, 100, 1)
+                Fill: =RGBA(1, 37, 84, 1)
+
+
+            recGoldAccentPCS As rectangle:
+                X: =0
+                Y: =47
+                Width: =Parent.Width
+                Height: =3
+                Fill: =RGBA(186, 150, 46, 1)
 
             imgLogoPCS As image:
                 X: =8
@@ -66,7 +74,7 @@
                 Y: =0
                 Width: =Parent.Width
                 Height: =Parent.Height
-                Fill: =RGBA(24, 44, 82, 1)
+                Fill: =RGBA(0, 22, 55, 1)
 
             btnHomePCS As button:
                 X: =8
@@ -74,7 +82,7 @@
                 Width: =36
                 Height: =36
                 Text: ="🏠"
-                Fill: =RGBA(24, 44, 82, 1)
+                Fill: =RGBA(0, 22, 55, 1)
                 Color: =RGBA(255, 255, 255, 1)
                 BorderThickness: =0
                 Size: =16
@@ -114,7 +122,7 @@
             Y: =recLeftPanelPCS.Y
             Width: =400
             Height: =40
-            Fill: =RGBA(31, 55, 100, 1)
+            Fill: =RGBA(1, 37, 84, 1)
 
         lblLeftHeaderPCS As label:
             X: =16
@@ -154,7 +162,7 @@
             Width: =100
             Height: =24
             Text: =ThisItem.CRNumber
-            Color: =RGBA(31, 55, 100, 1)
+            Color: =RGBA(1, 37, 84, 1)
             Font: =Font.'Segoe UI'
             Size: =13
             FontWeight: =FontWeight.Bold
@@ -175,10 +183,10 @@
             Y: =12
             Width: =88
             Height: =22
-            RadiusTopLeft: =4
-            RadiusTopRight: =4
-            RadiusBottomLeft: =4
-            RadiusBottomRight: =4
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
             Fill: |
                 =Switch(ThisItem.CRStatus.Value,
                   "Submitted", RGBA(110,140,176,1),
@@ -232,7 +240,7 @@
             Width: =Parent.Width - 448
             Height: =36
             Text: =gblConsolidationCR.CRNumber & " — " & gblConsolidationCR.CRTitle
-            Color: =RGBA(31, 55, 100, 1)
+            Color: =RGBA(1, 37, 84, 1)
             Font: =Font.'Segoe UI'
             Size: =14
             FontWeight: =FontWeight.Bold
@@ -255,10 +263,10 @@
             Y: =219
             Width: =70
             Height: =32
-            RadiusTopLeft: =4
-            RadiusTopRight: =4
-            RadiusBottomLeft: =4
-            RadiusBottomRight: =4
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
             Fill: =RGBA(39, 174, 96, 1)
             Visible: =Not(IsBlank(gblConsolidationCR))
 
@@ -279,10 +287,10 @@
             Y: =219
             Width: =70
             Height: =32
-            RadiusTopLeft: =4
-            RadiusTopRight: =4
-            RadiusBottomLeft: =4
-            RadiusBottomRight: =4
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
             Fill: =RGBA(243, 156, 18, 1)
             Visible: =Not(IsBlank(gblConsolidationCR))
 
@@ -303,10 +311,10 @@
             Y: =219
             Width: =70
             Height: =32
-            RadiusTopLeft: =4
-            RadiusTopRight: =4
-            RadiusBottomLeft: =4
-            RadiusBottomRight: =4
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
             Fill: =RGBA(192, 57, 43, 1)
             Visible: =Not(IsBlank(gblConsolidationCR))
 
@@ -327,10 +335,10 @@
             Y: =219
             Width: =70
             Height: =32
-            RadiusTopLeft: =4
-            RadiusTopRight: =4
-            RadiusBottomLeft: =4
-            RadiusBottomRight: =4
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
             Fill: =RGBA(174, 214, 241, 1)
             Visible: =Not(IsBlank(gblConsolidationCR))
 
@@ -340,7 +348,7 @@
             Width: =70
             Height: =32
             Text: ="🔵 " & Text(CountRows(Filter(CRStakeholderReviews, CRNumber.CRNumber = gblConsolidationCR.CRNumber, RAGStatus.Value = "Pale Blue")))
-            Color: =RGBA(31, 55, 100, 1)
+            Color: =RGBA(1, 37, 84, 1)
             Font: =Font.'Segoe UI'
             Size: =12
             Align: =Align.Center
@@ -368,12 +376,12 @@
             Font: =Font.'Segoe UI'
             Size: =12
             Visible: =Not(IsBlank(gblConsolidationCR))
-            BorderColor: =RGBA(200, 200, 200, 1)
+            BorderColor: =RGBA(180, 196, 218, 1)
             BorderThickness: =1
-            RadiusTopLeft: =4
-            RadiusTopRight: =4
-            RadiusBottomLeft: =4
-            RadiusBottomRight: =4
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
 
         btnAcceptPCS As button:
             X: =424
@@ -385,10 +393,10 @@
             Color: =RGBA(255, 255, 255, 1)
             Font: =Font.'Segoe UI'
             Size: =12
-            RadiusTopLeft: =4
-            RadiusTopRight: =4
-            RadiusBottomLeft: =4
-            RadiusBottomRight: =4
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
             BorderThickness: =0
             Visible: =Not(IsBlank(gblConsolidationCR))
             OnSelect: |
@@ -409,10 +417,10 @@
             Color: =RGBA(255, 255, 255, 1)
             Font: =Font.'Segoe UI'
             Size: =12
-            RadiusTopLeft: =4
-            RadiusTopRight: =4
-            RadiusBottomLeft: =4
-            RadiusBottomRight: =4
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
             BorderThickness: =0
             Visible: =Not(IsBlank(gblConsolidationCR))
             OnSelect: |
@@ -429,14 +437,14 @@
             Width: =160
             Height: =36
             Text: ="Mark Ready for SG"
-            Fill: =RGBA(31, 55, 100, 1)
+            Fill: =RGBA(1, 37, 84, 1)
             Color: =RGBA(255, 255, 255, 1)
             Font: =Font.'Segoe UI'
             Size: =12
-            RadiusTopLeft: =4
-            RadiusTopRight: =4
-            RadiusBottomLeft: =4
-            RadiusBottomRight: =4
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
             BorderThickness: =0
             Visible: =Not(IsBlank(gblConsolidationCR))
             OnSelect: |

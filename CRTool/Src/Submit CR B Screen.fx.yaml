@@ -28,7 +28,15 @@
                 Y: =0
                 Width: =Parent.Width
                 Height: =Parent.Height
-                Fill: =RGBA(31, 55, 100, 1)
+                Fill: =RGBA(1, 37, 84, 1)
+
+
+            recGoldAccentSCB As rectangle:
+                X: =0
+                Y: =47
+                Width: =Parent.Width
+                Height: =3
+                Fill: =RGBA(186, 150, 46, 1)
 
             imgLogoSCB As image:
                 X: =8
@@ -62,7 +70,7 @@
                 Y: =0
                 Width: =Parent.Width
                 Height: =Parent.Height
-                Fill: =RGBA(24, 44, 82, 1)
+                Fill: =RGBA(0, 22, 55, 1)
 
             btnHomeSCB As button:
                 X: =8
@@ -70,7 +78,7 @@
                 Width: =36
                 Height: =36
                 Text: ="🏠"
-                Fill: =RGBA(24, 44, 82, 1)
+                Fill: =RGBA(0, 22, 55, 1)
                 Color: =RGBA(255, 255, 255, 1)
                 BorderThickness: =0
                 Size: =16
@@ -82,7 +90,7 @@
                 Width: =80
                 Height: =36
                 Text: ="← Previous"
-                Fill: =RGBA(24, 44, 82, 1)
+                Fill: =RGBA(0, 22, 55, 1)
                 Color: =RGBA(255, 255, 255, 1)
                 BorderThickness: =0
                 Size: =12
@@ -98,10 +106,10 @@
                 Color: =RGBA(255, 255, 255, 1)
                 Font: =Font.'Segoe UI'
                 Size: =13
-                RadiusTopLeft: =4
-                RadiusTopRight: =4
-                RadiusBottomLeft: =4
-                RadiusBottomRight: =4
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
                 BorderThickness: =0
                 OnSelect: |
                     =Patch(CRRequests, gblDetailCR,
@@ -136,10 +144,10 @@
             Color: =RGBA(255, 255, 255, 1)
             Font: =Font.'Segoe UI'
             Size: =13
-            RadiusTopLeft: =4
-            RadiusTopRight: =4
-            RadiusBottomLeft: =4
-            RadiusBottomRight: =4
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
             BorderThickness: =0
             OnSelect: |
                 =If(
@@ -189,7 +197,7 @@
         Y: =128
         Width: =Parent.Width
         Height: =28
-        Fill: =RGBA(31, 55, 100, 1)
+        Fill: =RGBA(1, 37, 84, 1)
 
     lblSectionContentSCB As label:
         X: =16
@@ -222,12 +230,12 @@
         Font: =Font.'Segoe UI'
         Size: =13
         Mode: =TextMode.MultiLine
-        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderColor: =RGBA(180, 196, 218, 1)
         BorderThickness: =1
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
 
     lblReasonLblSCB As label:
         X: =16
@@ -248,12 +256,12 @@
         Font: =Font.'Segoe UI'
         Size: =13
         Mode: =TextMode.MultiLine
-        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderColor: =RGBA(180, 196, 218, 1)
         BorderThickness: =1
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
 
     lblDoNothingLblSCB As label:
         X: =16
@@ -274,12 +282,12 @@
         Font: =Font.'Segoe UI'
         Size: =13
         Mode: =TextMode.MultiLine
-        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderColor: =RGBA(180, 196, 218, 1)
         BorderThickness: =1
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
 
     lblAdditionalLblSCB As label:
         X: =16
@@ -300,19 +308,19 @@
         Font: =Font.'Segoe UI'
         Size: =13
         Mode: =TextMode.MultiLine
-        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderColor: =RGBA(180, 196, 218, 1)
         BorderThickness: =1
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
 
     recSectionCostSCB As rectangle:
         X: =0
         Y: =536
         Width: =Parent.Width
         Height: =28
-        Fill: =RGBA(31, 55, 100, 1)
+        Fill: =RGBA(1, 37, 84, 1)
 
     lblSectionCostSCB As label:
         X: =16
@@ -343,12 +351,12 @@
         Default: =gblDetailCR.RE_Delta_PerAircraft
         Font: =Font.'Segoe UI'
         Size: =12
-        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderColor: =RGBA(180, 196, 218, 1)
         BorderThickness: =1
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
 
     lblNRELblSCB As label:
         X: =336
@@ -368,12 +376,12 @@
         Default: =gblDetailCR.NRE_Delta
         Font: =Font.'Segoe UI'
         Size: =12
-        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderColor: =RGBA(180, 196, 218, 1)
         BorderThickness: =1
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
 
     lblTotalLblSCB As label:
         X: =656
@@ -393,12 +401,12 @@
         Default: =gblDetailCR.TotalCostDelta
         Font: =Font.'Segoe UI'
         Size: =12
-        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderColor: =RGBA(180, 196, 218, 1)
         BorderThickness: =1
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
 
     lblW1LblSCB As label:
         X: =976
@@ -418,12 +426,12 @@
         Default: =gblDetailCR.WeightDelta_PerAircraft
         Font: =Font.'Segoe UI'
         Size: =12
-        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderColor: =RGBA(180, 196, 218, 1)
         BorderThickness: =1
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
 
     lblWAllLblSCB As label:
         X: =16
@@ -443,12 +451,12 @@
         Default: =gblDetailCR.WeightDelta_AllAircraft
         Font: =Font.'Segoe UI'
         Size: =12
-        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderColor: =RGBA(180, 196, 218, 1)
         BorderThickness: =1
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
 
     lblCoWLblSCB As label:
         X: =336
@@ -468,19 +476,19 @@
         Default: =gblDetailCR.AnnualCoWImpact
         Font: =Font.'Segoe UI'
         Size: =12
-        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderColor: =RGBA(180, 196, 218, 1)
         BorderThickness: =1
-        RadiusTopLeft: =4
-        RadiusTopRight: =4
-        RadiusBottomLeft: =4
-        RadiusBottomRight: =4
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
 
     recSectionSettingsSCB As rectangle:
         X: =0
         Y: =682
         Width: =Parent.Width
         Height: =28
-        Fill: =RGBA(31, 55, 100, 1)
+        Fill: =RGBA(1, 37, 84, 1)
 
     lblSectionSettingsSCB As label:
         X: =16
@@ -511,7 +519,7 @@
         Items: =["USD","GBP","EUR"]
         Font: =Font.'Segoe UI'
         Size: =12
-        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderColor: =RGBA(180, 196, 218, 1)
 
     lblConfidentialityLblSCB As label:
         X: =216
@@ -531,4 +539,4 @@
         Items: =["Internal","Confidential"]
         Font: =Font.'Segoe UI'
         Size: =12
-        BorderColor: =RGBA(200, 200, 200, 1)
+        BorderColor: =RGBA(180, 196, 218, 1)

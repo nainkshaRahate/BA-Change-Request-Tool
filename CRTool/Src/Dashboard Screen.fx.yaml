@@ -40,7 +40,15 @@
                 Y: =0
                 Width: =Parent.Width
                 Height: =Parent.Height
-                Fill: =RGBA(31, 55, 100, 1)
+                Fill: =RGBA(1, 37, 84, 1)
+
+
+            recGoldAccentDS As rectangle:
+                X: =0
+                Y: =47
+                Width: =Parent.Width
+                Height: =3
+                Fill: =RGBA(186, 150, 46, 1)
 
             imgLogoDS As image:
                 X: =8
@@ -74,7 +82,7 @@
                 Y: =0
                 Width: =Parent.Width
                 Height: =Parent.Height
-                Fill: =RGBA(24, 44, 82, 1)
+                Fill: =RGBA(0, 22, 55, 1)
 
             btnHomeDS As button:
                 X: =8
@@ -82,7 +90,7 @@
                 Width: =36
                 Height: =36
                 Text: ="🏠"
-                Fill: =RGBA(24, 44, 82, 1)
+                Fill: =RGBA(0, 22, 55, 1)
                 Color: =RGBA(255, 255, 255, 1)
                 BorderThickness: =0
                 Size: =16
@@ -93,7 +101,7 @@
             Y: =conSubNavDS.Y + conSubNavDS.Height + 13
             Width: =418
             Height: =70
-            Fill: =RGBA(149, 165, 166, 1)
+            Fill: =RGBA(60, 90, 130, 1)
             RadiusTopLeft: =6
             RadiusTopRight: =6
             RadiusBottomLeft: =6
@@ -126,7 +134,7 @@
             Y: =108
             Width: =418
             Height: =70
-            Fill: =RGBA(110, 140, 176, 1)
+            Fill: =RGBA(0, 75, 135, 1)
             RadiusTopLeft: =6
             RadiusTopRight: =6
             RadiusBottomLeft: =6
@@ -206,7 +214,7 @@
                 RadiusTopRight: =6
                 RadiusBottomLeft: =6
                 RadiusBottomRight: =6
-                Fill: =RGBA(31, 55, 100, 1)
+                Fill: =RGBA(1, 37, 84, 1)
 
             lblStatusTileLblDS As label:
                 X: =4
@@ -446,7 +454,7 @@
             Width: =318
             Height: =24
             Text: ="Pale Blue Outstanding"
-            Color: =RGBA(31, 55, 100, 1)
+            Color: =RGBA(1, 37, 84, 1)
             Font: =Font.'Segoe UI'
             Size: =13
             FontWeight: =FontWeight.Semibold
@@ -457,7 +465,7 @@
             Width: =318
             Height: =32
             Text: =Text(CountRows(Filter(CRRequests, Not(CRStatus.Value In ["Closed","Approved","Rejected"]), CountIf(CRStakeholderReviews, CRNumber.CRNumber = CRNumber, RAGStatus.Value = "Pale Blue") > 0)))
-            Color: =RGBA(31, 55, 100, 1)
+            Color: =RGBA(1, 37, 84, 1)
             Font: =Font.'Segoe UI'
             Size: =28
             FontWeight: =FontWeight.Bold
@@ -467,7 +475,7 @@
             Y: =450
             Width: =Parent.Width
             Height: =36
-            Fill: =RGBA(31, 55, 100, 1)
+            Fill: =RGBA(1, 37, 84, 1)
 
         lblProgTableProgrammeDS As label:
             X: =8

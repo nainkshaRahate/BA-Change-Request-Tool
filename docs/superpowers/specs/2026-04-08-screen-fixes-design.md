@@ -1,89 +1,65 @@
-# BA CR Tool — Screen Fixes Design
+# BA CR Tool — Screen Fixes & BA Brand Enhancement
 
 **Date:** 2026-04-08  
 **Branch:** feature/screen-fixes  
-**Status:** Fixes 1–3 implemented and packed. Fixes 4–8 approved, pending implementation.
+**Status:** ALL COMPLETE ✅ — `CRTool_v1.msapp` packed (~56,709 bytes), ready to import.
 
 ---
 
-## Context
+## Formula Fixes — All Implemented
 
-A systematic audit of all 11 Power Apps screen YAML files was performed. Formula errors causing red-dot indicators in Power Apps Studio were identified and categorised. Three batches of fixes have been packed into `CRTool_v1.msapp`.
-
----
-
-## Fixes Already Implemented (Packed)
-
-### Fix 1 — DatePicker DefaultDate (`Submit CR Screen`)
-- **File:** `CRTool/Src/Submit CR Screen.fx.yaml`
-- **Controls:** `dteAIPSGSCS`, `dteDeadlineSCS`
-- **Problem:** Both used `SelectedDate` as a settable YAML property. `SelectedDate` is read-only output on DatePicker; the settable default is `DefaultDate`.
-- **Root cause chain:** Errored datepicker → `dteAIPSGSCS.SelectedDate` reads as blank → `btnContinueSCS` validation always fails → Continue button never navigates.
-- **Fix:** `SelectedDate:` → `DefaultDate:` on both controls.
-
-### Fix 2 — ScreenTransition.None (All Screens)
-- **Files:** All 11 `*.fx.yaml` files
-- **Problem:** All `Navigate()` calls used bare `None` as the transition argument. Power Apps resolves bare `None` as `BorderStyle.None` (wrong enum) → formula errors on every navigation button.
-- **Fix:** 28 occurrences replaced: `Navigate('Screen', None)` → `Navigate('Screen', ScreenTransition.None)`.
-
-### Fix 3 — IsBlank on ComboBox Record (`Submit CR Screen`)
-- **File:** `CRTool/Src/Submit CR Screen.fx.yaml`
-- **Controls:** `btnContinueSCS` (validation), `btnSaveDraftSCS` (inline comment removed)
-- **Problem:** `IsBlank(cmbPMSCS.Selected)` and `IsBlank(cmbSponsorSCS.Selected)` pass Record types to `IsBlank()`, which expects a scalar. Type mismatch → red-dot errors.
-- **Fix:** Changed to `IsBlank(cmbPMSCS.Selected.Email)` and `IsBlank(cmbSponsorSCS.Selected.Email)`.
-- **Also:** Removed `//` inline comment between Patch and If statements in `btnSaveDraftSCS.OnSelect` (can cause parse issues; IAG standard requires `/* */` block style).
+| # | Screen | Control | Fix |
+|---|--------|---------|-----|
+| 1 | Submit CR | `dteAIPSGSCS`, `dteDeadlineSCS` | `SelectedDate` → `DefaultDate` (settable property) |
+| 2 | All 11 | All Navigate calls | `None` → `ScreenTransition.None` (28 occurrences) |
+| 3 | Submit CR | `btnContinueSCS`, `btnSaveDraftSCS` | `IsBlank(cmb.Selected)` → `IsBlank(cmb.Selected.Email)` |
+| 4 | Dashboard | `lblStatusTileLblDS` | `ThisItem.Value` → `ThisItem` (string array gallery) |
+| 5 | Dashboard | `lblTileOverdueCountDS` | Colour red → white (was invisible on red tile) |
+| 6 | Dashboard | `lblProgRejectedDS` | `Align.Center.Center` → `Align.Center` |
+| 7 | Home | `btnUserAdminHS` | Removed `Visible: =gblIsAdmin` |
+| 8 | Submit CR | `btnContinueSCS` | Text → `"Next →"` |
+| 9 | Submit CR B | `btnBackSCB` | Text → `"← Previous"` |
+| 10 | View CRs | `lblDaysOpenVCS` | Added `If(IsBlank(SubmittedDate), "—", ...)` guard |
 
 ---
 
-## Fixes Approved — Pending Implementation
+## BA Brand UI Enhancements — All Implemented
 
-### Fix 4 — Dashboard Screen: `lblStatusTileLblDS` (red-dot)
-- **File:** `CRTool/Src/Dashboard Screen.fx.yaml`, line 216
-- **Problem:** `Text: =ThisItem.Value` — the gallery `galStatusDS` has `Items` as a plain string array `["Draft","Submitted",...]`. `ThisItem` is a Text value, not a record; `.Value` does not exist.
-- **Fix:** `Text: =ThisItem`
+### Global colour updates
+| Old | New | Where |
+|-----|-----|-------|
+| `RGBA(31, 55, 100)` | `RGBA(1, 37, 84)` — BA Midnight Navy | All headers (42 instances) |
+| `RGBA(24, 44, 82)` | `RGBA(0, 22, 55)` — BA Deep Navy | All sub-navs (22 instances) |
+| `RGBA(110, 140, 176)` | `RGBA(0, 75, 135)` — BA Mid-Blue | CTA buttons, status pills |
+| `RGBA(200, 200, 200)` | `RGBA(180, 196, 218)` — BA Blue-tinted | Form input borders (34 instances) |
 
-### Fix 5 — Dashboard Screen: `lblTileOverdueCountDS` invisible count (red-dot + invisible)
-- **File:** `CRTool/Src/Dashboard Screen.fx.yaml`, line 328
-- **Problem:** `Color: =RGBA(192, 57, 43, 1)` — red text on a red tile (`recTileOverdueDS` Fill is the same red). Count number is invisible.
-- **Fix:** `Color: =RGBA(255, 255, 255, 1)`
+### BA Gold `RGBA(186, 150, 46, 1)`
+- 4px gold strip at top of Home Screen
+- Gold subtitle text on Home Screen
+- 3px gold accent at Y=47 of every content screen header (9 screens)
+- Dashboard button fill
+- User Admin button border + text
 
-### Fix 6 — Dashboard Screen: `lblProgRejectedDS` double enum (red-dot)
-- **File:** `CRTool/Src/Dashboard Screen.fx.yaml`, line 625
-- **Problem:** `Align: =Align.Center.Center` — double accessor on the enum. Invalid syntax.
-- **Fix:** `Align: =Align.Center`
+### Home Screen redesign
+- Gold top accent + gold subtitle + slim gold divider
+- Buttons: View CRs → BA mid-blue, Templates → BA teal, Dashboard → BA gold, PMO → BA mid-blue, Programme Meeting → refined purple, User Admin → dark slate with gold border
+- Role badge → pill-shaped (14px radius)
 
-### Fix 7 — Home Screen: `btnUserAdminHS` hidden in Studio preview
-- **File:** `CRTool/Src/Home Screen.fx.yaml`, line 188
-- **Problem:** `Visible: =gblIsAdmin` — in PA Studio preview, all global variables default to false/blank, making this button invisible. User reports it as "missing".
-- **Fix:** Remove the `Visible` property entirely (default is `true`). Role enforcement is already handled by `User Admin Screen.OnVisible` which navigates away if `Not(gblIsAdmin)`.
-
-### Fix 8 — Submit CR Screen: `btnContinueSCS` text wrapping
-- **File:** `CRTool/Src/Submit CR Screen.fx.yaml`, line 137
-- **Problem:** `Text: ="Continue: Content →"` wraps on 150px button width.
-- **Fix:** `Text: ="Next →"`
-
-### Fix 9 — Submit CR B Screen: `btnBackSCB` label rename
-- **File:** `CRTool/Src/Submit CR B Screen.fx.yaml`, line 84
-- **Problem:** `Text: ="← Part A"` — user wants consistent nav labelling.
-- **Fix:** `Text: ="← Previous"`
-
-### Fix 10 — View CRs Screen: `lblDaysOpenVCS` blank date guard
-- **File:** `CRTool/Src/View CRs Screen.fx.yaml`, line 303
-- **Problem:** `DateDiff(ThisItem.SubmittedDate, Today(), Days)` — Draft CRs have no `SubmittedDate` (only set on formal submission). Returns 0 for all drafts → shows "0 Days" which is misleading.
-- **Fix:** `If(IsBlank(ThisItem.SubmittedDate), "—", Text(DateDiff(ThisItem.SubmittedDate, Today(), Days)) & " Days")`
+### Global polish
+- All button corners: 4px → 6px radius
 
 ---
 
-## Formula Rules Confirmed in This Session
+## Formula Rules Confirmed
 
-| Pattern | Wrong | Right |
-|---------|-------|-------|
+| Rule | Wrong | Right |
+|------|-------|-------|
 | DatePicker initial value | `SelectedDate: =formula` | `DefaultDate: =formula` |
 | Navigate transition | `Navigate(Screen, None)` | `Navigate(Screen, ScreenTransition.None)` |
 | ComboBox null check | `IsBlank(cmb.Selected)` | `IsBlank(cmb.Selected.Email)` |
-| Gallery string array label | `ThisItem.Value` | `ThisItem` |
+| Gallery string array | `ThisItem.Value` | `ThisItem` |
 | Align property | `Align.Center.Center` | `Align.Center` |
-| Comments in OnSelect | `// comment` | `/* comment */` |
+| OnSelect comments | `// comment` | `/* comment */` |
 
 ---
 
@@ -93,4 +69,4 @@ A systematic audit of all 11 Power Apps screen YAML files was performed. Formula
 cd /tmp/PackTool && BASE="/Users/dhammadeepborkar/Library/CloudStorage/OneDrive-ABSOLUTELABS/Dhamma/Office/Projects/BA/BA Change Request Tool/Repositories/BA-Change-Request-Tool" && /opt/homebrew/bin/dotnet run -- "$BASE/CRTool" "$BASE/CRTool_v1.msapp" 2>&1
 ```
 
-Expected output ends with: `✓ Saved ... Size: ~56,000 bytes`
+Expected: `✓ Saved ... Size: ~56,000–57,000 bytes`

@@ -29,7 +29,15 @@
                 Y: =0
                 Width: =Parent.Width
                 Height: =Parent.Height
-                Fill: =RGBA(31, 55, 100, 1)
+                Fill: =RGBA(1, 37, 84, 1)
+
+
+            recGoldAccentSAS As rectangle:
+                X: =0
+                Y: =47
+                Width: =Parent.Width
+                Height: =3
+                Fill: =RGBA(186, 150, 46, 1)
 
             imgLogoSAS As image:
                 X: =8
@@ -63,7 +71,7 @@
                 Y: =0
                 Width: =Parent.Width
                 Height: =Parent.Height
-                Fill: =RGBA(24, 44, 82, 1)
+                Fill: =RGBA(0, 22, 55, 1)
 
             btnHomeSAS As button:
                 X: =8
@@ -71,7 +79,7 @@
                 Width: =36
                 Height: =36
                 Text: ="🏠"
-                Fill: =RGBA(24, 44, 82, 1)
+                Fill: =RGBA(0, 22, 55, 1)
                 Color: =RGBA(255, 255, 255, 1)
                 BorderThickness: =0
                 Size: =16
@@ -83,7 +91,7 @@
                 Width: =80
                 Height: =36
                 Text: ="← Part A"
-                Fill: =RGBA(24, 44, 82, 1)
+                Fill: =RGBA(0, 22, 55, 1)
                 Color: =RGBA(255, 255, 255, 1)
                 BorderThickness: =0
                 Size: =12
@@ -230,7 +238,7 @@
             Height: =40
             Text: |
                 ="⚠  " & Text(CountRows(Filter(CRStakeholderReviews, CRNumber.CRNumber = gblDetailCR.CRNumber, RAGStatus.Value = "Pale Blue"))) & " stakeholder group(s) still showing Pale Blue. All must be updated before this CR can go to the SG."
-            Color: =RGBA(31, 55, 100, 1)
+            Color: =RGBA(1, 37, 84, 1)
             Font: =Font.'Segoe UI'
             Size: =12
             Visible: =CountRows(Filter(CRStakeholderReviews, CRNumber.CRNumber = gblDetailCR.CRNumber, RAGStatus.Value = "Pale Blue")) > 0
@@ -240,7 +248,7 @@
             Y: =195
             Width: =Parent.Width
             Height: =36
-            Fill: =RGBA(31, 55, 100, 1)
+            Fill: =RGBA(1, 37, 84, 1)
 
         lblColStakeholderSAS As label:
             X: =0
@@ -324,7 +332,7 @@
                 Width: =190
                 Height: =56
                 Text: =ThisItem.StakeholderGroup.Value
-                Color: =RGBA(31, 55, 100, 1)
+                Color: =RGBA(1, 37, 84, 1)
                 Font: =Font.'Segoe UI'
                 Size: =13
                 FontWeight: =FontWeight.Bold
@@ -362,12 +370,12 @@
                       DisplayMode.Edit,
                       DisplayMode.View
                     )
-                BorderColor: =RGBA(200, 200, 200, 1)
+                BorderColor: =RGBA(180, 196, 218, 1)
                 BorderThickness: =1
-                RadiusTopLeft: =4
-                RadiusTopRight: =4
-                RadiusBottomLeft: =4
-                RadiusBottomRight: =4
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
 
             lblReviewerSAS As label:
                 X: =Parent.Width - 248
@@ -400,10 +408,10 @@
             Font: =Font.'Segoe UI'
             Size: =14
             FontWeight: =FontWeight.Semibold
-            RadiusTopLeft: =4
-            RadiusTopRight: =4
-            RadiusBottomLeft: =4
-            RadiusBottomRight: =4
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
             BorderThickness: =0
             OnSelect: |
                 =ForAll(galStakeholderSAS.AllItems,
@@ -430,7 +438,7 @@
             Width: =200
             Height: =24
             Text: ="Comments (PMO only):"
-            Color: =RGBA(31, 55, 100, 1)
+            Color: =RGBA(1, 37, 84, 1)
             Font: =Font.'Segoe UI'
             Size: =13
             FontWeight: =FontWeight.Bold
@@ -446,9 +454,9 @@
             Font: =Font.'Segoe UI'
             Size: =12
             Visible: =gblIsPMO
-            BorderColor: =RGBA(200, 200, 200, 1)
+            BorderColor: =RGBA(180, 196, 218, 1)
             BorderThickness: =1
-            RadiusTopLeft: =4
-            RadiusTopRight: =4
-            RadiusBottomLeft: =4
-            RadiusBottomRight: =4
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
