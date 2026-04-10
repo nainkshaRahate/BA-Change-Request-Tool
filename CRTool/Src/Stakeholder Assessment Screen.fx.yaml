@@ -1,4 +1,4 @@
-'Stakeholder Assessment Screen' As screen:
+"'Stakeholder Assessment Screen' As screen":
     Fill: =RGBA(245, 247, 250, 1)
     OnVisible: |
         =/*
@@ -10,343 +10,322 @@
         // No additional data load needed — galStakeholderSAS filters live from CRStakeholderReviews.
         Set(gblFormError, "")
 
-    conMainSAS As GroupContainer:
-        Fill: =RGBA(0, 0, 0, 0)
-        X: =0
-        Y: =0
-        Width: =Parent.Width
+    conMainSAS As groupContainer:
         Height: =Parent.Height
+        Width: =Parent.Width
 
-        conHeaderSAS As GroupContainer:
-            Fill: =RGBA(0, 0, 0, 0)
-            X: =0
-            Y: =0
-            Width: =Parent.Width
+        conHeaderSAS As groupContainer:
             Height: =50
+            Width: =Parent.Width
 
             recHeaderSAS As rectangle:
+                Fill: =RGBA(1, 37, 84, 1)
+                Height: =Parent.Height
+                Width: =Parent.Width
                 X: =0
                 Y: =0
-                Width: =Parent.Width
-                Height: =Parent.Height
-                Fill: =RGBA(1, 37, 84, 1)
-
 
             recGoldAccentSAS As rectangle:
+                Fill: =RGBA(186, 150, 46, 1)
+                Height: =3
+                Width: =Parent.Width
                 X: =0
                 Y: =47
-                Width: =Parent.Width
-                Height: =3
-                Fill: =RGBA(186, 150, 46, 1)
 
             imgLogoSAS As image:
-                X: =8
-                Y: =15
-                Width: =40
                 Height: =20
                 Image: =""
                 ImagePosition: =ImagePosition.Fit
+                Width: =40
+                X: =8
+                Y: =15
 
             lblHeaderSAS As label:
-                X: =0
-                Y: =0
-                Width: =Parent.Width
-                Height: =Parent.Height
-                Text: ="Stakeholder Assessment — Part B"
+                Align: =Align.Center
                 Color: =RGBA(255, 255, 255, 1)
                 Font: =Font.'Segoe UI'
-                Size: =16
                 FontWeight: =FontWeight.Semibold
-                Align: =Align.Center
+                Height: =Parent.Height
+                Size: =16
+                Text: ="Stakeholder Assessment — Part B"
+                Width: =Parent.Width
+                X: =0
+                Y: =0
 
-        conSubNavSAS As GroupContainer:
-            Fill: =RGBA(0, 0, 0, 0)
-            X: =0
-            Y: =conHeaderSAS.Y + conHeaderSAS.Height
-            Width: =Parent.Width
+        conSubNavSAS As groupContainer:
             Height: =45
+            Width: =Parent.Width
+            Y: =conHeaderSAS.Y + conHeaderSAS.Height
 
             recSubNavSAS As rectangle:
+                Fill: =RGBA(0, 22, 55, 1)
+                Height: =Parent.Height
+                Width: =Parent.Width
                 X: =0
                 Y: =0
-                Width: =Parent.Width
-                Height: =Parent.Height
-                Fill: =RGBA(0, 22, 55, 1)
 
             btnHomeSAS As button:
+                BorderThickness: =0
+                Fill: =RGBA(0, 22, 55, 1)
+                Height: =36
+                OnSelect: =Navigate('Home Screen', ScreenTransition.None)
+                Size: =16
+                Text: ="🏠"
+                Width: =36
                 X: =8
                 Y: =4
-                Width: =36
-                Height: =36
-                Text: ="🏠"
-                Fill: =RGBA(0, 22, 55, 1)
-                Color: =RGBA(255, 255, 255, 1)
-                BorderThickness: =0
-                Size: =16
-                OnSelect: =Navigate('Home Screen', ScreenTransition.None)
 
             btnBackSAS As button:
+                BorderThickness: =0
+                Fill: =RGBA(0, 22, 55, 1)
+                Height: =36
+                OnSelect: =Navigate('CR Detail Screen', ScreenTransition.None)
+                Size: =12
+                Text: ="← Part A"
+                Width: =80
                 X: =48
                 Y: =btnHomeSAS.Y
-                Width: =80
-                Height: =36
-                Text: ="← Part A"
-                Fill: =RGBA(0, 22, 55, 1)
-                Color: =RGBA(255, 255, 255, 1)
-                BorderThickness: =0
-                Size: =12
-                OnSelect: =Navigate('CR Detail Screen', ScreenTransition.None)
 
         recProgHeaderSAS As rectangle:
+            Fill: =RGBA(13, 71, 88, 1)
+            Height: =60
+            Width: =Parent.Width
             X: =0
             Y: =conSubNavSAS.Y + conSubNavSAS.Height
-            Width: =Parent.Width
-            Height: =60
-            Fill: =RGBA(13, 71, 88, 1)
 
         lblProgLblSAS As label:
+            Align: =Align.Center
+            Color: =RGBA(174, 214, 241, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =25
+            Size: =9
+            Text: ="PROGRAMME"
+            Width: =Parent.Width / 6
             X: =0
             Y: =recProgHeaderSAS.Y
-            Width: =Parent.Width / 6
-            Height: =25
-            Text: ="PROGRAMME"
-            Color: =RGBA(174, 214, 241, 1)
-            Font: =Font.'Segoe UI'
-            Size: =9
-            FontWeight: =FontWeight.Semibold
-            Align: =Align.Center
 
         lblProgValSAS As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =35
+            Size: =12
+            Text: =gblDetailCR.ProgrammeName
+            Width: =Parent.Width / 6
             X: =0
             Y: =lblProgLblSAS.Y + lblProgLblSAS.Height
-            Width: =Parent.Width / 6
-            Height: =35
-            Text: =gblDetailCR.ProgrammeName
-            Color: =RGBA(255, 255, 255, 1)
-            Font: =Font.'Segoe UI'
-            Size: =12
-            FontWeight: =FontWeight.Bold
-            Align: =Align.Center
 
         lblSupplierLblSAS As label:
-            X: =Parent.Width / 6
-            Y: =95
-            Width: =Parent.Width / 6
-            Height: =25
-            Text: ="SUPPLIER"
+            Align: =Align.Center
             Color: =RGBA(174, 214, 241, 1)
             Font: =Font.'Segoe UI'
-            Size: =9
             FontWeight: =FontWeight.Semibold
-            Align: =Align.Center
+            Height: =25
+            Size: =9
+            Text: ="SUPPLIER"
+            Width: =Parent.Width / 6
+            X: =Parent.Width / 6
+            Y: =95
 
         lblSupplierValSAS As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Height: =35
+            Size: =12
+            Text: =If(IsBlank(gblDetailCR.Supplier), "—", gblDetailCR.Supplier)
+            Width: =Parent.Width / 6
             X: =Parent.Width / 6
             Y: =120
-            Width: =Parent.Width / 6
-            Height: =35
-            Text: =If(IsBlank(gblDetailCR.Supplier), "—", gblDetailCR.Supplier)
-            Color: =RGBA(255, 255, 255, 1)
-            Font: =Font.'Segoe UI'
-            Size: =12
-            Align: =Align.Center
 
         lblPMLblSAS As label:
-            X: =Parent.Width / 3
-            Y: =95
-            Width: =Parent.Width / 6
-            Height: =25
-            Text: ="PROJECT MANAGER"
+            Align: =Align.Center
             Color: =RGBA(174, 214, 241, 1)
             Font: =Font.'Segoe UI'
-            Size: =9
             FontWeight: =FontWeight.Semibold
-            Align: =Align.Center
+            Height: =25
+            Size: =9
+            Text: ="PROJECT MANAGER"
+            Width: =Parent.Width / 6
+            X: =Parent.Width / 3
+            Y: =95
 
         lblPMValSAS As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Height: =35
+            Size: =12
+            Text: =gblDetailCR.ProjectManager.DisplayName
+            Width: =Parent.Width / 6
             X: =Parent.Width / 3
             Y: =120
-            Width: =Parent.Width / 6
-            Height: =35
-            Text: =gblDetailCR.ProjectManager.DisplayName
-            Color: =RGBA(255, 255, 255, 1)
-            Font: =Font.'Segoe UI'
-            Size: =12
-            Align: =Align.Center
 
         lblCRNumLblSAS As label:
-            X: =Parent.Width / 2
-            Y: =95
-            Width: =Parent.Width / 6
-            Height: =25
-            Text: ="CR NUMBER"
+            Align: =Align.Center
             Color: =RGBA(174, 214, 241, 1)
             Font: =Font.'Segoe UI'
-            Size: =9
             FontWeight: =FontWeight.Semibold
-            Align: =Align.Center
+            Height: =25
+            Size: =9
+            Text: ="CR NUMBER"
+            Width: =Parent.Width / 6
+            X: =Parent.Width / 2
+            Y: =95
 
         lblCRNumValSAS As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =35
+            Size: =12
+            Text: =gblDetailCR.CRNumber
+            Width: =Parent.Width / 6
             X: =Parent.Width / 2
             Y: =120
-            Width: =Parent.Width / 6
-            Height: =35
-            Text: =gblDetailCR.CRNumber
-            Color: =RGBA(255, 255, 255, 1)
-            Font: =Font.'Segoe UI'
-            Size: =12
-            FontWeight: =FontWeight.Bold
-            Align: =Align.Center
 
         lblAIPSGLblSAS As label:
-            X: =2 * Parent.Width / 3
-            Y: =95
-            Width: =Parent.Width / 6
-            Height: =25
-            Text: ="AIPSG DATE"
+            Align: =Align.Center
             Color: =RGBA(174, 214, 241, 1)
             Font: =Font.'Segoe UI'
-            Size: =9
             FontWeight: =FontWeight.Semibold
-            Align: =Align.Center
+            Height: =25
+            Size: =9
+            Text: ="AIPSG DATE"
+            Width: =Parent.Width / 6
+            X: =2 * Parent.Width / 3
+            Y: =95
 
         lblAIPSGValSAS As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Height: =35
+            Size: =12
+            Text: =Text(gblDetailCR.AIPSGTargetDate, "dd mmm yyyy")
+            Width: =Parent.Width / 6
             X: =2 * Parent.Width / 3
             Y: =120
-            Width: =Parent.Width / 6
-            Height: =35
-            Text: =Text(gblDetailCR.AIPSGTargetDate, "dd mmm yyyy")
-            Color: =RGBA(255, 255, 255, 1)
-            Font: =Font.'Segoe UI'
-            Size: =12
-            Align: =Align.Center
 
         recPaleBlueBannerSAS As rectangle:
-            X: =0
-            Y: =155
-            Width: =Parent.Width
-            Height: =40
-            Fill: =RGBA(174, 214, 241, 0.3)
             BorderColor: =RGBA(174, 214, 241, 1)
             BorderThickness: =1
+            Fill: =RGBA(174, 214, 241, 0.3)
+            Height: =40
             Visible: =CountRows(Filter(CRStakeholderReviews, CRNumber.CRNumber = gblDetailCR.CRNumber, RAGStatus.Value = "Pale Blue")) > 0
+            Width: =Parent.Width
+            X: =0
+            Y: =155
 
         lblPaleBlueBannerSAS As label:
-            X: =16
-            Y: =155
-            Width: =Parent.Width - 32
-            Height: =40
-            Text: |
-                ="⚠  " & Text(CountRows(Filter(CRStakeholderReviews, CRNumber.CRNumber = gblDetailCR.CRNumber, RAGStatus.Value = "Pale Blue"))) & " stakeholder group(s) still showing Pale Blue. All must be updated before this CR can go to the SG."
             Color: =RGBA(1, 37, 84, 1)
             Font: =Font.'Segoe UI'
+            Height: =40
             Size: =12
+            Text: |
+                ="⚠  " & Text(CountRows(Filter(CRStakeholderReviews, CRNumber.CRNumber = gblDetailCR.CRNumber, RAGStatus.Value = "Pale Blue"))) & " stakeholder group(s) still showing Pale Blue. All must be updated before this CR can go to the SG."
             Visible: =CountRows(Filter(CRStakeholderReviews, CRNumber.CRNumber = gblDetailCR.CRNumber, RAGStatus.Value = "Pale Blue")) > 0
+            Width: =Parent.Width - 32
+            X: =16
+            Y: =155
 
         recTableHeaderSAS As rectangle:
+            Fill: =RGBA(1, 37, 84, 1)
+            Height: =36
+            Width: =Parent.Width
             X: =0
             Y: =195
-            Width: =Parent.Width
-            Height: =36
-            Fill: =RGBA(1, 37, 84, 1)
 
         lblColStakeholderSAS As label:
-            X: =0
-            Y: =195
-            Width: =200
-            Height: =36
-            Text: ="STAKEHOLDER"
+            Align: =Align.Center
             Color: =RGBA(255, 255, 255, 1)
             Font: =Font.'Segoe UI'
-            Size: =11
             FontWeight: =FontWeight.Semibold
-            Align: =Align.Center
+            Height: =36
+            Size: =11
+            Text: ="STAKEHOLDER"
+            Width: =200
+            X: =0
+            Y: =195
 
         lblColRAGSAS As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =36
+            Size: =11
+            Text: ="RAG"
+            Width: =100
             X: =200
             Y: =195
-            Width: =100
-            Height: =36
-            Text: ="RAG"
-            Color: =RGBA(255, 255, 255, 1)
-            Font: =Font.'Segoe UI'
-            Size: =11
-            FontWeight: =FontWeight.Semibold
-            Align: =Align.Center
 
         lblColImpactSAS As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =36
+            Size: =11
+            Text: ="IMPACT STATEMENT"
+            Width: =Parent.Width - 550
             X: =300
             Y: =195
-            Width: =Parent.Width - 550
-            Height: =36
-            Text: ="IMPACT STATEMENT"
-            Color: =RGBA(255, 255, 255, 1)
-            Font: =Font.'Segoe UI'
-            Size: =11
-            FontWeight: =FontWeight.Semibold
-            Align: =Align.Center
 
         lblColReviewerSAS As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =36
+            Size: =11
+            Text: ="REVIEWER"
+            Width: =150
             X: =Parent.Width - 250
             Y: =195
-            Width: =150
-            Height: =36
-            Text: ="REVIEWER"
-            Color: =RGBA(255, 255, 255, 1)
-            Font: =Font.'Segoe UI'
-            Size: =11
-            FontWeight: =FontWeight.Semibold
-            Align: =Align.Center
 
         lblColDateSAS As label:
-            X: =Parent.Width - 100
-            Y: =195
-            Width: =100
-            Height: =36
-            Text: ="DATE"
+            Align: =Align.Center
             Color: =RGBA(255, 255, 255, 1)
             Font: =Font.'Segoe UI'
-            Size: =11
             FontWeight: =FontWeight.Semibold
-            Align: =Align.Center
+            Height: =36
+            Size: =11
+            Text: ="DATE"
+            Width: =100
+            X: =Parent.Width - 100
+            Y: =195
 
         galStakeholderSAS As gallery:
-            X: =0
-            Y: =231
-            Width: =Parent.Width
             Height: =Parent.Height - 311
+            Items: =Filter(CRStakeholderReviews, CRNumber.CRNumber = gblDetailCR.CRNumber)
             TemplateHeight: =80
             TemplatePadding: =0
-            Items: =Filter(CRStakeholderReviews, CRNumber.CRNumber = gblDetailCR.CRNumber)
+            Width: =Parent.Width
+            X: =0
+            Y: =231
 
             recRowBgSAS As rectangle:
+                Fill: =If(IsEven(ThisItem.ID), RGBA(249, 249, 249, 1), RGBA(255, 255, 255, 1))
+                Height: =79
+                Width: =Parent.Width
                 X: =0
                 Y: =0
-                Width: =Parent.Width
-                Height: =79
-                Fill: =If(IsEven(ThisItem.ID), RGBA(249, 249, 249, 1), RGBA(255, 255, 255, 1))
 
             lblGroupSAS As label:
-                X: =8
-                Y: =12
-                Width: =190
-                Height: =56
-                Text: =ThisItem.StakeholderGroup.Value
                 Color: =RGBA(1, 37, 84, 1)
                 Font: =Font.'Segoe UI'
-                Size: =13
                 FontWeight: =FontWeight.Bold
+                Height: =56
+                Text: =ThisItem.StakeholderGroup.Value
+                Width: =190
+                X: =8
+                Y: =12
 
             ddlRAGSAS As dropdown:
-                X: =202
-                Y: =20
-                Width: =94
-                Height: =36
-                Items: |
-                    =If(ThisItem.StakeholderGroup.Value = "Other",
-                      ["Pale Blue","Green","Amber","Red","Grey"],
-                      ["Pale Blue","Green","Amber","Red"]
-                    )
                 Default: =ThisItem.RAGStatus.Value
                 DisplayMode: |
                     =If(gblIsPMO Or gblStakeholderGroup = ThisItem.StakeholderGroup.Value,
@@ -354,65 +333,63 @@
                       DisplayMode.View
                     )
                 Font: =Font.'Segoe UI'
+                Height: =36
+                Items: |
+                    =If(ThisItem.StakeholderGroup.Value = "Other",
+                      ["Pale Blue","Green","Amber","Red","Grey"],
+                      ["Pale Blue","Green","Amber","Red"]
+                    )
                 Size: =12
+                Width: =94
+                X: =202
+                Y: =20
 
             txtImpactSAS As text:
-                X: =302
-                Y: =8
-                Width: =Parent.Width - 554
-                Height: =64
+                BorderColor: =RGBA(180, 196, 218, 1)
+                BorderThickness: =1
                 Default: =ThisItem.ImpactStatement
-                Mode: =TextMode.MultiLine
-                Font: =Font.'Segoe UI'
-                Size: =12
                 DisplayMode: |
                     =If(gblIsPMO Or gblStakeholderGroup = ThisItem.StakeholderGroup.Value,
                       DisplayMode.Edit,
                       DisplayMode.View
                     )
-                BorderColor: =RGBA(180, 196, 218, 1)
-                BorderThickness: =1
-                RadiusTopLeft: =6
-                RadiusTopRight: =6
+                Font: =Font.'Segoe UI'
+                Height: =64
+                Mode: =TextMode.MultiLine
                 RadiusBottomLeft: =6
                 RadiusBottomRight: =6
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                Size: =12
+                Width: =Parent.Width - 554
+                X: =302
+                Y: =8
 
             lblReviewerSAS As label:
-                X: =Parent.Width - 248
-                Y: =12
-                Width: =146
-                Height: =56
-                Text: =If(IsBlank(ThisItem.Reviewer.DisplayName), User().FullName, ThisItem.Reviewer.DisplayName)
                 Color: =RGBA(33, 33, 33, 1)
                 Font: =Font.'Segoe UI'
+                Height: =56
                 Size: =12
+                Text: =If(IsBlank(ThisItem.Reviewer.DisplayName), User().FullName, ThisItem.Reviewer.DisplayName)
+                Width: =146
+                X: =Parent.Width - 248
+                Y: =12
 
             lblReviewDateSAS As label:
-                X: =Parent.Width - 98
-                Y: =24
-                Width: =94
-                Height: =32
-                Text: =If(IsBlank(ThisItem.ReviewDate), "—", Text(ThisItem.ReviewDate, "dd mmm yyyy"))
                 Color: =RGBA(117, 117, 117, 1)
                 Font: =Font.'Segoe UI'
+                Height: =32
                 Size: =11
+                Text: =If(IsBlank(ThisItem.ReviewDate), "—", Text(ThisItem.ReviewDate, "dd mmm yyyy"))
+                Width: =94
+                X: =Parent.Width - 98
+                Y: =24
 
         btnSaveSAS As button:
-            X: =Parent.Width - 260
-            Y: =Parent.Height - 64
-            Width: =244
-            Height: =44
-            Text: ="Save Stakeholder Reviews"
-            Fill: =RGBA(39, 174, 96, 1)
-            Color: =RGBA(255, 255, 255, 1)
-            Font: =Font.'Segoe UI'
-            Size: =14
-            FontWeight: =FontWeight.Semibold
-            RadiusTopLeft: =6
-            RadiusTopRight: =6
-            RadiusBottomLeft: =6
-            RadiusBottomRight: =6
             BorderThickness: =0
+            Fill: =RGBA(39, 174, 96, 1)
+            Font: =Font.'Segoe UI'
+            Height: =44
             OnSelect: |
                 =ForAll(galStakeholderSAS.AllItems,
                   Patch(CRStakeholderReviews,
@@ -431,32 +408,42 @@
                   Notify("Stakeholder reviews saved.", NotificationType.Success),
                   Notify("Save failed — " & First(Errors(CRStakeholderReviews)).Message, NotificationType.Error)
                 )
-
-        lblPMOCommentsLblSAS As label:
-            X: =16
-            Y: =Parent.Height - 120
-            Width: =200
-            Height: =24
-            Text: ="Comments (PMO only):"
-            Color: =RGBA(1, 37, 84, 1)
-            Font: =Font.'Segoe UI'
-            Size: =13
-            FontWeight: =FontWeight.Bold
-            Visible: =gblIsPMO
-
-        txtPMONotesSAS As text:
-            X: =16
-            Y: =Parent.Height - 94
-            Width: =Parent.Width - 280
-            Height: =74
-            Default: =gblDetailCR.PMONotes
-            Mode: =TextMode.MultiLine
-            Font: =Font.'Segoe UI'
-            Size: =12
-            Visible: =gblIsPMO
-            BorderColor: =RGBA(180, 196, 218, 1)
-            BorderThickness: =1
-            RadiusTopLeft: =6
-            RadiusTopRight: =6
             RadiusBottomLeft: =6
             RadiusBottomRight: =6
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            Size: =14
+            Text: ="Save Stakeholder Reviews"
+            Width: =244
+            X: =Parent.Width - 260
+            Y: =Parent.Height - 64
+
+        lblPMOCommentsLblSAS As label:
+            Color: =RGBA(1, 37, 84, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =24
+            Text: |-
+                ="Comments (PMO only):"
+            Visible: =gblIsPMO
+            Width: =200
+            X: =16
+            Y: =Parent.Height - 120
+
+        txtPMONotesSAS As text:
+            BorderColor: =RGBA(180, 196, 218, 1)
+            BorderThickness: =1
+            Default: =gblDetailCR.PMONotes
+            Font: =Font.'Segoe UI'
+            Height: =74
+            Mode: =TextMode.MultiLine
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            Size: =12
+            Visible: =gblIsPMO
+            Width: =Parent.Width - 280
+            X: =16
+            Y: =Parent.Height - 94
+

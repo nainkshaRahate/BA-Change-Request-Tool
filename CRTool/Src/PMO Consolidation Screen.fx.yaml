@@ -1,4 +1,4 @@
-'PMO Consolidation Screen' As screen:
+"'PMO Consolidation Screen' As screen":
     Fill: =RGBA(245, 247, 250, 1)
     OnVisible: |
         =/*
@@ -13,180 +13,160 @@
         // Reset right-panel selection on each visit.
         Set(gblConsolidationCR, Blank())
 
-    conMainPCS As GroupContainer:
-        Fill: =RGBA(0, 0, 0, 0)
-        X: =0
-        Y: =0
-        Width: =Parent.Width
+    conMainPCS As groupContainer:
         Height: =Parent.Height
+        Width: =Parent.Width
 
-        conHeaderPCS As GroupContainer:
-            Fill: =RGBA(0, 0, 0, 0)
-            X: =0
-            Y: =0
-            Width: =Parent.Width
+        conHeaderPCS As groupContainer:
             Height: =50
+            Width: =Parent.Width
 
             recHeaderPCS As rectangle:
+                Fill: =RGBA(1, 37, 84, 1)
+                Height: =Parent.Height
+                Width: =Parent.Width
                 X: =0
                 Y: =0
-                Width: =Parent.Width
-                Height: =Parent.Height
-                Fill: =RGBA(1, 37, 84, 1)
-
 
             recGoldAccentPCS As rectangle:
+                Fill: =RGBA(186, 150, 46, 1)
+                Height: =3
+                Width: =Parent.Width
                 X: =0
                 Y: =47
-                Width: =Parent.Width
-                Height: =3
-                Fill: =RGBA(186, 150, 46, 1)
 
             imgLogoPCS As image:
-                X: =8
-                Y: =15
-                Width: =40
                 Height: =20
                 Image: =""
                 ImagePosition: =ImagePosition.Fit
+                Width: =40
+                X: =8
+                Y: =15
 
             lblHeaderPCS As label:
-                X: =0
-                Y: =0
-                Width: =Parent.Width
-                Height: =Parent.Height
-                Text: ="PMO Consolidation"
+                Align: =Align.Center
                 Color: =RGBA(255, 255, 255, 1)
                 Font: =Font.'Segoe UI'
-                Size: =16
                 FontWeight: =FontWeight.Semibold
-                Align: =Align.Center
-
-        conSubNavPCS As GroupContainer:
-            Fill: =RGBA(0, 0, 0, 0)
-            X: =0
-            Y: =conHeaderPCS.Y + conHeaderPCS.Height
-            Width: =Parent.Width
-            Height: =45
-
-            recSubNavPCS As rectangle:
+                Height: =Parent.Height
+                Size: =16
+                Text: ="PMO Consolidation"
+                Width: =Parent.Width
                 X: =0
                 Y: =0
-                Width: =Parent.Width
-                Height: =Parent.Height
+
+        conSubNavPCS As groupContainer:
+            Height: =45
+            Width: =Parent.Width
+            Y: =conHeaderPCS.Y + conHeaderPCS.Height
+
+            recSubNavPCS As rectangle:
                 Fill: =RGBA(0, 22, 55, 1)
+                Height: =Parent.Height
+                Width: =Parent.Width
+                X: =0
+                Y: =0
 
             btnHomePCS As button:
+                BorderThickness: =0
+                Fill: =RGBA(0, 22, 55, 1)
+                Height: =36
+                OnSelect: =Navigate('Home Screen', ScreenTransition.None)
+                Size: =16
+                Text: ="🏠"
+                Width: =36
                 X: =8
                 Y: =4
-                Width: =36
-                Height: =36
-                Text: ="🏠"
-                Fill: =RGBA(0, 22, 55, 1)
-                Color: =RGBA(255, 255, 255, 1)
-                BorderThickness: =0
-                Size: =16
-                OnSelect: =Navigate('Home Screen', ScreenTransition.None)
 
         recOverdueBannerPCS As rectangle:
+            Fill: =RGBA(192, 57, 43, 1)
+            Height: =36
+            Visible: =CountRows(Filter(CRRequests, SubmissionDeadline < Today(), Not(IsDraft), CRStatus.Value = "Submitted")) > 0
+            Width: =Parent.Width
             X: =0
             Y: =conSubNavPCS.Y + conSubNavPCS.Height
-            Width: =Parent.Width
-            Height: =36
-            Fill: =RGBA(192, 57, 43, 1)
-            Visible: =CountRows(Filter(CRRequests, SubmissionDeadline < Today(), Not(IsDraft), CRStatus.Value = "Submitted")) > 0
 
         lblOverdueBannerPCS As label:
-            X: =16
-            Y: =recOverdueBannerPCS.Y
-            Width: =Parent.Width - 32
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
             Height: =36
+            Size: =12
             Text: |
                 =Text(CountRows(Filter(CRRequests, SubmissionDeadline < Today(), Not(IsDraft), CRStatus.Value = "Submitted"))) &
                 " CR(s) are past their submission deadline and have not been reviewed by PMO."
-            Color: =RGBA(255, 255, 255, 1)
-            Font: =Font.'Segoe UI'
-            Size: =12
-            FontWeight: =FontWeight.Semibold
             Visible: =recOverdueBannerPCS.Visible
+            Width: =Parent.Width - 32
+            X: =16
+            Y: =recOverdueBannerPCS.Y
 
         recLeftPanelPCS As rectangle:
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Parent.Height - Self.Y
+            Width: =400
             X: =0
             Y: =recOverdueBannerPCS.Y + (If(recOverdueBannerPCS.Visible, recOverdueBannerPCS.Height, 0))
-            Width: =400
-            Height: =Parent.Height - Self.Y
-            Fill: =RGBA(255, 255, 255, 1)
 
         recLeftHeaderPCS As rectangle:
+            Fill: =RGBA(1, 37, 84, 1)
+            Height: =40
+            Width: =400
             X: =0
             Y: =recLeftPanelPCS.Y
-            Width: =400
-            Height: =40
-            Fill: =RGBA(1, 37, 84, 1)
 
         lblLeftHeaderPCS As label:
-            X: =16
-            Y: =recLeftHeaderPCS.Y
-            Width: =384
-            Height: =40
-            Text: ="CRs Requiring Action"
             Color: =RGBA(255, 255, 255, 1)
             Font: =Font.'Segoe UI'
-            Size: =14
             FontWeight: =FontWeight.Semibold
+            Height: =40
+            Size: =14
+            Text: ="CRs Requiring Action"
+            Width: =384
+            X: =16
+            Y: =recLeftHeaderPCS.Y
 
     galCRListPCS As gallery:
-        X: =0
-        Y: =171
-        Width: =400
         Height: =Parent.Height - 171
-        TemplateHeight: =80
-        TemplatePadding: =0
         Items: =Filter(CRRequests, CRStatus.Value In ["Submitted","PMO Review","In Assessment","PMO Consolidation"])
         OnSelect: =Set(gblConsolidationCR, ThisItem)
+        TemplateHeight: =80
+        TemplatePadding: =0
+        Width: =400
+        X: =0
+        Y: =171
 
         recRowBgPCS As rectangle:
-            X: =0
-            Y: =0
-            Width: =399
-            Height: =79
             Fill: |
                 =If(ThisItem.ID = gblConsolidationCR.ID,
                   RGBA(174, 214, 241, 0.3),
                   If(IsEven(ThisItem.ID), RGBA(249, 249, 249, 1), RGBA(255, 255, 255, 1))
                 )
+            Height: =79
+            Width: =399
+            X: =0
+            Y: =0
 
         lblCRNumPCS As label:
-            X: =8
-            Y: =8
-            Width: =100
-            Height: =24
-            Text: =ThisItem.CRNumber
             Color: =RGBA(1, 37, 84, 1)
             Font: =Font.'Segoe UI'
-            Size: =13
             FontWeight: =FontWeight.Bold
+            Height: =24
+            Text: =ThisItem.CRNumber
+            Width: =100
+            X: =8
+            Y: =8
 
         lblTitlePCS As label:
-            X: =8
-            Y: =36
-            Width: =290
-            Height: =36
-            Text: =ThisItem.CRTitle
             Color: =RGBA(33, 33, 33, 1)
             Font: =Font.'Segoe UI'
+            Height: =36
             Size: =12
-            Overflow: =Overflow.Hidden
+            Text: =ThisItem.CRTitle
+            Width: =290
+            X: =8
+            Y: =36
 
         recStatusPillPCS As rectangle:
-            X: =300
-            Y: =12
-            Width: =88
-            Height: =22
-            RadiusTopLeft: =6
-            RadiusTopRight: =6
-            RadiusBottomLeft: =6
-            RadiusBottomRight: =6
             Fill: |
                 =Switch(ThisItem.CRStatus.Value,
                   "Submitted", RGBA(110,140,176,1),
@@ -195,269 +175,275 @@
                   "PMO Consolidation", RGBA(243,156,18,1),
                   RGBA(31,55,100,1)
                 )
-
-        lblStatusPillPCS As label:
+            Height: =22
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            Width: =88
             X: =300
             Y: =12
-            Width: =88
+
+        lblStatusPillPCS As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
             Height: =22
-            Text: =ThisItem.CRStatus.Value
-            Color: =RGBA(255, 255, 255, 1)
-            Font: =Font.'Segoe UI'
             Size: =9
-            Align: =Align.Center
+            Text: =ThisItem.CRStatus.Value
+            Width: =88
+            X: =300
+            Y: =12
 
-        recRightPanelPCS As rectangle:
-            X: =400
-            Y: =131
-            Width: =Parent.Width - 400
-            Height: =Parent.Height - 131
-            Fill: =RGBA(240, 243, 248, 1)
+    recRightPanelPCS As rectangle:
+        Fill: =RGBA(240, 243, 248, 1)
+        Height: =Parent.Height - 131
+        Width: =Parent.Width - 400
+        X: =400
+        Y: =131
 
-        lblEmptyPCS As label:
-            X: =400
-            Y: =131
-            Width: =Parent.Width - 400
-            Height: =Parent.Height - 131
-            Text: ="Select a CR from the left panel to view details and take action."
-            Color: =RGBA(117, 117, 117, 1)
-            Font: =Font.'Segoe UI'
-            Size: =14
-            Align: =Align.Center
-            Visible: =IsBlank(gblConsolidationCR)
+    lblEmptyPCS As label:
+        Align: =Align.Center
+        Color: =RGBA(117, 117, 117, 1)
+        Font: =Font.'Segoe UI'
+        Height: =Parent.Height - 131
+        Size: =14
+        Text: ="Select a CR from the left panel to view details and take action."
+        Visible: =IsBlank(gblConsolidationCR)
+        Width: =Parent.Width - 400
+        X: =400
+        Y: =131
 
-        recRightContentPCS As rectangle:
-            X: =408
-            Y: =139
-            Width: =Parent.Width - 416
-            Height: =Parent.Height - 147
-            Fill: =RGBA(255, 255, 255, 1)
-            Visible: =Not(IsBlank(gblConsolidationCR))
+    recRightContentPCS As rectangle:
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =Parent.Height - 147
+        Visible: =Not(IsBlank(gblConsolidationCR))
+        Width: =Parent.Width - 416
+        X: =408
+        Y: =139
 
-        lblCRHeaderPCS As label:
-            X: =424
-            Y: =147
-            Width: =Parent.Width - 448
-            Height: =36
-            Text: =gblConsolidationCR.CRNumber & " — " & gblConsolidationCR.CRTitle
-            Color: =RGBA(1, 37, 84, 1)
-            Font: =Font.'Segoe UI'
-            Size: =14
-            FontWeight: =FontWeight.Bold
-            Visible: =Not(IsBlank(gblConsolidationCR))
+    lblCRHeaderPCS As label:
+        Color: =RGBA(1, 37, 84, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =36
+        Size: =14
+        Text: =gblConsolidationCR.CRNumber & " — " & gblConsolidationCR.CRTitle
+        Visible: =Not(IsBlank(gblConsolidationCR))
+        Width: =Parent.Width - 448
+        X: =424
+        Y: =147
 
-        lblRAGSummaryLblPCS As label:
-            X: =424
-            Y: =193
-            Width: =300
-            Height: =24
-            Text: ="RAG Summary:"
-            Color: =RGBA(33, 33, 33, 1)
-            Font: =Font.'Segoe UI'
-            Size: =13
-            FontWeight: =FontWeight.Semibold
-            Visible: =Not(IsBlank(gblConsolidationCR))
+    lblRAGSummaryLblPCS As label:
+        Color: =RGBA(33, 33, 33, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =24
+        Text: |-
+            ="RAG Summary:"
+        Visible: =Not(IsBlank(gblConsolidationCR))
+        Width: =300
+        X: =424
+        Y: =193
 
-        recGreenCountPCS As rectangle:
-            X: =424
-            Y: =219
-            Width: =70
-            Height: =32
-            RadiusTopLeft: =6
-            RadiusTopRight: =6
-            RadiusBottomLeft: =6
-            RadiusBottomRight: =6
-            Fill: =RGBA(39, 174, 96, 1)
-            Visible: =Not(IsBlank(gblConsolidationCR))
+    recGreenCountPCS As rectangle:
+        Fill: =RGBA(39, 174, 96, 1)
+        Height: =32
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Visible: =Not(IsBlank(gblConsolidationCR))
+        Width: =70
+        X: =424
+        Y: =219
 
-        lblGreenCountPCS As label:
-            X: =424
-            Y: =219
-            Width: =70
-            Height: =32
-            Text: ="🟢 " & Text(CountRows(Filter(CRStakeholderReviews, CRNumber.CRNumber = gblConsolidationCR.CRNumber, RAGStatus.Value = "Green")))
-            Color: =RGBA(255, 255, 255, 1)
-            Font: =Font.'Segoe UI'
-            Size: =12
-            Align: =Align.Center
-            Visible: =Not(IsBlank(gblConsolidationCR))
+    lblGreenCountPCS As label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        Height: =32
+        Size: =12
+        Text: ="🟢 " & Text(CountRows(Filter(CRStakeholderReviews, CRNumber = gblConsolidationCR.CRNumber, RAGStatus.Value = "Green")))
+        Visible: =Not(IsBlank(gblConsolidationCR))
+        Width: =70
+        X: =424
+        Y: =219
 
-        recAmberCountPCS As rectangle:
-            X: =502
-            Y: =219
-            Width: =70
-            Height: =32
-            RadiusTopLeft: =6
-            RadiusTopRight: =6
-            RadiusBottomLeft: =6
-            RadiusBottomRight: =6
-            Fill: =RGBA(243, 156, 18, 1)
-            Visible: =Not(IsBlank(gblConsolidationCR))
+    recAmberCountPCS As rectangle:
+        Fill: =RGBA(243, 156, 18, 1)
+        Height: =32
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Visible: =Not(IsBlank(gblConsolidationCR))
+        Width: =70
+        X: =502
+        Y: =219
 
-        lblAmberCountPCS As label:
-            X: =502
-            Y: =219
-            Width: =70
-            Height: =32
-            Text: ="🟡 " & Text(CountRows(Filter(CRStakeholderReviews, CRNumber.CRNumber = gblConsolidationCR.CRNumber, RAGStatus.Value = "Amber")))
-            Color: =RGBA(255, 255, 255, 1)
-            Font: =Font.'Segoe UI'
-            Size: =12
-            Align: =Align.Center
-            Visible: =Not(IsBlank(gblConsolidationCR))
+    lblAmberCountPCS As label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        Height: =32
+        Size: =12
+        Text: ="🟡 " & Text(CountRows(Filter(CRStakeholderReviews, CRNumber = gblConsolidationCR.CRNumber, RAGStatus.Value = "Amber")))
+        Visible: =Not(IsBlank(gblConsolidationCR))
+        Width: =70
+        X: =502
+        Y: =219
 
-        recRedCountPCS As rectangle:
-            X: =580
-            Y: =219
-            Width: =70
-            Height: =32
-            RadiusTopLeft: =6
-            RadiusTopRight: =6
-            RadiusBottomLeft: =6
-            RadiusBottomRight: =6
-            Fill: =RGBA(192, 57, 43, 1)
-            Visible: =Not(IsBlank(gblConsolidationCR))
+    recRedCountPCS As rectangle:
+        Fill: =RGBA(192, 57, 43, 1)
+        Height: =32
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Visible: =Not(IsBlank(gblConsolidationCR))
+        Width: =70
+        X: =580
+        Y: =219
 
-        lblRedCountPCS As label:
-            X: =580
-            Y: =219
-            Width: =70
-            Height: =32
-            Text: ="🔴 " & Text(CountRows(Filter(CRStakeholderReviews, CRNumber.CRNumber = gblConsolidationCR.CRNumber, RAGStatus.Value = "Red")))
-            Color: =RGBA(255, 255, 255, 1)
-            Font: =Font.'Segoe UI'
-            Size: =12
-            Align: =Align.Center
-            Visible: =Not(IsBlank(gblConsolidationCR))
+    lblRedCountPCS As label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        Height: =32
+        Size: =12
+        Text: ="🔴 " & Text(CountRows(Filter(CRStakeholderReviews, CRNumber = gblConsolidationCR.CRNumber, RAGStatus.Value = "Red")))
+        Visible: =Not(IsBlank(gblConsolidationCR))
+        Width: =70
+        X: =580
+        Y: =219
 
-        recPaleBlueCountPCS As rectangle:
-            X: =658
-            Y: =219
-            Width: =70
-            Height: =32
-            RadiusTopLeft: =6
-            RadiusTopRight: =6
-            RadiusBottomLeft: =6
-            RadiusBottomRight: =6
-            Fill: =RGBA(174, 214, 241, 1)
-            Visible: =Not(IsBlank(gblConsolidationCR))
+    recPaleBlueCountPCS As rectangle:
+        Fill: =RGBA(174, 214, 241, 1)
+        Height: =32
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Visible: =Not(IsBlank(gblConsolidationCR))
+        Width: =70
+        X: =658
+        Y: =219
 
-        lblPaleBlueCountPCS As label:
-            X: =658
-            Y: =219
-            Width: =70
-            Height: =32
-            Text: ="🔵 " & Text(CountRows(Filter(CRStakeholderReviews, CRNumber.CRNumber = gblConsolidationCR.CRNumber, RAGStatus.Value = "Pale Blue")))
-            Color: =RGBA(1, 37, 84, 1)
-            Font: =Font.'Segoe UI'
-            Size: =12
-            Align: =Align.Center
-            Visible: =Not(IsBlank(gblConsolidationCR))
+    lblPaleBlueCountPCS As label:
+        Align: =Align.Center
+        Color: =RGBA(1, 37, 84, 1)
+        Font: =Font.'Segoe UI'
+        Height: =32
+        Size: =12
+        Text: ="🔵 " & Text(CountRows(Filter(CRStakeholderReviews, CRNumber = gblConsolidationCR.CRNumber, RAGStatus.Value = "Pale Blue")))
+        Visible: =Not(IsBlank(gblConsolidationCR))
+        Width: =70
+        X: =658
+        Y: =219
 
-        lblNotesLblPCS As label:
-            X: =424
-            Y: =267
-            Width: =200
-            Height: =24
-            Text: ="Consolidation Notes:"
-            Color: =RGBA(33, 33, 33, 1)
-            Font: =Font.'Segoe UI'
-            Size: =13
-            FontWeight: =FontWeight.Semibold
-            Visible: =Not(IsBlank(gblConsolidationCR))
+    lblNotesLblPCS As label:
+        Color: =RGBA(33, 33, 33, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =24
+        Text: |-
+            ="Consolidation Notes:"
+        Visible: =Not(IsBlank(gblConsolidationCR))
+        Width: =200
+        X: =424
+        Y: =267
 
-        txtNotesPCS As text:
-            X: =424
-            Y: =291
-            Width: =Parent.Width - 448
-            Height: =100
-            Default: =gblConsolidationCR.PMONotes
-            Mode: =TextMode.MultiLine
-            Font: =Font.'Segoe UI'
-            Size: =12
-            Visible: =Not(IsBlank(gblConsolidationCR))
-            BorderColor: =RGBA(180, 196, 218, 1)
-            BorderThickness: =1
-            RadiusTopLeft: =6
-            RadiusTopRight: =6
-            RadiusBottomLeft: =6
-            RadiusBottomRight: =6
+    txtNotesPCS As text:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
+        Default: =gblConsolidationCR.PMONotes
+        Font: =Font.'Segoe UI'
+        Height: =100
+        Mode: =TextMode.MultiLine
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Size: =12
+        Visible: =Not(IsBlank(gblConsolidationCR))
+        Width: =Parent.Width - 448
+        X: =424
+        Y: =291
 
-        btnAcceptPCS As button:
-            X: =424
-            Y: =407
-            Width: =160
-            Height: =36
-            Text: ="✓ Accept & Distribute"
-            Fill: =RGBA(39, 174, 96, 1)
-            Color: =RGBA(255, 255, 255, 1)
-            Font: =Font.'Segoe UI'
-            Size: =12
-            RadiusTopLeft: =6
-            RadiusTopRight: =6
-            RadiusBottomLeft: =6
-            RadiusBottomRight: =6
-            BorderThickness: =0
-            Visible: =Not(IsBlank(gblConsolidationCR))
-            OnSelect: |
-                =Patch(CRRequests, gblConsolidationCR, {CRStatus: {Value: "In Assessment"}, PMONotes: txtNotesPCS.Text});
-                If(IsEmpty(Errors(CRRequests)),
-                  Set(gblConsolidationCR, Blank());
-                  Notify("CR accepted and distributed for assessment.", NotificationType.Success),
-                  Notify("Action failed — " & First(Errors(CRRequests)).Message, NotificationType.Error)
-                )
+    btnAcceptPCS As button:
+        BorderThickness: =0
+        Fill: =RGBA(39, 174, 96, 1)
+        Font: =Font.'Segoe UI'
+        Height: =36
+        OnSelect: |
+            =Patch(CRRequests, gblConsolidationCR, {CRStatus: {Value: "In Assessment"}, PMONotes: txtNotesPCS.Text});
+            If(IsEmpty(Errors(CRRequests)),
+              Set(gblConsolidationCR, Blank());
+              Notify("CR accepted and distributed for assessment.", NotificationType.Success),
+              Notify("Action failed — " & First(Errors(CRRequests)).Message, NotificationType.Error)
+            )
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Size: =12
+        Text: ="✓ Accept & Distribute"
+        Visible: =Not(IsBlank(gblConsolidationCR))
+        Width: =160
+        X: =424
+        Y: =407
 
-        btnReturnPCS As button:
-            X: =594
-            Y: =407
-            Width: =140
-            Height: =36
-            Text: ="↩ Return to Owner"
-            Fill: =RGBA(149, 165, 166, 1)
-            Color: =RGBA(255, 255, 255, 1)
-            Font: =Font.'Segoe UI'
-            Size: =12
-            RadiusTopLeft: =6
-            RadiusTopRight: =6
-            RadiusBottomLeft: =6
-            RadiusBottomRight: =6
-            BorderThickness: =0
-            Visible: =Not(IsBlank(gblConsolidationCR))
-            OnSelect: |
-                =Patch(CRRequests, gblConsolidationCR, {CRStatus: {Value: "Submitted"}, PMONotes: txtNotesPCS.Text});
-                If(IsEmpty(Errors(CRRequests)),
-                  Set(gblConsolidationCR, Blank());
-                  Notify("CR returned to owner for revision.", NotificationType.Warning),
-                  Notify("Action failed — " & First(Errors(CRRequests)).Message, NotificationType.Error)
-                )
+    btnReturnPCS As button:
+        BorderThickness: =0
+        Fill: =RGBA(149, 165, 166, 1)
+        Font: =Font.'Segoe UI'
+        Height: =36
+        OnSelect: |
+            =Patch(CRRequests, gblConsolidationCR, {CRStatus: {Value: "Submitted"}, PMONotes: txtNotesPCS.Text});
+            If(IsEmpty(Errors(CRRequests)),
+              Set(gblConsolidationCR, Blank());
+              Notify("CR returned to owner for revision.", NotificationType.Warning),
+              Notify("Action failed — " & First(Errors(CRRequests)).Message, NotificationType.Error)
+            )
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Size: =12
+        Text: ="↩ Return to Owner"
+        Visible: =Not(IsBlank(gblConsolidationCR))
+        Width: =140
+        X: =594
+        Y: =407
 
-        btnReadySGPCS As button:
-            X: =744
-            Y: =407
-            Width: =160
-            Height: =36
-            Text: ="Mark Ready for SG"
-            Fill: =RGBA(1, 37, 84, 1)
-            Color: =RGBA(255, 255, 255, 1)
-            Font: =Font.'Segoe UI'
-            Size: =12
-            RadiusTopLeft: =6
-            RadiusTopRight: =6
-            RadiusBottomLeft: =6
-            RadiusBottomRight: =6
-            BorderThickness: =0
-            Visible: =Not(IsBlank(gblConsolidationCR))
-            OnSelect: |
-                =If(CountRows(Filter(CRStakeholderReviews,
-                    CRNumber.CRNumber = gblConsolidationCR.CRNumber, RAGStatus.Value = "Pale Blue")) > 0,
-                  Notify("Cannot proceed — " &
-                    Text(CountRows(Filter(CRStakeholderReviews, CRNumber.CRNumber = gblConsolidationCR.CRNumber, RAGStatus.Value = "Pale Blue"))) &
-                    " stakeholder group(s) are still Pale Blue.",
-                    NotificationType.Error),
-                  Patch(CRRequests, gblConsolidationCR, {CRStatus: {Value: "Pre-SG Distribution"}, PMONotes: txtNotesPCS.Text});
-                  If(IsEmpty(Errors(CRRequests)),
-                    Set(gblConsolidationCR, Blank());
-                    Notify("CR marked ready for Pre-SG Distribution.", NotificationType.Success),
-                    Notify("Action failed — " & First(Errors(CRRequests)).Message, NotificationType.Error)
-                  )
-                )
+    btnReadySGPCS As button:
+        BorderThickness: =0
+        Fill: =RGBA(1, 37, 84, 1)
+        Font: =Font.'Segoe UI'
+        Height: =36
+        OnSelect: |
+            =If(CountRows(Filter(CRStakeholderReviews,
+                CRNumber = gblConsolidationCR.CRNumber, RAGStatus.Value = "Pale Blue")) > 0,
+              Notify("Cannot proceed — " &
+                Text(CountRows(Filter(CRStakeholderReviews, CRNumber = gblConsolidationCR.CRNumber, RAGStatus.Value = "Pale Blue"))) &
+                " stakeholder group(s) are still Pale Blue.",
+                NotificationType.Error),
+              Patch(CRRequests, gblConsolidationCR, {CRStatus: {Value: "Pre-SG Distribution"}, PMONotes: txtNotesPCS.Text});
+              If(IsEmpty(Errors(CRRequests)),
+                Set(gblConsolidationCR, Blank());
+                Notify("CR marked ready for Pre-SG Distribution.", NotificationType.Success),
+                Notify("Action failed — " & First(Errors(CRRequests)).Message, NotificationType.Error)
+              )
+            )
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Size: =12
+        Text: ="Mark Ready for SG"
+        Visible: =Not(IsBlank(gblConsolidationCR))
+        Width: =160
+        X: =744
+        Y: =407
+

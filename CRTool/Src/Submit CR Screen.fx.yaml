@@ -1,4 +1,4 @@
-'Submit CR Screen' As screen:
+"'Submit CR Screen' As screen":
     Fill: =RGBA(245, 247, 250, 1)
     OnVisible: |
         =/*
@@ -10,108 +10,88 @@
         // Clear any stale validation error from a previous navigation.
         Set(gblFormError, "")
 
-    conMainSCS As GroupContainer:
-        Fill: =RGBA(0, 0, 0, 0)
-        X: =0
-        Y: =0
-        Width: =Parent.Width
+    conMainSCS As groupContainer:
         Height: =Parent.Height
+        Width: =Parent.Width
 
-        conHeaderSCS As GroupContainer:
-            Fill: =RGBA(0, 0, 0, 0)
-            X: =0
-            Y: =0
-            Width: =Parent.Width
+        conHeaderSCS As groupContainer:
             Height: =50
+            Width: =Parent.Width
 
             recHeaderSCS As rectangle:
+                Fill: =RGBA(1, 37, 84, 1)
+                Height: =Parent.Height
+                Width: =Parent.Width
                 X: =0
                 Y: =0
-                Width: =Parent.Width
-                Height: =Parent.Height
-                Fill: =RGBA(1, 37, 84, 1)
-
 
             recGoldAccentSCS As rectangle:
+                Fill: =RGBA(186, 150, 46, 1)
+                Height: =3
+                Width: =Parent.Width
                 X: =0
                 Y: =47
-                Width: =Parent.Width
-                Height: =3
-                Fill: =RGBA(186, 150, 46, 1)
 
             imgLogoSCS As image:
-                X: =8
-                Y: =15
-                Width: =40
                 Height: =20
                 Image: =""
                 ImagePosition: =ImagePosition.Fit
+                Width: =40
+                X: =8
+                Y: =15
 
             lblHeaderSCS As label:
-                X: =0
-                Y: =0
-                Width: =Parent.Width
-                Height: =Parent.Height
-                Text: =If(gblCRMode = "New", "Submit New Change Request — Part A: Identification", "Edit Change Request — Part A: Identification")
+                Align: =Align.Center
                 Color: =RGBA(255, 255, 255, 1)
                 Font: =Font.'Segoe UI'
-                Size: =15
                 FontWeight: =FontWeight.Semibold
-                Align: =Align.Center
+                Height: =Parent.Height
+                Size: =15
+                Text: |-
+                    =If(gblCRMode = "New", "Submit New Change Request — Part A: Identification", "Edit Change Request — Part A: Identification")
+                Width: =Parent.Width
+                X: =0
+                Y: =0
 
-        conSubNavSCS As GroupContainer:
-            Fill: =RGBA(0, 0, 0, 0)
-            X: =0
-            Y: =conHeaderSCS.Y + conHeaderSCS.Height
-            Width: =Parent.Width
+        conSubNavSCS As groupContainer:
             Height: =45
+            Width: =Parent.Width
+            Y: =conHeaderSCS.Y + conHeaderSCS.Height
 
             recSubNavSCS As rectangle:
+                Fill: =RGBA(0, 22, 55, 1)
+                Height: =Parent.Height
+                Width: =Parent.Width
                 X: =0
                 Y: =0
-                Width: =Parent.Width
-                Height: =Parent.Height
-                Fill: =RGBA(0, 22, 55, 1)
 
             btnHomeSCS As button:
+                BorderThickness: =0
+                Fill: =RGBA(0, 22, 55, 1)
+                Height: =36
+                OnSelect: =Navigate('Home Screen', ScreenTransition.None)
+                Size: =16
+                Text: ="🏠"
+                Width: =36
                 X: =8
                 Y: =4
-                Width: =36
-                Height: =36
-                Text: ="🏠"
-                Fill: =RGBA(0, 22, 55, 1)
-                Color: =RGBA(255, 255, 255, 1)
-                BorderThickness: =0
-                Size: =16
-                OnSelect: =Navigate('Home Screen', ScreenTransition.None)
 
             btnCancelSCS As button:
+                BorderThickness: =0
+                Fill: =RGBA(0, 22, 55, 1)
+                Height: =36
+                OnSelect: =Navigate('View CRs Screen', ScreenTransition.None)
+                Size: =16
+                Text: ="✕"
+                Width: =36
                 X: =48
                 Y: =btnHomeSCS.Y
-                Width: =36
-                Height: =36
-                Text: ="✕"
-                Fill: =RGBA(0, 22, 55, 1)
-                Color: =RGBA(255, 255, 255, 1)
-                BorderThickness: =0
-                Size: =16
-                OnSelect: =Navigate('View CRs Screen', ScreenTransition.None)
 
             btnSaveDraftSCS As button:
-                X: =Parent.Width - 300
-                Y: =btnHomeSCS.Y + 1
-                Width: =130
-                Height: =34
-                Text: ="Save as Draft"
-                Fill: =RGBA(149, 165, 166, 1)
-                Color: =RGBA(255, 255, 255, 1)
-                Font: =Font.'Segoe UI'
-                Size: =13
-                RadiusTopLeft: =6
-                RadiusTopRight: =6
-                RadiusBottomLeft: =6
-                RadiusBottomRight: =6
                 BorderThickness: =0
+                Fill: =RGBA(149, 165, 166, 1)
+                Font: =Font.'Segoe UI'
+                Height: =34
                 OnSelect: |
                     =Patch(CRRequests,
                       If(gblCRMode = "New", Defaults(CRRequests), gblDetailCR),
@@ -135,22 +115,21 @@
                       Notify("Draft saved.", NotificationType.Success),
                       Notify("Save failed — " & First(Errors(CRRequests)).Message, NotificationType.Error)
                     )
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                Size: =13
+                Text: ="Save as Draft"
+                Width: =130
+                X: =Parent.Width - 300
+                Y: =btnHomeSCS.Y + 1
 
     btnContinueSCS As button:
-        X: =Parent.Width - 162
-        Y: =58
-        Width: =150
-        Height: =34
-        Text: ="Next →"
-        Fill: =RGBA(1, 37, 84, 1)
-        Color: =RGBA(255, 255, 255, 1)
-        Font: =Font.'Segoe UI'
-        Size: =13
-        RadiusTopLeft: =6
-        RadiusTopRight: =6
-        RadiusBottomLeft: =6
-        RadiusBottomRight: =6
         BorderThickness: =0
+        Fill: =RGBA(1, 37, 84, 1)
+        Font: =Font.'Segoe UI'
+        Height: =34
         OnSelect: |
             =If(
               IsBlank(txtCRNumSCS.Text) Or IsBlank(txtProgCodeSCS.Text) Or IsBlank(txtProgNameSCS.Text) Or IsBlank(txtTitleSCS.Text) Or IsBlank(cmbPMSCS.Selected.Email) Or IsBlank(cmbSponsorSCS.Selected.Email) Or IsBlank(dteAIPSGSCS.SelectedDate),
@@ -183,274 +162,276 @@
                 Set(gblFormError, "Save failed — " & First(Errors(CRRequests)).Message)
               )
             )
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Size: =13
+        Text: ="Next →"
+        Width: =150
+        X: =Parent.Width - 162
+        Y: =58
 
     lblErrorSCS As label:
-        X: =16
-        Y: =100
-        Width: =Parent.Width - 32
-        Height: =28
-        Text: =gblFormError
         Color: =RGBA(231, 76, 60, 1)
         Font: =Font.'Segoe UI'
+        Height: =28
         Size: =12
+        Text: =gblFormError
         Visible: =Not(IsBlank(gblFormError))
+        Width: =Parent.Width - 32
+        X: =16
+        Y: =100
 
     recSectionIdSCS As rectangle:
+        Fill: =RGBA(1, 37, 84, 1)
+        Height: =28
+        Width: =Parent.Width
         X: =0
         Y: =128
-        Width: =Parent.Width
-        Height: =28
-        Fill: =RGBA(1, 37, 84, 1)
 
     lblSectionIdSCS As label:
-        X: =16
-        Y: =128
-        Width: =Parent.Width
-        Height: =28
-        Text: ="IDENTIFICATION"
         Color: =RGBA(255, 255, 255, 1)
         Font: =Font.'Segoe UI'
-        Size: =12
         FontWeight: =FontWeight.Semibold
+        Height: =28
+        Size: =12
+        Text: ="IDENTIFICATION"
+        Width: =Parent.Width
+        X: =16
+        Y: =128
 
     lblCRNumLblSCS As label:
+        Color: =RGBA(192, 57, 43, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =12
+        Text: ="❗ CR Number *"
+        Width: =400
         X: =16
         Y: =164
-        Width: =400
-        Height: =18
-        Text: ="❗ CR Number *"
-        Color: =RGBA(192, 57, 43, 1)
-        Font: =Font.'Segoe UI'
-        Size: =12
 
     txtCRNumSCS As text:
-        X: =16
-        Y: =184
-        Width: =400
-        Height: =36
-        HintText: ="e.g. CR05 or CR123"
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
         Default: =gblDetailCR.CRNumber
         Font: =Font.'Segoe UI'
-        Size: =13
-        BorderColor: =RGBA(180, 196, 218, 1)
-        BorderThickness: =1
-        RadiusTopLeft: =6
-        RadiusTopRight: =6
+        Height: =36
+        HintText: ="e.g. CR05 or CR123"
         RadiusBottomLeft: =6
         RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =400
+        X: =16
+        Y: =184
 
     lblProgCodeLblSCS As label:
-        X: =16
-        Y: =232
-        Width: =640
-        Height: =18
-        Text: ="❗ Programme Code *"
         Color: =RGBA(192, 57, 43, 1)
         Font: =Font.'Segoe UI'
+        Height: =18
         Size: =12
+        Text: ="❗ Programme Code *"
+        Width: =640
+        X: =16
+        Y: =232
 
     txtProgCodeSCS As text:
-        X: =16
-        Y: =252
-        Width: =640
-        Height: =36
-        HintText: ="e.g. A380, A32X"
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
         Default: =gblDetailCR.ProgrammeCode
         Font: =Font.'Segoe UI'
-        Size: =13
-        BorderColor: =RGBA(180, 196, 218, 1)
-        BorderThickness: =1
-        RadiusTopLeft: =6
-        RadiusTopRight: =6
+        Height: =36
+        HintText: ="e.g. A380, A32X"
         RadiusBottomLeft: =6
         RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =640
+        X: =16
+        Y: =252
 
     lblProgNameLblSCS As label:
+        Color: =RGBA(192, 57, 43, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =12
+        Text: ="❗ Programme Name *"
+        Width: =Parent.Width - 716
         X: =700
         Y: =232
-        Width: =Parent.Width - 716
-        Height: =18
-        Text: ="❗ Programme Name *"
-        Color: =RGBA(192, 57, 43, 1)
-        Font: =Font.'Segoe UI'
-        Size: =12
 
     txtProgNameSCS As text:
-        X: =700
-        Y: =252
-        Width: =Parent.Width - 716
-        Height: =36
-        HintText: ="e.g. A380 Horizon"
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
         Default: =gblDetailCR.ProgrammeName
         Font: =Font.'Segoe UI'
-        Size: =13
-        BorderColor: =RGBA(180, 196, 218, 1)
-        BorderThickness: =1
-        RadiusTopLeft: =6
-        RadiusTopRight: =6
+        Height: =36
+        HintText: ="e.g. A380 Horizon"
         RadiusBottomLeft: =6
         RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =Parent.Width - 716
+        X: =700
+        Y: =252
 
     lblTitleLblSCS As label:
+        Color: =RGBA(192, 57, 43, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =12
+        Text: ="❗ CR Title *"
+        Width: =Parent.Width - 32
         X: =16
         Y: =300
-        Width: =Parent.Width - 32
-        Height: =18
-        Text: ="❗ CR Title *"
-        Color: =RGBA(192, 57, 43, 1)
-        Font: =Font.'Segoe UI'
-        Size: =12
 
     txtTitleSCS As text:
-        X: =16
-        Y: =320
-        Width: =Parent.Width - 32
-        Height: =36
-        HintText: ="Descriptive title (will be uppercased)"
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
         Default: =gblDetailCR.CRTitle
         Font: =Font.'Segoe UI'
-        Size: =13
-        BorderColor: =RGBA(180, 196, 218, 1)
-        BorderThickness: =1
-        RadiusTopLeft: =6
-        RadiusTopRight: =6
+        Height: =36
+        HintText: ="Descriptive title (will be uppercased)"
         RadiusBottomLeft: =6
         RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =Parent.Width - 32
+        X: =16
+        Y: =320
 
     lblSupplierLblSCS As label:
-        X: =16
-        Y: =368
-        Width: =640
-        Height: =18
-        Text: ="Supplier"
         Color: =RGBA(33, 33, 33, 1)
         Font: =Font.'Segoe UI'
+        Height: =18
         Size: =12
+        Text: ="Supplier"
+        Width: =640
+        X: =16
+        Y: =368
 
     txtSupplierSCS As text:
-        X: =16
-        Y: =388
-        Width: =640
-        Height: =36
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
         Default: =gblDetailCR.Supplier
         Font: =Font.'Segoe UI'
-        Size: =13
-        BorderColor: =RGBA(180, 196, 218, 1)
-        BorderThickness: =1
-        RadiusTopLeft: =6
-        RadiusTopRight: =6
+        Height: =36
         RadiusBottomLeft: =6
         RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =640
+        X: =16
+        Y: =388
 
     lblSupRefLblSCS As label:
+        Color: =RGBA(33, 33, 33, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =12
+        Text: ="Supplier Reference"
+        Width: =Parent.Width - 716
         X: =700
         Y: =368
-        Width: =Parent.Width - 716
-        Height: =18
-        Text: ="Supplier Reference"
-        Color: =RGBA(33, 33, 33, 1)
-        Font: =Font.'Segoe UI'
-        Size: =12
 
     txtSupRefSCS As text:
-        X: =700
-        Y: =388
-        Width: =Parent.Width - 716
-        Height: =36
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
         Default: =gblDetailCR.SupplierReference
         Font: =Font.'Segoe UI'
-        Size: =13
-        BorderColor: =RGBA(180, 196, 218, 1)
-        BorderThickness: =1
-        RadiusTopLeft: =6
-        RadiusTopRight: =6
+        Height: =36
         RadiusBottomLeft: =6
         RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =Parent.Width - 716
+        X: =700
+        Y: =388
 
     lblPMLblSCS As label:
-        X: =16
-        Y: =436
-        Width: =640
-        Height: =18
-        Text: ="❗ Project Manager *"
         Color: =RGBA(192, 57, 43, 1)
         Font: =Font.'Segoe UI'
+        Height: =18
         Size: =12
+        Text: ="❗ Project Manager *"
+        Width: =640
+        X: =16
+        Y: =436
 
     cmbPMSCS As combobox:
-        X: =16
-        Y: =456
-        Width: =640
-        Height: =36
-        Items: =Filter(CRUserAdmin, IsActive)
-        SearchField: ="Title"
+        BorderColor: =RGBA(180, 196, 218, 1)
         DefaultSelectedItems: =Filter(CRUserAdmin, Email = gblDetailCR.ProjectManager.Email)
         Font: =Font.'Segoe UI'
-        Size: =13
-        BorderColor: =RGBA(180, 196, 218, 1)
-
-    lblSponsorLblSCS As label:
-        X: =700
-        Y: =436
-        Width: =Parent.Width - 716
-        Height: =18
-        Text: ="❗ CR Sponsor *"
-        Color: =RGBA(192, 57, 43, 1)
-        Font: =Font.'Segoe UI'
-        Size: =12
-
-    cmbSponsorSCS As combobox:
-        X: =700
-        Y: =456
-        Width: =Parent.Width - 716
         Height: =36
         Items: =Filter(CRUserAdmin, IsActive)
         SearchField: ="Title"
-        DefaultSelectedItems: =Filter(CRUserAdmin, Email = gblDetailCR.CRSponsor.Email)
-        Font: =Font.'Segoe UI'
-        Size: =13
-        BorderColor: =RGBA(180, 196, 218, 1)
-
-    lblAIPSGLblSCS As label:
-        X: =16
-        Y: =504
         Width: =640
-        Height: =18
-        Text: ="❗ AIPSG Target Date *"
+        X: =16
+        Y: =456
+
+    lblSponsorLblSCS As label:
         Color: =RGBA(192, 57, 43, 1)
         Font: =Font.'Segoe UI'
+        Height: =18
         Size: =12
+        Text: ="❗ CR Sponsor *"
+        Width: =Parent.Width - 716
+        X: =700
+        Y: =436
+
+    cmbSponsorSCS As combobox:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        DefaultSelectedItems: =Filter(CRUserAdmin, Email = gblDetailCR.CRSponsor.Email)
+        Font: =Font.'Segoe UI'
+        Height: =36
+        Items: =Filter(CRUserAdmin, IsActive)
+        SearchField: ="Title"
+        Width: =Parent.Width - 716
+        X: =700
+        Y: =456
+
+    lblAIPSGLblSCS As label:
+        Color: =RGBA(192, 57, 43, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =12
+        Text: ="❗ AIPSG Target Date *"
+        Width: =640
+        X: =16
+        Y: =504
 
     dteAIPSGSCS As datepicker:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
+        DefaultDate: =gblDetailCR.AIPSGTargetDate
+        Font: =Font.'Segoe UI'
+        Format: =DateTimeFormat.ShortDate
+        Height: =36
+        Size: =13
+        Width: =640
         X: =16
         Y: =524
-        Width: =640
-        Height: =36
-        DefaultDate: =gblDetailCR.AIPSGTargetDate
-        Format: =DateTimeFormat.ShortDate
-        Font: =Font.'Segoe UI'
-        Size: =13
-        BorderColor: =RGBA(180, 196, 218, 1)
-        BorderThickness: =1
 
     lblSubDeadlineLblSCS As label:
-        X: =700
-        Y: =504
-        Width: =Parent.Width - 716
-        Height: =18
-        Text: ="Submission Deadline"
         Color: =RGBA(33, 33, 33, 1)
         Font: =Font.'Segoe UI'
+        Height: =18
         Size: =12
+        Text: ="Submission Deadline"
+        Width: =Parent.Width - 716
+        X: =700
+        Y: =504
 
     dteDeadlineSCS As datepicker:
-        X: =700
-        Y: =524
-        Width: =Parent.Width - 716
-        Height: =36
-        DefaultDate: =gblDetailCR.SubmissionDeadline
-        Format: =DateTimeFormat.ShortDate
-        Font: =Font.'Segoe UI'
-        Size: =13
         BorderColor: =RGBA(180, 196, 218, 1)
         BorderThickness: =1
+        DefaultDate: =gblDetailCR.SubmissionDeadline
+        Font: =Font.'Segoe UI'
+        Format: =DateTimeFormat.ShortDate
+        Height: =36
+        Size: =13
+        Width: =Parent.Width - 716
+        X: =700
+        Y: =524
+
