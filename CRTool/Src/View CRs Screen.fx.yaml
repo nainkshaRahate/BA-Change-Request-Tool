@@ -130,7 +130,7 @@
         BorderColor: =RGBA(180, 196, 218, 1)
         Font: =Font.'Segoe UI'
         Height: =34
-        Items: =Distinct(CRRequests, ProgrammeName)
+        Items: =["All Programmes"] & Sort(Distinct(CRRequests, ProgrammeName), AsText, SortOrder.Ascending)
         Size: =12
         Width: =200
         X: =516
@@ -154,6 +154,7 @@
                 (IsBlank(txtSearchVCS.Text) Or txtSearchVCS.Text in Title Or txtSearchVCS.Text in CRNumber),
                 (ddlStatusVCS.Selected.Value = "All" Or CRStatus.Value = ddlStatusVCS.Selected.Value),
                 (ddlProgrammeVCS.Selected.Value = "All Programmes" Or ProgrammeName = ddlProgrammeVCS.Selected.Value),
+                (IsBlank(ddlAIPSGVCS.Selected) Or ddlAIPSGVCS.Selected.MeetingDate = AIPSGTargetDate),
                 (Not(IsDraft) Or Originator.Email = User().Email Or gblIsPMO)
               ),
               AIPSGTargetDate, SortOrder.Ascending
