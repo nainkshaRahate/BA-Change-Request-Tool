@@ -183,6 +183,7 @@
             Y: =140
 
         galStatusDS As gallery:
+            Fill: =RGBA(255, 255, 255, 1)
             Height: =100
             Items: =["Draft","Submitted","In Assessment","PMO Consolidation","Programme Meeting","SG Review","Approved","Rejected","Deferred"]
             Layout: =Layout.Horizontal
@@ -530,6 +531,7 @@
             Y: =470
 
         galProgTableDS As gallery:
+            Fill: =RGBA(255, 255, 255, 1)
             Height: =Parent.Height - 506
             Items: =colProgrammeStats
             TemplateHeight: =40
