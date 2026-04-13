@@ -127,7 +127,7 @@
 
     galCRListPCS As gallery:
         Height: =Parent.Height - 171
-        Items: =Filter(CRRequests, CRStatus.Value In ["Submitted","PMO Review","In Assessment","PMO Consolidation"])
+        Items: =Filter(CRRequests, CRStatus.Value = "Submitted" || CRStatus.Value = "In Assessment" || CRStatus.Value = "PMO Consolidation")
         OnSelect: =Set(gblConsolidationCR, ThisItem)
         TemplateHeight: =80
         TemplatePadding: =0

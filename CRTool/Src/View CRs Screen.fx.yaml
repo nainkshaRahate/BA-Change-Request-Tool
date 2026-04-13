@@ -120,7 +120,7 @@
         BorderColor: =RGBA(180, 196, 218, 1)
         Font: =Font.'Segoe UI'
         Height: =34
-        Items: =["All","Draft","Submitted","PMO Review","In Assessment","PMO Consolidation","Programme Meeting","Pre-SG Distribution","SG Review","Post-Meeting Edits","Approved","Deferred","Rejected","Closed"]
+        Items: =["All","New","Submitted","In Assessment","PMO Consolidation","Programme Meeting","Pre-SG Distribution","SG Review","Approved","Rejected","Closed"]
         Size: =12
         Width: =180
         X: =326
@@ -245,7 +245,7 @@
         lblAIPSGDateVCS As label:
             Color: |
                 =If(
-                  ThisItem.AIPSGTargetDate < Today() And Not(ThisItem.CRStatus.Value In ["Closed","Approved","Rejected"]),
+                  ThisItem.AIPSGTargetDate < Today() And ThisItem.CRStatus.Value <> "Closed" And ThisItem.CRStatus.Value <> "Approved" And ThisItem.CRStatus.Value <> "Rejected",
                   RGBA(192, 57, 43, 1),
                   DateDiff(Today(), ThisItem.AIPSGTargetDate, TimeUnit.Days) <= 14,
                   RGBA(243, 156, 18, 1),
