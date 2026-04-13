@@ -1,9 +1,0 @@
-{
-  "UsedTemplates": [
-    {
-      "Name": "galleryTemplate",
-      "Template": "<widget name=\"galleryTemplate\" id=\"http://microsoft.com/appmagic/gallery\" version=\"1.0\" xmlns=\"http://openajax.org/metadata\" xmlns:appMagic=\"http://schemas.microsoft.com/appMagic\">\n  <property name=\"TemplateSize\" datatype=\"Number\" defaultValue=\"160\" />\n  <property name=\"TemplatePadding\" datatype=\"Number\" defaultValue=\"2\" />\n  <appMagic:nestedWidgets></appMagic:nestedWidgets>\n</widget>",
-      "Version": "1.0"
-    }
-  ]
-}
