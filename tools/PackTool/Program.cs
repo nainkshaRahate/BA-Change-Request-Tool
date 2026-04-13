@@ -47,8 +47,6 @@ Console.Out.Flush();
 
 try
 {
-try
-{
     // Save to msapp - use dynamic to get better exception info
     Console.Error.WriteLine($"Saving to: {outputPath}");
     Console.Error.Flush();
@@ -57,20 +55,20 @@ try
     Console.Error.WriteLine("About to call SaveToMsApp...");
     Console.Error.Flush();
     ErrorContainer? saveResult = doc.SaveToMsApp(outputPath);
-    Console.WriteLine("SaveToMsApp returned!");
-    Console.Out.Flush();
+    Console.WriteLine("SaveToMsApp completed!");
 
-    Console.WriteLine($"Save result type: {saveResult?.GetType().Name ?? "null"}");
-    if (saveResult != null)
+    // Check if file was created
+    if (!File.Exists(outputPath))
     {
-        Console.WriteLine($"Error count: {saveResult.Count}");
-        if (saveResult.Count > 0)
+        Console.WriteLine("ERROR: msapp file was not created");
+        if (saveResult != null && saveResult.Count > 0)
         {
             using var sw = new StringWriter();
             saveResult.Write(sw);
-            Console.WriteLine("Errors:");
+            Console.WriteLine("Errors from SaveToMsApp:");
             Console.WriteLine(sw.ToString());
         }
+        Environment.Exit(1);
     }
 }
 catch (Exception ex)

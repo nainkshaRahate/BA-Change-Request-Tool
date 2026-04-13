@@ -69,3 +69,12 @@
 /private/tmp/PackTool/obj/Release/net10.0/PackTool.pdb
 /private/tmp/PackTool/obj/Release/net10.0/PackTool.genruntimeconfig.cache
 /private/tmp/PackTool/obj/Release/net10.0/ref/PackTool.dll
+/Users/dhammadeepborkar/Library/CloudStorage/OneDrive-ABSOLUTELABS/Dhamma/Office/Projects/BA/BA Change Request Tool/Repositories/BA-Change-Request-Tool/tools/PackTool/obj/Release/net10.0/PackTool.csproj.AssemblyReference.cache
+/Users/dhammadeepborkar/Library/CloudStorage/OneDrive-ABSOLUTELABS/Dhamma/Office/Projects/BA/BA Change Request Tool/Repositories/BA-Change-Request-Tool/tools/PackTool/obj/Release/net10.0/PackTool.GeneratedMSBuildEditorConfig.editorconfig
+/Users/dhammadeepborkar/Library/CloudStorage/OneDrive-ABSOLUTELABS/Dhamma/Office/Projects/BA/BA Change Request Tool/Repositories/BA-Change-Request-Tool/tools/PackTool/obj/Release/net10.0/PackTool.AssemblyInfoInputs.cache
+/Users/dhammadeepborkar/Library/CloudStorage/OneDrive-ABSOLUTELABS/Dhamma/Office/Projects/BA/BA Change Request Tool/Repositories/BA-Change-Request-Tool/tools/PackTool/obj/Release/net10.0/PackTool.AssemblyInfo.cs
+/Users/dhammadeepborkar/Library/CloudStorage/OneDrive-ABSOLUTELABS/Dhamma/Office/Projects/BA/BA Change Request Tool/Repositories/BA-Change-Request-Tool/tools/PackTool/obj/Release/net10.0/PackTool.csproj.CoreCompileInputs.cache
+/Users/dhammadeepborkar/Library/CloudStorage/OneDrive-ABSOLUTELABS/Dhamma/Office/Projects/BA/BA Change Request Tool/Repositories/BA-Change-Request-Tool/tools/PackTool/obj/Release/net10.0/PackTool.sourcelink.json
+/Users/dhammadeepborkar/Library/CloudStorage/OneDrive-ABSOLUTELABS/Dhamma/Office/Projects/BA/BA Change Request Tool/Repositories/BA-Change-Request-Tool/tools/PackTool/obj/Release/net10.0/PackTool.dll
+/Users/dhammadeepborkar/Library/CloudStorage/OneDrive-ABSOLUTELABS/Dhamma/Office/Projects/BA/BA Change Request Tool/Repositories/BA-Change-Request-Tool/tools/PackTool/obj/Release/net10.0/refint/PackTool.dll
+/Users/dhammadeepborkar/Library/CloudStorage/OneDrive-ABSOLUTELABS/Dhamma/Office/Projects/BA/BA Change Request Tool/Repositories/BA-Change-Request-Tool/tools/PackTool/obj/Release/net10.0/PackTool.pdb

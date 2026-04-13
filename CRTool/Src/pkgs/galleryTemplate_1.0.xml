@@ -1,0 +1,5 @@
+<widget name="galleryTemplate" id="http://microsoft.com/appmagic/gallery" version="1.0" xmlns="http://openajax.org/metadata" xmlns:appMagic="http://schemas.microsoft.com/appMagic">
+  <property name="TemplateSize" datatype="Number" defaultValue="160" />
+  <property name="TemplatePadding" datatype="Number" defaultValue="2" />
+  <appMagic:nestedWidgets></appMagic:nestedWidgets>
+</widget>

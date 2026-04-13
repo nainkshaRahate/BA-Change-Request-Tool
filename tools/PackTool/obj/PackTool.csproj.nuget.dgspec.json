@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/private/tmp/PackTool/PackTool.csproj": {}
+    "/Users/dhammadeepborkar/Library/CloudStorage/OneDrive-ABSOLUTELABS/Dhamma/Office/Projects/BA/BA Change Request Tool/Repositories/BA-Change-Request-Tool/tools/PackTool/PackTool.csproj": {}
   },
   "projects": {
-    "/private/tmp/PackTool/PackTool.csproj": {
+    "/Users/dhammadeepborkar/Library/CloudStorage/OneDrive-ABSOLUTELABS/Dhamma/Office/Projects/BA/BA Change Request Tool/Repositories/BA-Change-Request-Tool/tools/PackTool/PackTool.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/private/tmp/PackTool/PackTool.csproj",
+        "projectUniqueName": "/Users/dhammadeepborkar/Library/CloudStorage/OneDrive-ABSOLUTELABS/Dhamma/Office/Projects/BA/BA Change Request Tool/Repositories/BA-Change-Request-Tool/tools/PackTool/PackTool.csproj",
         "projectName": "PackTool",
-        "projectPath": "/private/tmp/PackTool/PackTool.csproj",
+        "projectPath": "/Users/dhammadeepborkar/Library/CloudStorage/OneDrive-ABSOLUTELABS/Dhamma/Office/Projects/BA/BA Change Request Tool/Repositories/BA-Change-Request-Tool/tools/PackTool/PackTool.csproj",
         "packagesPath": "/Users/dhammadeepborkar/.nuget/packages/",
-        "outputPath": "/private/tmp/PackTool/obj/",
+        "outputPath": "/Users/dhammadeepborkar/Library/CloudStorage/OneDrive-ABSOLUTELABS/Dhamma/Office/Projects/BA/BA Change Request Tool/Repositories/BA-Change-Request-Tool/tools/PackTool/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/dhammadeepborkar/.nuget/NuGet/NuGet.Config"
