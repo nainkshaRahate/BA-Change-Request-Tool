@@ -658,7 +658,7 @@
             FontWeight: =FontWeight.Bold
             Height: =32
             Size: =28
-            Text: =Text(CountRows(Filter(CRRequests As Req, Req.CRStatus.Value <> "Closed" && Req.CRStatus.Value <> "Approved" && Req.CRStatus.Value <> "Rejected", CountIf(CRStakeholderReviews, CRNumber.Id = Req.ID && (RAGStatus.Value = "Red" || RAGStatus.Value = "Amber")) = 0)))
+            Text: =Text(CountRows(Filter(CRRequests, CRStatus.Value <> "Closed" && CRStatus.Value <> "Approved" && CRStatus.Value <> "Rejected", CountIf(CRStakeholderReviews, CRNumber.CRNumber = ThisRecord.CRNumber, RAGStatus.Value = "Red" || RAGStatus.Value = "Amber") = 0)))
             Width: =300
             X: =28
             Y: =lblTileAllGreenLblDS.Y + lblTileAllGreenLblDS.Height
@@ -693,7 +693,7 @@
             FontWeight: =FontWeight.Bold
             Height: =32
             Size: =28
-            Text: =Text(CountRows(Filter(CRRequests As Req, Req.CRStatus.Value <> "Closed", CountIf(CRStakeholderReviews, CRNumber.Id = Req.ID && RAGStatus.Value = "Red") = 0 && CountIf(CRStakeholderReviews, CRNumber.Id = Req.ID && RAGStatus.Value = "Amber") > 0)))
+            Text: =Text(CountRows(Filter(CRRequests, CRStatus.Value <> "Closed", CountIf(CRStakeholderReviews, CRNumber.CRNumber = ThisRecord.CRNumber, RAGStatus.Value = "Red") = 0 && CountIf(CRStakeholderReviews, CRNumber.CRNumber = ThisRecord.CRNumber, RAGStatus.Value = "Amber") > 0)))
             Width: =300
             X: =360
             Y: =lblTileHasAmberLblDS.Y + lblTileHasAmberLblDS.Height
@@ -728,7 +728,7 @@
             FontWeight: =FontWeight.Bold
             Height: =32
             Size: =28
-            Text: =Text(CountRows(Filter(CRRequests As Req, Req.CRStatus.Value <> "Closed", CountIf(CRStakeholderReviews, CRNumber.Id = Req.ID && RAGStatus.Value = "Red") > 0)))
+            Text: =Text(CountRows(Filter(CRRequests, CRStatus.Value <> "Closed", CountIf(CRStakeholderReviews, CRNumber.CRNumber = ThisRecord.CRNumber, RAGStatus.Value = "Red") > 0)))
             Width: =300
             X: =692
             Y: =lblTileHasRedLblDS.Y + lblTileHasRedLblDS.Height
@@ -763,7 +763,7 @@
             FontWeight: =FontWeight.Bold
             Height: =32
             Size: =28
-            Text: =Text(CountRows(Filter(CRRequests As Req, Req.CRStatus.Value <> "Closed", CountIf(CRStakeholderReviews, CRNumber.Id = Req.ID && RAGStatus.Value = "Not Started") > 0)))
+            Text: =Text(CountRows(Filter(CRRequests, CRStatus.Value <> "Closed", CountIf(CRStakeholderReviews, CRNumber.CRNumber = ThisRecord.CRNumber, RAGStatus.Value = "Not Started") > 0)))
             Width: =318
             X: =1024
             Y: =lblTilePaleBlueLblDS.Y + lblTilePaleBlueLblDS.Height
