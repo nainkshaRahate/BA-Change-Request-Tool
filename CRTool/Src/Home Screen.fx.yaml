@@ -68,7 +68,7 @@
 
         btnViewCRsHS As button:
             BorderThickness: =0
-            Fill: =RGBA(0, 75, 135, 1)
+            Fill: =RGBA(7, 90, 170, 1)
             Font: =Font.'Segoe UI'
             Height: =54
             OnSelect: =Navigate('View CRs Screen', ScreenTransition.None)
@@ -83,7 +83,7 @@
 
         btnSubmitCRHS As button:
             BorderThickness: =0
-            Fill: =RGBA(186, 150, 46, 1)
+            Fill: =RGBA(235, 34, 38, 1)
             Font: =Font.'Segoe UI'
             Height: =54
             OnSelect: |
@@ -101,7 +101,7 @@
 
         btnTemplatesHS As button:
             BorderThickness: =0
-            Fill: =RGBA(0, 75, 135, 1)
+            Fill: =RGBA(1, 41, 92, 1)
             Font: =Font.'Segoe UI'
             Height: =54
             OnSelect: |-
@@ -117,7 +117,7 @@
 
         btnDashboardHS As button:
             BorderThickness: =0
-            Fill: =RGBA(186, 150, 46, 1)
+            Fill: =RGBA(185, 207, 237, 1)
             Font: =Font.'Segoe UI'
             Height: =54
             OnSelect: =Navigate('Dashboard Screen', ScreenTransition.None)
