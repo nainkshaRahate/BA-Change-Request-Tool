@@ -220,7 +220,7 @@
                 Y: =4
                 Width: =132
                 Height: =45
-                Text: ="New"
+                Text: ="Draft"
                 Color: =RGBA(174, 214, 241, 1)
                 Font: =Font.'Segoe UI'
                 FontWeight: =FontWeight.Bold
@@ -233,7 +233,7 @@
                 Y: =56
                 Width: =132
                 Height: =32
-                Text: =Text(CountRows(Filter(CRRequests, CRStatus.Value = "New")))
+                Text: =Text(CountRows(Filter(CRRequests, CRStatus.Value = "Draft")))
                 Color: =RGBA(255, 255, 255, 1)
                 Font: =Font.'Segoe UI'
                 Size: =24
