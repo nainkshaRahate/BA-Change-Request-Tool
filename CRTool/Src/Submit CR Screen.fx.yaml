@@ -189,7 +189,6 @@
                       Set(gblFormError, "Save failed — " & First(Errors(CRRequests)).Message);
                       Notify("Save failed: " & First(Errors(CRRequests)).Message, NotificationType.Error)
                     )
-                    )
                 RadiusBottomLeft: =6
                 RadiusBottomRight: =6
                 RadiusTopLeft: =6
@@ -395,7 +394,7 @@
         DefaultSelectedItems: =Filter(CRUserAdmin, Email = gblDetailCR.ProjectManager.Email)
         Font: =Font.'Segoe UI'
         Height: =36
-        Items: =Filter(CRUserAdmin, IsActive)
+        Items: =CRUserAdmin
         SearchField: ="Title"
         Width: =640
         X: =16
@@ -416,7 +415,7 @@
         DefaultSelectedItems: =Filter(CRUserAdmin, Email = gblDetailCR.CRSponsor.Email)
         Font: =Font.'Segoe UI'
         Height: =36
-        Items: =Filter(CRUserAdmin, IsActive)
+        Items: =CRUserAdmin
         SearchField: ="Title"
         Width: =Parent.Width - 716
         X: =700

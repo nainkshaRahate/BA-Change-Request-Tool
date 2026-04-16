@@ -141,7 +141,7 @@
             RadiusTopLeft: =6
             RadiusTopRight: =6
             Text: ="PMO Consolidation"
-            Visible: =If(IsBlank(gblIsPMO), true, gblIsPMO)
+            Visible: =IsBlank(gblCurrentUserRole) Or gblIsPMO
             Width: =500
             X: =btnViewCRsHS.X
             Y: =btnTemplatesHS.Y + btnTemplatesHS.Height + 12
@@ -157,7 +157,7 @@
             RadiusTopLeft: =6
             RadiusTopRight: =6
             Text: ="Programme Meeting"
-            Visible: =If(IsBlank(gblIsPMO), true, gblIsPMO)
+            Visible: =IsBlank(gblCurrentUserRole) Or gblIsPMO
             Width: =500
             X: =btnSubmitCRHS.X
             Y: =btnPMOConsHS.Y

@@ -89,6 +89,58 @@
             X: =16
             Y: =conSubNavUAS.Y + conSubNavUAS.Height + 8
 
+        recColHeaderBgUAS As rectangle:
+            Fill: =RGBA(0, 22, 55, 1)
+            Height: =32
+            Width: =Parent.Width
+            X: =0
+            Y: =txtSearchUAS.Y + txtSearchUAS.Height + 4
+
+        lblColNameUAS As label:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            PaddingLeft: =16
+            Size: =11
+            Text: ="Name"
+            Width: =280
+            X: =0
+            Y: =recColHeaderBgUAS.Y
+
+        lblColRoleUAS As label:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            Size: =11
+            Text: ="Role"
+            Width: =170
+            X: =300
+            Y: =recColHeaderBgUAS.Y
+
+        lblColGroupUAS As label:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            Size: =11
+            Text: ="Stakeholder Group"
+            Width: =240
+            X: =478
+            Y: =recColHeaderBgUAS.Y
+
+        lblColActiveUAS As label:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            Size: =11
+            Text: ="Active"
+            Width: =100
+            X: =726
+            Y: =recColHeaderBgUAS.Y
+
         galUsersUAS As gallery:
             Height: =Parent.Height - Self.Y
             Items: =Filter(CRUserAdmin, IsBlank(txtSearchUAS.Text) Or txtSearchUAS.Text in Title)
@@ -96,7 +148,7 @@
             TemplatePadding: =0
             Width: =Parent.Width
             X: =0
-            Y: =txtSearchUAS.Y + txtSearchUAS.Height + 11
+            Y: =recColHeaderBgUAS.Y + recColHeaderBgUAS.Height
 
             recRowBgUAS As rectangle:
                 Fill: =If(IsEven(ThisItem.ID), RGBA(249, 249, 249, 1), RGBA(255, 255, 255, 1))
@@ -110,169 +162,73 @@
                 Height: =1
                 Width: =Parent.Width
                 X: =0
-                Y: =58
+                Y: =59
 
             lblUserNameUAS As label:
-                Color: =RGBA(255, 255, 255, 1)
+                Color: =RGBA(33, 33, 33, 1)
                 Font: =Font.'Segoe UI'
-                FontWeight: =FontWeight.Bold
-                Height: =44
+                FontWeight: =FontWeight.Semibold
+                Height: =36
                 Text: =ThisItem.Title
-                Width: =200
+                Width: =280
                 X: =16
-                Y: =8
+                Y: =12
 
-        lblUserTeamUAS As label:
-            Color: =RGBA(117, 117, 117, 1)
-            Font: =Font.'Segoe UI'
-            Height: =44
-            Size: =12
-            Text: =If(IsBlank(ThisItem.Team), "—", ThisItem.Team)
-            Width: =150
-            X: =224
-            Y: =8
+            ddlRoleUAS As dropdown:
+                BorderColor: =RGBA(180, 196, 218, 1)
+                Default: =ThisItem.Role.Value
+                Font: =Font.'Segoe UI'
+                Height: =36
+                Items: =["Admin","PMO","Programme Manager","Stakeholder"]
+                Size: =11
+                Width: =160
+                X: =300
+                Y: =12
 
-        recRoleBadgeUAS As rectangle:
-            Fill: |
-                =Switch(ThisItem.Role.Value,
-                  "Admin", RGBA(192,57,43,1),
-                  "PMO", RGBA(31,55,100,1),
-                  "Programme Manager", RGBA(31,55,100,1),
-                  RGBA(39,174,96,1)
-                )
-            Height: =24
-            RadiusBottomLeft: =6
-            RadiusBottomRight: =6
-            RadiusTopLeft: =6
-            RadiusTopRight: =6
-            Width: =80
-            X: =382
-            Y: =14
+            ddlGroupUAS As dropdown:
+                BorderColor: =RGBA(180, 196, 218, 1)
+                Default: =ThisItem.StakeholderGroup.Value
+                Font: =Font.'Segoe UI'
+                Height: =36
+                Items: =["","Engineering Programmes","Engineering Technical","Onboard Experience","Finance","Procurement","Other"]
+                Size: =11
+                Width: =234
+                X: =468
+                Y: =12
 
-        lblRoleBadgeUAS As label:
-            Align: =Align.Center
-            Color: =RGBA(255, 255, 255, 1)
-            Font: =Font.'Segoe UI'
-            FontWeight: =FontWeight.Semibold
-            Height: =24
-            Size: =9
-            Text: =ThisItem.Role.Value
-            Width: =80
-            X: =382
-            Y: =14
+            tglActiveUAS As toggleSwitch:
+                Default: =ThisItem.IsActive
+                Font: =Font.'Segoe UI'
+                Height: =36
+                OffText: ="No"
+                OnText: ="Yes"
+                Size: =10
+                Width: =88
+                X: =710
+                Y: =12
 
-        recGroupBadgeUAS As rectangle:
-            Fill: =RGBA(149, 165, 166, 1)
-            Height: =24
-            RadiusBottomLeft: =6
-            RadiusBottomRight: =6
-            RadiusTopLeft: =6
-            RadiusTopRight: =6
-            Visible: =Not(IsBlank(ThisItem.StakeholderGroup.Value))
-            Width: =140
-            X: =470
-            Y: =14
-
-        lblGroupBadgeUAS As label:
-            Align: =Align.Center
-            Color: =RGBA(255, 255, 255, 1)
-            Font: =Font.'Segoe UI'
-            Height: =24
-            Size: =9
-            Text: =ThisItem.StakeholderGroup.Value
-            Visible: =Not(IsBlank(ThisItem.StakeholderGroup.Value))
-            Width: =140
-            X: =470
-            Y: =14
-
-        lblEditRoleLblUAS As label:
-            Color: =RGBA(255, 255, 255, 1)
-            Font: =Font.'Segoe UI'
-            Height: =20
-            Size: =11
-            Text: |-
-                ="Role:"
-            Width: =80
-            X: =630
-            Y: =150
-
-        ddlRoleUAS As dropdown:
-            BorderColor: =RGBA(180, 196, 218, 1)
-            Default: =ThisItem.Role.Value
-            Font: =Font.'Segoe UI'
-            Height: =28
-            Items: =["Admin","PMO","Programme Manager","Stakeholder"]
-            Size: =11
-            Width: =160
-            X: =630
-            Y: =170
-
-        lblEditGroupLblUAS As label:
-            Color: =RGBA(255, 255, 255, 1)
-            Font: =Font.'Segoe UI'
-            Height: =20
-            Size: =11
-            Text: |-
-                ="Stakeholder Group:"
-            Width: =120
-            X: =800
-            Y: =150
-
-        ddlGroupUAS As dropdown:
-            BorderColor: =RGBA(180, 196, 218, 1)
-            Default: =ThisItem.StakeholderGroup.Value
-            Font: =Font.'Segoe UI'
-            Height: =28
-            Items: =["","Engineering Programmes","Engineering Technical","Onboard Experience","Finance","Procurement","Other"]
-            Size: =11
-            Width: =200
-            X: =800
-            Y: =170
-
-        lblActiveLblUAS As label:
-            Color: =RGBA(255, 255, 255, 1)
-            Font: =Font.'Segoe UI'
-            Height: =20
-            Size: =11
-            Text: |-
-                ="Active:"
-            Width: =60
-            X: =1010
-            Y: =150
-
-        tglActiveUAS As toggleSwitch:
-            Default: =ThisItem.IsActive
-            Font: =Font.'Segoe UI'
-            Height: =28
-            OffText: ="No"
-            OnText: ="Yes"
-            Size: =10
-            Width: =60
-            X: =1010
-            Y: =170
-
-        btnSaveUAS As button:
-            BorderThickness: =0
-            Fill: =RGBA(1, 37, 84, 1)
-            Font: =Font.'Segoe UI'
-            Height: =30
-            OnSelect: |
-                =Patch(CRUserAdmin, ThisItem, {
-                  Role: {Value: ddlRoleUAS.Selected.Value},
-                  StakeholderGroup: {Value: ddlGroupUAS.Selected.Value},
-                  IsActive: tglActiveUAS.Value
-                });
-                If(IsEmpty(Errors(CRUserAdmin)),
-                  Notify("User updated.", NotificationType.Success),
-                  Notify("Save failed — " & First(Errors(CRUserAdmin)).Message, NotificationType.Error)
-                )
-            RadiusBottomLeft: =6
-            RadiusBottomRight: =6
-            RadiusTopLeft: =6
-            RadiusTopRight: =6
-            Size: =12
-            Text: ="Save"
-            Width: =80
-            X: =1080
-            Y: =14
+            btnSaveUAS As button:
+                BorderThickness: =0
+                Fill: =RGBA(1, 37, 84, 1)
+                Font: =Font.'Segoe UI'
+                Height: =36
+                OnSelect: |
+                    =Patch(CRUserAdmin, ThisItem, {
+                      Role: {Value: ddlRoleUAS.Selected.Value},
+                      StakeholderGroup: {Value: ddlGroupUAS.Selected.Value},
+                      IsActive: tglActiveUAS.Value
+                    });
+                    If(IsEmpty(Errors(CRUserAdmin)),
+                      Notify("User updated successfully.", NotificationType.Success),
+                      Notify("Save failed — " & First(Errors(CRUserAdmin)).Message, NotificationType.Error)
+                    )
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                Size: =12
+                Text: ="Save"
+                Width: =90
+                X: =Parent.Width - 106
+                Y: =12
 
