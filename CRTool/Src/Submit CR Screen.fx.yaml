@@ -9,10 +9,12 @@
         */
         // Clear any stale validation error from a previous navigation.
         Set(gblFormError, "");
-        // Pre-load active users into a local collection — combobox Items bound to
-        // a direct data-source reference renders empty after pack/unpack, so seed
+        // Pre-load users into a local collection — combobox Items bound to a
+        // direct data-source reference renders empty after pack/unpack, so seed
         // once here and bind combobox.Items to the stable collection.
-        ClearCollect(colUsersSCS, Filter(CRUserAdmin, IsActive = true))
+        // No IsActive filter: the column may be blank on pre-existing rows and
+        // the filter silently removes them all.
+        ClearCollect(colUsersSCS, CRUserAdmin)
 
     conMainSCS As groupContainer:
         Height: =Parent.Height

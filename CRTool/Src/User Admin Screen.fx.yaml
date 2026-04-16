@@ -143,12 +143,12 @@
             Y: =recColHeaderBgUAS.Y
 
         galUsersUAS As gallery:
-            Fill: =RGBA(255, 255, 255, 1)
+            Fill: =RGBA(1, 37, 84, 1)
             Height: =Parent.Height - Self.Y
             Items: =Filter(CRUserAdmin, IsBlank(txtSearchUAS.Text) Or txtSearchUAS.Text in Title)
             Layout: =Layout.Vertical
             ShowScrollbar: =true
-            TemplateFill: =If(IsEven(ThisItem.ID), RGBA(249, 249, 249, 1), RGBA(255, 255, 255, 1))
+            TemplateFill: =If(IsEven(ThisItem.ID), RGBA(0, 22, 55, 1), RGBA(1, 37, 84, 1))
             TemplateHeight: =60
             TemplatePadding: =0
             WrapCount: =1
@@ -157,7 +157,7 @@
             Y: =recColHeaderBgUAS.Y + recColHeaderBgUAS.Height
 
             recRowBgUAS As rectangle:
-                Fill: =If(IsEven(ThisItem.ID), RGBA(249, 249, 249, 1), RGBA(255, 255, 255, 1))
+                Fill: =If(IsEven(ThisItem.ID), RGBA(0, 22, 55, 1), RGBA(1, 37, 84, 1))
                 Height: =59
                 Width: =Parent.Width
                 X: =0
@@ -171,10 +171,11 @@
                 Y: =59
 
             lblUserNameUAS As label:
-                Color: =RGBA(33, 33, 33, 1)
+                Color: =RGBA(255, 255, 255, 1)
                 Font: =Font.'Segoe UI'
                 FontWeight: =FontWeight.Semibold
                 Height: =36
+                Size: =13
                 Text: =ThisItem.Title
                 Width: =280
                 X: =16
