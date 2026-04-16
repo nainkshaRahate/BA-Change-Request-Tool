@@ -55,20 +55,20 @@ try
     Console.Error.WriteLine("About to call SaveToMsApp...");
     Console.Error.Flush();
     ErrorContainer? saveResult = doc.SaveToMsApp(outputPath);
-    Console.WriteLine("SaveToMsApp completed!");
+    Console.WriteLine("SaveToMsApp returned!");
+    Console.Out.Flush();
 
-    // Check if file was created
-    if (!File.Exists(outputPath))
+    Console.WriteLine($"Save result type: {saveResult?.GetType().Name ?? "null"}");
+    if (saveResult != null)
     {
-        Console.WriteLine("ERROR: msapp file was not created");
-        if (saveResult != null && saveResult.Count > 0)
+        using var sw = new StringWriter();
+        saveResult.Write(sw);
+        var errText = sw.ToString();
+        if (!string.IsNullOrWhiteSpace(errText))
         {
-            using var sw = new StringWriter();
-            saveResult.Write(sw);
-            Console.WriteLine("Errors from SaveToMsApp:");
-            Console.WriteLine(sw.ToString());
+            Console.WriteLine("Save errors:");
+            Console.WriteLine(errText);
         }
-        Environment.Exit(1);
     }
 }
 catch (Exception ex)

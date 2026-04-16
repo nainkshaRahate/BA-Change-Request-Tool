@@ -186,7 +186,7 @@
             Y: =14
 
         lblEditRoleLblUAS As label:
-            Color: =RGBA(33, 33, 33, 1)
+            Color: =RGBA(255, 255, 255, 1)
             Font: =Font.'Segoe UI'
             Height: =20
             Size: =11
@@ -208,7 +208,7 @@
             Y: =170
 
         lblEditGroupLblUAS As label:
-            Color: =RGBA(33, 33, 33, 1)
+            Color: =RGBA(255, 255, 255, 1)
             Font: =Font.'Segoe UI'
             Height: =20
             Size: =11
@@ -230,7 +230,7 @@
             Y: =170
 
         lblActiveLblUAS As label:
-            Color: =RGBA(33, 33, 33, 1)
+            Color: =RGBA(255, 255, 255, 1)
             Font: =Font.'Segoe UI'
             Height: =20
             Size: =11

@@ -120,7 +120,7 @@
         BorderColor: =RGBA(180, 196, 218, 1)
         Font: =Font.'Segoe UI'
         Height: =34
-        Items: =["All","New","Submitted","In Assessment","PMO Consolidation","Programme Meeting","Pre-SG Distribution","SG Review","Approved","Rejected","Closed"]
+        Items: =["All","Draft","Submitted","In Assessment","PMO Consolidation","Programme Meeting","Pre-SG Distribution","SG Review","Approved","Rejected","Closed"]
         Size: =12
         Width: =180
         X: =326

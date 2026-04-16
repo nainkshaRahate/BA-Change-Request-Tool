@@ -141,7 +141,7 @@
             RadiusTopLeft: =6
             RadiusTopRight: =6
             Text: ="PMO Consolidation"
-            Visible: =gblIsPMO
+            Visible: =If(IsBlank(gblIsPMO), true, gblIsPMO)
             Width: =500
             X: =btnViewCRsHS.X
             Y: =btnTemplatesHS.Y + btnTemplatesHS.Height + 12
@@ -157,10 +157,25 @@
             RadiusTopLeft: =6
             RadiusTopRight: =6
             Text: ="Programme Meeting"
-            Visible: =gblIsPMO
+            Visible: =If(IsBlank(gblIsPMO), true, gblIsPMO)
             Width: =500
             X: =btnSubmitCRHS.X
             Y: =btnPMOConsHS.Y
+
+        btnStakeholderAssHS As button:
+            BorderThickness: =0
+            Fill: =RGBA(0, 75, 135, 1)
+            Font: =Font.'Segoe UI'
+            Height: =54
+            OnSelect: =Navigate('Stakeholder Assessment Screen', ScreenTransition.None)
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            Text: ="Stakeholder Assessment"
+            Width: =1010
+            X: =btnViewCRsHS.X
+            Y: =btnPMOConsHS.Y + btnPMOConsHS.Height + 12
 
         btnUserAdminHS As button:
             BorderColor: =RGBA(186, 150, 46, 0.5)
@@ -177,7 +192,7 @@
             Text: ="User Administration"
             Width: =1010
             X: =btnViewCRsHS.X
-            Y: =btnPMOConsHS.Y + btnPMOConsHS.Height + 12
+            Y: =btnStakeholderAssHS.Y + btnStakeholderAssHS.Height + 12
 
         recRoleBadgeHS As rectangle:
             Fill: =Switch(gblCurrentUserRole, "Admin", RGBA(192,57,43,1), "PMO", RGBA(0,75,135,1), "Programme Manager", RGBA(0,75,135,1), RGBA(0,120,100,1))

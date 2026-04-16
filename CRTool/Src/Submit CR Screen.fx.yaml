@@ -125,52 +125,52 @@
                 X: =Parent.Width - 300
                 Y: =btnHomeSCS.Y + 1
 
-    btnContinueSCS As button:
-        BorderThickness: =0
-        Fill: =RGBA(1, 37, 84, 1)
-        Font: =Font.'Segoe UI'
-        Height: =34
-        OnSelect: |
-            =If(
-              IsBlank(txtCRNumSCS.Text) Or IsBlank(txtProgCodeSCS.Text) Or IsBlank(txtProgNameSCS.Text) Or IsBlank(txtTitleSCS.Text) Or IsBlank(cmbPMSCS.Selected.Email) Or IsBlank(cmbSponsorSCS.Selected.Email) Or IsBlank(dteAIPSGSCS.SelectedDate),
-              Set(gblFormError, "Please complete all required fields (*) before continuing"),
-              Set(gblFormError, "");
-              Set(gblDetailCR,
-                Patch(CRRequests,
-                  If(gblCRMode = "New", Defaults(CRRequests), gblDetailCR),
-                  {
-                    Title: Upper(txtProgCodeSCS.Text) & ": " & txtCRNumSCS.Text & " - " & Upper(txtTitleSCS.Text),
-                    CRNumber: txtCRNumSCS.Text,
-                    ProgrammeCode: Upper(txtProgCodeSCS.Text),
-                    ProgrammeName: txtProgNameSCS.Text,
-                    CRTitle: Upper(txtTitleSCS.Text),
-                    Supplier: txtSupplierSCS.Text,
-                    SupplierReference: txtSupRefSCS.Text,
-                    ProjectManager: {Claims: "i:0#.f|membership|" & cmbPMSCS.Selected.Email, DisplayName: cmbPMSCS.Selected.Title, Department: ""},
-                    CRSponsor: {Claims: "i:0#.f|membership|" & cmbSponsorSCS.Selected.Email, DisplayName: cmbSponsorSCS.Selected.Title, Department: ""},
-                    AIPSGTargetDate: dteAIPSGSCS.SelectedDate,
-                    SubmissionDeadline: dteDeadlineSCS.SelectedDate,
-                    IsDraft: true,
-                    CRStatus: {Value: "Draft"},
-                    Originator: {Claims: "i:0#.f|membership|" & User().Email, DisplayName: User().FullName, Department: ""}
-                  }
-                )
-              );
-              If(IsEmpty(Errors(CRRequests)),
-                Set(gblCRMode, "Edit");
-                Navigate('Submit CR B Screen', ScreenTransition.None),
-                Set(gblFormError, "Save failed — " & First(Errors(CRRequests)).Message)
-              )
-            )
-        RadiusBottomLeft: =6
-        RadiusBottomRight: =6
-        RadiusTopLeft: =6
-        RadiusTopRight: =6
-        Size: =13
-        Text: ="Next →"
-        Width: =150
-        X: =Parent.Width - 162
-        Y: =58
+            btnContinueSCS As button:
+                BorderThickness: =0
+                Fill: =RGBA(1, 37, 84, 1)
+                Font: =Font.'Segoe UI'
+                Height: =34
+                OnSelect: |
+                    =If(
+                      IsBlank(txtCRNumSCS.Text) Or IsBlank(txtProgCodeSCS.Text) Or IsBlank(txtProgNameSCS.Text) Or IsBlank(txtTitleSCS.Text) Or IsBlank(cmbPMSCS.Selected.Email) Or IsBlank(cmbSponsorSCS.Selected.Email) Or IsBlank(dteAIPSGSCS.SelectedDate),
+                      Set(gblFormError, "Please complete all required fields (*) before continuing"),
+                      Set(gblFormError, "");
+                      Set(gblDetailCR,
+                        Patch(CRRequests,
+                          If(gblCRMode = "New", Defaults(CRRequests), gblDetailCR),
+                          {
+                            Title: Upper(txtProgCodeSCS.Text) & ": " & txtCRNumSCS.Text & " - " & Upper(txtTitleSCS.Text),
+                            CRNumber: txtCRNumSCS.Text,
+                            ProgrammeCode: Upper(txtProgCodeSCS.Text),
+                            ProgrammeName: txtProgNameSCS.Text,
+                            CRTitle: Upper(txtTitleSCS.Text),
+                            Supplier: txtSupplierSCS.Text,
+                            SupplierReference: txtSupRefSCS.Text,
+                            ProjectManager: {Claims: "i:0#.f|membership|" & cmbPMSCS.Selected.Email, DisplayName: cmbPMSCS.Selected.Title, Department: ""},
+                            CRSponsor: {Claims: "i:0#.f|membership|" & cmbSponsorSCS.Selected.Email, DisplayName: cmbSponsorSCS.Selected.Title, Department: ""},
+                            AIPSGTargetDate: dteAIPSGSCS.SelectedDate,
+                            SubmissionDeadline: dteDeadlineSCS.SelectedDate,
+                            IsDraft: true,
+                            CRStatus: {Value: "Draft"},
+                            Originator: {Claims: "i:0#.f|membership|" & User().Email, DisplayName: User().FullName, Department: ""}
+                          }
+                        )
+                      );
+                      If(IsEmpty(Errors(CRRequests)),
+                        Set(gblCRMode, "Edit");
+                        Navigate('Submit CR B Screen', ScreenTransition.None),
+                        Set(gblFormError, "Save failed — " & First(Errors(CRRequests)).Message)
+                      )
+                    )
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                Size: =13
+                Text: ="Next →"
+                Width: =150
+                X: =Parent.Width - 162
+                Y: =btnHomeSCS.Y + 1
 
     lblErrorSCS As label:
         Color: =RGBA(231, 76, 60, 1)
