@@ -8,7 +8,10 @@
           Author:  IAG Tech Developer
           Date:    07 Apr 2026
         */
-        Set(gblFormError, "")
+        Set(gblFormError, "");
+        // Build AIPSG meeting-date filter (table union via & is NOT supported — use ForAll).
+        ClearCollect(colFilterPMS, {Value: "All Dates", MeetingDate: Blank()});
+        ForAll(AIPSGMeetings, Collect(colFilterPMS, {Value: Text(MeetingDate, "dd mmm yyyy"), MeetingDate: MeetingDate}))
 
     conMainPMS As groupContainer:
         Height: =Parent.Height
@@ -90,7 +93,7 @@
             BorderColor: =RGBA(180, 196, 218, 1)
             Font: =Font.'Segoe UI'
             Height: =34
-            Items: =Table({Value: "All Dates", MeetingDate: Blank()}) & AddColumns(AIPSGMeetings, "Value", Text(MeetingDate, "dd mmm yyyy"))
+            Items: =colFilterPMS
             Size: =12
             Width: =240
             X: =192
@@ -99,8 +102,10 @@
         galCRsPMS As gallery:
             Height: =Parent.Height - Self.Y
             Items: =Filter(CRRequests, CRStatus.Value = "Programme Meeting", IsBlank(ddlFilterPMS.Selected.MeetingDate) Or AIPSGTargetDate = ddlFilterPMS.Selected.MeetingDate)
+            Layout: =Layout.Vertical
             TemplateHeight: =140
             TemplatePadding: =8
+            WrapCount: =1
             Width: =Parent.Width
             X: =0
             Y: =ddlFilterPMS.Y + ddlFilterPMS.Height + 11

@@ -8,7 +8,13 @@
           Date:    07 Apr 2026
         */
         // Reset any stale form error from a previous submission attempt.
-        Set(gblFormError, "")
+        Set(gblFormError, "");
+        // Build programme filter options (table union via & is NOT supported in Power Apps — use ForAll).
+        ClearCollect(colProgrammesVCS, {Value: "All Programmes"});
+        ForAll(Sort(Distinct(CRRequests, ProgrammeName), Value, SortOrder.Ascending), Collect(colProgrammesVCS, {Value: Value}));
+        // Build AIPSG meeting-date filter options.
+        ClearCollect(colAIPSGVCS, {Value: "All Dates", MeetingDate: Blank()});
+        ForAll(AIPSGMeetings, Collect(colAIPSGVCS, {Value: Text(MeetingDate, "dd mmm yyyy"), MeetingDate: MeetingDate}))
 
     conMainVCS As groupContainer:
         Height: =Parent.Height
@@ -130,7 +136,7 @@
         BorderColor: =RGBA(180, 196, 218, 1)
         Font: =Font.'Segoe UI'
         Height: =34
-        Items: =["All Programmes"] & Sort(Distinct(CRRequests, ProgrammeName), Value, SortOrder.Ascending)
+        Items: =colProgrammesVCS
         Size: =12
         Width: =200
         X: =516
@@ -140,7 +146,7 @@
         BorderColor: =RGBA(180, 196, 218, 1)
         Font: =Font.'Segoe UI'
         Height: =34
-        Items: =Table({Value: "All Dates", MeetingDate: Blank()}) & AddColumns(AIPSGMeetings, "Value", Text(MeetingDate, "dd mmm yyyy"))
+        Items: =colAIPSGVCS
         Size: =12
         Width: =200
         X: =726
@@ -159,12 +165,14 @@
               ),
               AIPSGTargetDate, SortOrder.Ascending
             )
+        Layout: =Layout.Vertical
         OnSelect: |
             =Set(gblDetailCR, ThisItem);
             Navigate('CR Detail Screen', ScreenTransition.None)
         ShowScrollbar: =true
         TemplateHeight: =90
         TemplatePadding: =0
+        WrapCount: =1
         Width: =Parent.Width
         X: =0
         Y: =145

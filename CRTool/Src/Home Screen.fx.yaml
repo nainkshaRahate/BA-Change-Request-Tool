@@ -215,7 +215,7 @@
             FontWeight: =FontWeight.Semibold
             Height: =recRoleBadgeHS.Height
             Size: =10
-            Text: =gblCurrentUserRole
+            Text: =Coalesce(gblCurrentUserRole, "Guest")
             Width: =recRoleBadgeHS.Width
             X: =recRoleBadgeHS.X
             Y: =recRoleBadgeHS.Y

@@ -143,11 +143,15 @@
             Y: =recColHeaderBgUAS.Y
 
         galUsersUAS As gallery:
+            Fill: =RGBA(255, 255, 255, 1)
             Height: =Parent.Height - Self.Y
             Items: =Filter(CRUserAdmin, IsBlank(txtSearchUAS.Text) Or txtSearchUAS.Text in Title)
+            Layout: =Layout.Vertical
             ShowScrollbar: =true
+            TemplateFill: =If(IsEven(ThisItem.ID), RGBA(249, 249, 249, 1), RGBA(255, 255, 255, 1))
             TemplateHeight: =60
             TemplatePadding: =0
+            WrapCount: =1
             Width: =Parent.Width
             X: =0
             Y: =recColHeaderBgUAS.Y + recColHeaderBgUAS.Height

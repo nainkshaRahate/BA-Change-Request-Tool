@@ -8,7 +8,11 @@
           Date:    07 Apr 2026
         */
         // Clear any stale validation error from a previous navigation.
-        Set(gblFormError, "")
+        Set(gblFormError, "");
+        // Pre-load active users into a local collection — combobox Items bound to
+        // a direct data-source reference renders empty after pack/unpack, so seed
+        // once here and bind combobox.Items to the stable collection.
+        ClearCollect(colUsersSCS, Filter(CRUserAdmin, IsActive = true))
 
     conMainSCS As groupContainer:
         Height: =Parent.Height
@@ -93,11 +97,14 @@
                 Font: =Font.'Segoe UI'
                 Height: =34
                 OnSelect: |
-                    =// Minimum validation: CR Number is needed to identify the draft.
-                    If(IsBlank(txtCRNumSCS.Text),
+                    =/* Save as Draft — CR Number is the only required field for a draft.
+                       Person columns (Originator/PM/Sponsor) are intentionally omitted
+                       here: malformed Person records throw silent runtime errors that
+                       abort OnSelect before any Notify can fire. */
+                    Set(gblFormError, "");
+                    If(IsBlank(txtCRNumSCS.Text) Or txtCRNumSCS.Text = "",
                       Set(gblFormError, "CR Number is required to save a draft.");
                       Notify("CR Number is required to save a draft.", NotificationType.Warning),
-                      Set(gblFormError, "");
                       Patch(CRRequests,
                         If(gblCRMode = "New", Defaults(CRRequests), gblDetailCR),
                         {
@@ -111,13 +118,12 @@
                           AIPSGTargetDate: dteAIPSGSCS.SelectedDate,
                           SubmissionDeadline: dteDeadlineSCS.SelectedDate,
                           IsDraft: true,
-                          CRStatus: {Value: "Draft"},
-                          Originator: {Claims: "i:0#.f|membership|" & User().Email, DisplayName: User().FullName, Department: ""}
+                          CRStatus: {Value: "Draft"}
                         }
                       );
                       If(IsEmpty(Errors(CRRequests)),
-                        Navigate('View CRs Screen', ScreenTransition.None);
-                        Notify("Draft saved successfully.", NotificationType.Success),
+                        Notify("Draft saved successfully.", NotificationType.Success);
+                        Navigate('View CRs Screen', ScreenTransition.None),
                         Set(gblFormError, "Save failed — " & First(Errors(CRRequests)).Message);
                         Notify("Save failed: " & First(Errors(CRRequests)).Message, NotificationType.Error)
                       )
@@ -138,56 +144,54 @@
                 Font: =Font.'Segoe UI'
                 Height: =34
                 OnSelect: |
-                    =// Identify the first missing required field and report it clearly.
-                    If(IsBlank(txtCRNumSCS.Text),
-                      Set(gblFormError, "❗ CR Number is required.");
-                      Notify("CR Number is required.", NotificationType.Warning),
-                    IsBlank(txtProgCodeSCS.Text),
-                      Set(gblFormError, "❗ Programme Code is required.");
-                      Notify("Programme Code is required.", NotificationType.Warning),
-                    IsBlank(txtProgNameSCS.Text),
-                      Set(gblFormError, "❗ Programme Name is required.");
-                      Notify("Programme Name is required.", NotificationType.Warning),
-                    IsBlank(txtTitleSCS.Text),
-                      Set(gblFormError, "❗ CR Title is required.");
-                      Notify("CR Title is required.", NotificationType.Warning),
-                    IsBlank(cmbPMSCS.Selected),
-                      Set(gblFormError, "❗ Project Manager must be selected.");
-                      Notify("Please select a Project Manager from the list.", NotificationType.Warning),
-                    IsBlank(cmbSponsorSCS.Selected),
-                      Set(gblFormError, "❗ CR Sponsor must be selected.");
-                      Notify("Please select a CR Sponsor from the list.", NotificationType.Warning),
-                    IsBlank(dteAIPSGSCS.SelectedDate),
-                      Set(gblFormError, "❗ AIPSG Target Date is required.");
-                      Notify("AIPSG Target Date is required.", NotificationType.Warning),
-                    // All fields valid — save Part A and advance to Part B.
+                    =/* Validate required fields sequentially; each check only sets the
+                       error message if no earlier check already set one.
+                       Multi-branch If with chained ;+comments was fragile through
+                       pack/unpack — flat sequential Ifs are stable.
+                       Person columns (PM/Sponsor/Originator) are intentionally omitted
+                       from Patch — incomplete Person records silently abort OnSelect.
+                       They will be saved on Part B via a dedicated Person-column Patch. */
                     Set(gblFormError, "");
-                    Set(gblDetailCR,
-                      Patch(CRRequests,
-                        If(gblCRMode = "New", Defaults(CRRequests), gblDetailCR),
-                        {
-                          Title: Upper(txtProgCodeSCS.Text) & ": " & txtCRNumSCS.Text & " - " & Upper(txtTitleSCS.Text),
-                          CRNumber: txtCRNumSCS.Text,
-                          ProgrammeCode: Upper(txtProgCodeSCS.Text),
-                          ProgrammeName: txtProgNameSCS.Text,
-                          CRTitle: Upper(txtTitleSCS.Text),
-                          Supplier: txtSupplierSCS.Text,
-                          SupplierReference: txtSupRefSCS.Text,
-                          ProjectManager: {Claims: "i:0#.f|membership|" & cmbPMSCS.Selected.Email, DisplayName: cmbPMSCS.Selected.Title, Department: ""},
-                          CRSponsor: {Claims: "i:0#.f|membership|" & cmbSponsorSCS.Selected.Email, DisplayName: cmbSponsorSCS.Selected.Title, Department: ""},
-                          AIPSGTargetDate: dteAIPSGSCS.SelectedDate,
-                          SubmissionDeadline: dteDeadlineSCS.SelectedDate,
-                          IsDraft: true,
-                          CRStatus: {Value: "Draft"},
-                          Originator: {Claims: "i:0#.f|membership|" & User().Email, DisplayName: User().FullName, Department: ""}
-                        }
+                    If(IsBlank(txtCRNumSCS.Text) Or txtCRNumSCS.Text = "",
+                      Set(gblFormError, "CR Number is required."));
+                    If(IsBlank(gblFormError) And (IsBlank(txtProgCodeSCS.Text) Or txtProgCodeSCS.Text = ""),
+                      Set(gblFormError, "Programme Code is required."));
+                    If(IsBlank(gblFormError) And (IsBlank(txtProgNameSCS.Text) Or txtProgNameSCS.Text = ""),
+                      Set(gblFormError, "Programme Name is required."));
+                    If(IsBlank(gblFormError) And (IsBlank(txtTitleSCS.Text) Or txtTitleSCS.Text = ""),
+                      Set(gblFormError, "CR Title is required."));
+                    If(IsBlank(gblFormError) And IsEmpty(cmbPMSCS.SelectedItems),
+                      Set(gblFormError, "Project Manager must be selected."));
+                    If(IsBlank(gblFormError) And IsEmpty(cmbSponsorSCS.SelectedItems),
+                      Set(gblFormError, "CR Sponsor must be selected."));
+                    If(IsBlank(gblFormError) And IsBlank(dteAIPSGSCS.SelectedDate),
+                      Set(gblFormError, "AIPSG Target Date is required."));
+                    If(Not(IsBlank(gblFormError)),
+                      Notify(gblFormError, NotificationType.Warning),
+                      Set(gblDetailCR,
+                        Patch(CRRequests,
+                          If(gblCRMode = "New", Defaults(CRRequests), gblDetailCR),
+                          {
+                            Title: Upper(txtProgCodeSCS.Text) & ": " & txtCRNumSCS.Text & " - " & Upper(txtTitleSCS.Text),
+                            CRNumber: txtCRNumSCS.Text,
+                            ProgrammeCode: Upper(txtProgCodeSCS.Text),
+                            ProgrammeName: txtProgNameSCS.Text,
+                            CRTitle: Upper(txtTitleSCS.Text),
+                            Supplier: txtSupplierSCS.Text,
+                            SupplierReference: txtSupRefSCS.Text,
+                            AIPSGTargetDate: dteAIPSGSCS.SelectedDate,
+                            SubmissionDeadline: dteDeadlineSCS.SelectedDate,
+                            IsDraft: true,
+                            CRStatus: {Value: "Draft"}
+                          }
+                        )
+                      );
+                      If(IsEmpty(Errors(CRRequests)),
+                        Set(gblCRMode, "Edit");
+                        Navigate('Submit CR B Screen', ScreenTransition.None),
+                        Set(gblFormError, "Save failed — " & First(Errors(CRRequests)).Message);
+                        Notify("Save failed: " & First(Errors(CRRequests)).Message, NotificationType.Error)
                       )
-                    );
-                    If(IsEmpty(Errors(CRRequests)),
-                      Set(gblCRMode, "Edit");
-                      Navigate('Submit CR B Screen', ScreenTransition.None),
-                      Set(gblFormError, "Save failed — " & First(Errors(CRRequests)).Message);
-                      Notify("Save failed: " & First(Errors(CRRequests)).Message, NotificationType.Error)
                     )
                 RadiusBottomLeft: =6
                 RadiusBottomRight: =6
@@ -391,11 +395,15 @@
 
     cmbPMSCS As combobox:
         BorderColor: =RGBA(180, 196, 218, 1)
-        DefaultSelectedItems: =Filter(CRUserAdmin, Email = gblDetailCR.ProjectManager.Email)
+        DefaultSelectedItems: =Filter(colUsersSCS, Email = gblDetailCR.ProjectManager.Email)
+        DisplayFields: |-
+            =["Title"]
         Font: =Font.'Segoe UI'
         Height: =36
-        Items: =CRUserAdmin
-        SearchField: ="Title"
+        IsSearchable: =true
+        Items: =colUsersSCS
+        SearchFields: |-
+            =["Title"]
         Width: =640
         X: =16
         Y: =456
@@ -412,11 +420,15 @@
 
     cmbSponsorSCS As combobox:
         BorderColor: =RGBA(180, 196, 218, 1)
-        DefaultSelectedItems: =Filter(CRUserAdmin, Email = gblDetailCR.CRSponsor.Email)
+        DefaultSelectedItems: =Filter(colUsersSCS, Email = gblDetailCR.CRSponsor.Email)
+        DisplayFields: |-
+            =["Title"]
         Font: =Font.'Segoe UI'
         Height: =36
-        Items: =CRUserAdmin
-        SearchField: ="Title"
+        IsSearchable: =true
+        Items: =colUsersSCS
+        SearchFields: |-
+            =["Title"]
         Width: =Parent.Width - 716
         X: =700
         Y: =456
