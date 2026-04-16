@@ -117,6 +117,7 @@
 
         btnDashboardHS As button:
             BorderThickness: =0
+            Color: =RGBA(1, 37, 84, 1)
             Fill: =RGBA(185, 207, 237, 1)
             Font: =Font.'Segoe UI'
             Height: =54
@@ -132,7 +133,7 @@
 
         btnPMOConsHS As button:
             BorderThickness: =0
-            Fill: =RGBA(0, 75, 135, 1)
+            Fill: =RGBA(7, 90, 170, 1)
             Font: =Font.'Segoe UI'
             Height: =54
             OnSelect: =Navigate('PMO Consolidation Screen', ScreenTransition.None)
@@ -148,7 +149,8 @@
 
         btnProgMeetHS As button:
             BorderThickness: =0
-            Fill: =RGBA(0, 75, 135, 1)
+            Color: =RGBA(1, 37, 84, 1)
+            Fill: =RGBA(172, 160, 149, 1)
             Font: =Font.'Segoe UI'
             Height: =54
             OnSelect: =Navigate('Programme Meeting Screen', ScreenTransition.None)
@@ -164,7 +166,8 @@
 
         btnStakeholderAssHS As button:
             BorderThickness: =0
-            Fill: =RGBA(0, 75, 135, 1)
+            Color: =RGBA(1, 37, 84, 1)
+            Fill: =RGBA(167, 169, 172, 1)
             Font: =Font.'Segoe UI'
             Height: =54
             OnSelect: =Navigate('Stakeholder Assessment Screen', ScreenTransition.None)

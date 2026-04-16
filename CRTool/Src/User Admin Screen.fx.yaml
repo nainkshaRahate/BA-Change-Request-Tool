@@ -11,6 +11,7 @@
         If(Not(gblIsAdmin), Navigate('Home Screen', ScreenTransition.None))
 
     conMainUAS As groupContainer:
+        Fill: =RGBA(245, 247, 250, 1)
         Height: =Parent.Height
         Width: =Parent.Width
 
@@ -144,6 +145,7 @@
         galUsersUAS As gallery:
             Height: =Parent.Height - Self.Y
             Items: =Filter(CRUserAdmin, IsBlank(txtSearchUAS.Text) Or txtSearchUAS.Text in Title)
+            ShowScrollbar: =true
             TemplateHeight: =60
             TemplatePadding: =0
             Width: =Parent.Width

@@ -130,7 +130,7 @@
         BorderColor: =RGBA(180, 196, 218, 1)
         Font: =Font.'Segoe UI'
         Height: =34
-        Items: =["All Programmes"] & Sort(Distinct(CRRequests, ProgrammeName), AsText, SortOrder.Ascending)
+        Items: =["All Programmes"] & Sort(Distinct(CRRequests, ProgrammeName), Value, SortOrder.Ascending)
         Size: =12
         Width: =200
         X: =516
@@ -140,7 +140,7 @@
         BorderColor: =RGBA(180, 196, 218, 1)
         Font: =Font.'Segoe UI'
         Height: =34
-        Items: =AddColumns(Filter(AIPSGMeetings, IsActive), "DisplayValue", Text(MeetingDate, "dd mmm yyyy"))
+        Items: =Table({Value: "All Dates", MeetingDate: Blank()}) & AddColumns(AIPSGMeetings, "Value", Text(MeetingDate, "dd mmm yyyy"))
         Size: =12
         Width: =200
         X: =726
@@ -154,7 +154,7 @@
                 (IsBlank(txtSearchVCS.Text) Or txtSearchVCS.Text in Title Or txtSearchVCS.Text in CRNumber),
                 (ddlStatusVCS.Selected.Value = "All" Or CRStatus.Value = ddlStatusVCS.Selected.Value),
                 (ddlProgrammeVCS.Selected.Value = "All Programmes" Or ProgrammeName = ddlProgrammeVCS.Selected.Value),
-                (IsBlank(ddlAIPSGVCS.Selected) Or ddlAIPSGVCS.Selected.MeetingDate = AIPSGTargetDate),
+                (IsBlank(ddlAIPSGVCS.Selected.MeetingDate) Or ddlAIPSGVCS.Selected.MeetingDate = AIPSGTargetDate),
                 (Not(IsDraft) Or Originator.Email = User().Email Or gblIsPMO)
               ),
               AIPSGTargetDate, SortOrder.Ascending
