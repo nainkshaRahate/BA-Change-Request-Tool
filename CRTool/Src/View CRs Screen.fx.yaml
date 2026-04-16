@@ -171,7 +171,7 @@
             Navigate('CR Detail Screen', ScreenTransition.None)
         ShowScrollbar: =true
         TemplateFill: =RGBA(255, 255, 255, 1)
-        TemplateHeight: =90
+        TemplateHeight: =120 /* Raised from 90 to fit Supplier + Sponsor rows without wrap overflow. */
         TemplatePadding: =0
         WrapCount: =1
         Width: =Parent.Width
@@ -180,7 +180,7 @@
 
         recRowBgVCS As rectangle:
             Fill: =If(Mod(Coalesce(ThisItem.ID, 0), 2) = 0, RGBA(249, 249, 249, 1), RGBA(255, 255, 255, 1))
-            Height: =89
+            Height: =119
             Width: =Parent.Width
             X: =0
             Y: =0
@@ -190,7 +190,7 @@
             Height: =1
             Width: =Parent.Width
             X: =0
-            Y: =88
+            Y: =118
 
         lblCRNumVCS As label:
             Color: =RGBA(1, 37, 84, 1)
@@ -207,8 +207,10 @@
             Color: =RGBA(33, 33, 33, 1)
             Font: =Font.'Segoe UI'
             Height: =30
+            Overflow: =Overflow.Hidden
+            Size: =13
             Text: =ThisItem.CRTitle
-            Width: =400
+            Width: =Parent.Width - 420
             X: =100
             Y: =8
 
@@ -263,30 +265,54 @@
             Font: =Font.'Segoe UI'
             Height: =24
             Size: =12
-            Text: =Text(ThisItem.AIPSGTargetDate, "dd mmm yyyy")
-            Width: =115
-            X: =Parent.Width - 205
+            Text: ="AIPSG: " & Text(ThisItem.AIPSGTargetDate, "dd mmm yyyy") /* Prefixed so row is self-describing. */
+            Width: =190
+            X: =Parent.Width - 200
             Y: =10
 
         lblProgrammeVCS As label:
             Color: =RGBA(117, 117, 117, 1)
             Font: =Font.'Segoe UI'
             Height: =22
+            Overflow: =Overflow.Hidden
             Size: =12
-            Text: =ThisItem.ProgrammeName
-            Width: =180
+            Text: ="Prog: " & ThisItem.ProgrammeName
+            Width: =(Parent.Width - 24) / 2 - 8
             X: =12
-            Y: =52
+            Y: =46
+
+        lblSupplierVCS As label:
+            Color: =RGBA(117, 117, 117, 1)
+            Font: =Font.'Segoe UI'
+            Height: =22
+            Overflow: =Overflow.Hidden
+            Size: =12
+            Text: ="Supplier: " & If(IsBlank(ThisItem.Supplier), "—", ThisItem.Supplier)
+            Width: =(Parent.Width - 24) / 2 - 8
+            X: =(Parent.Width - 24) / 2 + 12
+            Y: =46
 
         lblPMVCS As label:
             Color: =RGBA(117, 117, 117, 1)
             Font: =Font.'Segoe UI'
             Height: =22
+            Overflow: =Overflow.Hidden
             Size: =12
-            Text: =ThisItem.ProjectManager.DisplayName
-            Width: =160
-            X: =200
-            Y: =52
+            Text: ="PM: " & If(IsBlank(ThisItem.ProjectManager.DisplayName), "—", ThisItem.ProjectManager.DisplayName)
+            Width: =(Parent.Width - 24) / 2 - 8
+            X: =12
+            Y: =72
+
+        lblSponsorVCS As label:
+            Color: =RGBA(117, 117, 117, 1)
+            Font: =Font.'Segoe UI'
+            Height: =22
+            Overflow: =Overflow.Hidden
+            Size: =12
+            Text: ="Sponsor: " & If(IsBlank(ThisItem.CRSponsor.DisplayName), "—", ThisItem.CRSponsor.DisplayName)
+            Width: =(Parent.Width - 24) / 2 - 8
+            X: =(Parent.Width - 24) / 2 + 12
+            Y: =72
 
         recDaysOpenVCS As rectangle:
             Fill: =RGBA(1, 37, 84, 1)
@@ -297,7 +323,7 @@
             RadiusTopRight: =6
             Width: =68
             X: =Parent.Width - 80
-            Y: =52
+            Y: =94
 
         lblDaysOpenVCS As label:
             Align: =Align.Center
@@ -308,13 +334,13 @@
             Text: =If(IsBlank(ThisItem.SubmittedDate), "—", Text(DateDiff(ThisItem.SubmittedDate, Today(), TimeUnit.Days)) & " Days")
             Width: =68
             X: =Parent.Width - 80
-            Y: =52
+            Y: =94
 
         btnRowClickVCS As button:
             BorderThickness: =0
             Color: =RGBA(0, 0, 0, 0)
             Fill: =RGBA(0, 0, 0, 0)
-            Height: =89
+            Height: =119
             HoverBorderColor: =RGBA(0, 0, 0, 0)
             HoverColor: =RGBA(0, 0, 0, 0)
             HoverFill: =RGBA(1, 37, 84, 0.06)

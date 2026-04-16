@@ -89,6 +89,26 @@
                 X: =48
                 Y: =btnHomeCDS.Y
 
+            btnEditCDS As button:
+                BorderThickness: =0
+                Color: =RGBA(255, 255, 255, 1)
+                Fill: =RGBA(186, 150, 46, 1)
+                Font: =Font.'Segoe UI'
+                Height: =34
+                OnSelect: |
+                    =Set(gblCRMode, "Edit");
+                    Navigate('Submit CR Screen', ScreenTransition.None)
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                Size: =12
+                Text: ="✎ Edit Draft"
+                Visible: =gblDetailCR.CRStatus.Value = "Draft" And (gblDetailCR.Originator.Email = User().Email Or gblIsPMO Or gblIsAdmin) /* Only owners/PMO/Admins see Edit, and only while the CR is still a Draft. */
+                Width: =90
+                X: =112
+                Y: =btnHomeCDS.Y + 1
+
             btnPartBCDS As button:
                 BorderThickness: =0
                 Fill: =RGBA(1, 37, 84, 1)
