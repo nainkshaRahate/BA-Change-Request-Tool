@@ -161,7 +161,7 @@
                 (ddlStatusVCS.Selected.Value = "All" Or CRStatus.Value = ddlStatusVCS.Selected.Value),
                 (ddlProgrammeVCS.Selected.Value = "All Programmes" Or ProgrammeName = ddlProgrammeVCS.Selected.Value),
                 (IsBlank(ddlAIPSGVCS.Selected.MeetingDate) Or ddlAIPSGVCS.Selected.MeetingDate = AIPSGTargetDate),
-                (Not(IsDraft) Or Originator.Email = User().Email Or gblIsPMO)
+                (Not(IsDraft) Or IsBlank(Originator.Email) Or Lower(Originator.Email) = Lower(User().Email) Or gblIsPMO)
               ),
               AIPSGTargetDate, SortOrder.Ascending
             )

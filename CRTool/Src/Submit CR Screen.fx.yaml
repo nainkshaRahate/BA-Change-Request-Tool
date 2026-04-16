@@ -93,6 +93,36 @@
                 X: =48
                 Y: =btnHomeSCS.Y
 
+            btnClearSCS As button:
+                BorderThickness: =0
+                Fill: =RGBA(108, 117, 125, 1)
+                Font: =Font.'Segoe UI'
+                Height: =34
+                OnSelect: |
+                    =/* Clear all form fields on Part A and reset global state. */
+                    Set(gblDetailCR, Defaults(CRRequests));
+                    Reset(txtCRNumSCS);
+                    Reset(txtProgCodeSCS);
+                    Reset(txtProgNameSCS);
+                    Reset(txtTitleSCS);
+                    Reset(txtSupplierSCS);
+                    Reset(txtSupRefSCS);
+                    Reset(ddlPMSCS);
+                    Reset(ddlSponsorSCS);
+                    Reset(dteAIPSGSCS);
+                    Reset(dteDeadlineSCS);
+                    Set(gblFormError, "");
+                    Notify("Form cleared.", NotificationType.Information)
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                Size: =13
+                Text: ="Clear"
+                Width: =90
+                X: =Parent.Width - 400
+                Y: =btnHomeSCS.Y + 1
+
             btnSaveDraftSCS As button:
                 BorderThickness: =0
                 Fill: =RGBA(149, 165, 166, 1)
@@ -162,9 +192,9 @@
                       Set(gblFormError, "Programme Name is required."));
                     If(IsBlank(gblFormError) And (IsBlank(txtTitleSCS.Text) Or txtTitleSCS.Text = ""),
                       Set(gblFormError, "CR Title is required."));
-                    If(IsBlank(gblFormError) And IsEmpty(cmbPMSCS.SelectedItems),
+                    If(IsBlank(gblFormError) And IsBlank(ddlPMSCS.Selected.Title),
                       Set(gblFormError, "Project Manager must be selected."));
-                    If(IsBlank(gblFormError) And IsEmpty(cmbSponsorSCS.SelectedItems),
+                    If(IsBlank(gblFormError) And IsBlank(ddlSponsorSCS.Selected.Title),
                       Set(gblFormError, "CR Sponsor must be selected."));
                     If(IsBlank(gblFormError) And IsBlank(dteAIPSGSCS.SelectedDate),
                       Set(gblFormError, "AIPSG Target Date is required."));
@@ -395,17 +425,14 @@
         X: =16
         Y: =436
 
-    cmbPMSCS As combobox:
+    ddlPMSCS As dropdown:
+        AllowEmptySelection: =true
         BorderColor: =RGBA(180, 196, 218, 1)
-        DefaultSelectedItems: =Filter(colUsersSCS, Email = gblDetailCR.ProjectManager.Email)
-        DisplayFields: |-
-            =["Title"]
+        Default: =gblDetailCR.ProjectManager.DisplayName
         Font: =Font.'Segoe UI'
         Height: =36
-        IsSearchable: =true
         Items: =colUsersSCS
-        SearchFields: |-
-            =["Title"]
+        Size: =13
         Width: =640
         X: =16
         Y: =456
@@ -420,17 +447,14 @@
         X: =700
         Y: =436
 
-    cmbSponsorSCS As combobox:
+    ddlSponsorSCS As dropdown:
+        AllowEmptySelection: =true
         BorderColor: =RGBA(180, 196, 218, 1)
-        DefaultSelectedItems: =Filter(colUsersSCS, Email = gblDetailCR.CRSponsor.Email)
-        DisplayFields: |-
-            =["Title"]
+        Default: =gblDetailCR.CRSponsor.DisplayName
         Font: =Font.'Segoe UI'
         Height: =36
-        IsSearchable: =true
         Items: =colUsersSCS
-        SearchFields: |-
-            =["Title"]
+        Size: =13
         Width: =Parent.Width - 716
         X: =700
         Y: =456
