@@ -8,22 +8,9 @@
           Date:    07 Apr 2026
         */
         // Clear any stale validation error from a previous navigation.
-        Set(gblFormError, "");
-        // Pre-load users into a local collection with a Value column.
-        // Dropdown control renders the "Value" column by default; the raw
-        // CRUserAdmin records have "Title" so a direct bind shows empty.
-        // Build the collection via ForAll so each row has {Value, UserEmail}.
-        // No IsActive filter — the column may be blank on pre-existing rows.
-        Clear(colUsersSCS);
-        // Fall back to Email when Title is blank or contains SP claim strings ("i:0#.f|…"),
-        // so dropdown rows never render as garbled special characters.
-        ForAll(
-          Filter(CRUserAdmin, Not(IsBlank(Email))),
-          Collect(colUsersSCS, {
-            Value: If(IsBlank(Title) Or Len(Trim(Title)) = 0 Or StartsWith(Title, "i:0#"), Email, Title),
-            UserEmail: Lower(Email)
-          })
-        )
+        // PM/Sponsor dropdowns bind directly to CRUserAdmin (no collection) so
+        // the list loads on first paint without depending on a ForAll/Collect race.
+        Set(gblFormError, "")
 
     conMainSCS As groupContainer:
         Height: =Parent.Height
@@ -440,7 +427,18 @@
         Default: =gblDetailCR.ProjectManager.DisplayName
         Font: =Font.'Segoe UI'
         Height: =36
-        Items: =colUsersSCS
+        Items: |
+            =/* Bind directly to CRUserAdmin. AddColumns synthesises a "Value" column
+               which the Dropdown control uses as its display text. Fallback keeps rows
+               visible when Title is blank or contains an SP claim ("i:0#…"). */
+            Sort(
+              AddColumns(
+                Filter(CRUserAdmin, Not(IsBlank(Email))),
+                "Value", If(IsBlank(Title) Or Len(Trim(Title)) = 0 Or StartsWith(Title, "i:0#"), Email, Title)
+              ),
+              Value,
+              SortOrder.Ascending
+            )
         Size: =13
         Width: =640
         X: =16
@@ -462,7 +460,17 @@
         Default: =gblDetailCR.CRSponsor.DisplayName
         Font: =Font.'Segoe UI'
         Height: =36
-        Items: =colUsersSCS
+        Items: |
+            =/* Direct bind to CRUserAdmin; synthesised "Value" column feeds the dropdown.
+               Matches ddlPMSCS so both dropdowns render identically. */
+            Sort(
+              AddColumns(
+                Filter(CRUserAdmin, Not(IsBlank(Email))),
+                "Value", If(IsBlank(Title) Or Len(Trim(Title)) = 0 Or StartsWith(Title, "i:0#"), Email, Title)
+              ),
+              Value,
+              SortOrder.Ascending
+            )
         Size: =13
         Width: =Parent.Width - 716
         X: =700
