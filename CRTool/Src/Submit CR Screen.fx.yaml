@@ -9,12 +9,13 @@
         */
         // Clear any stale validation error from a previous navigation.
         Set(gblFormError, "");
-        // Pre-load users into a local collection — combobox Items bound to a
-        // direct data-source reference renders empty after pack/unpack, so seed
-        // once here and bind combobox.Items to the stable collection.
-        // No IsActive filter: the column may be blank on pre-existing rows and
-        // the filter silently removes them all.
-        ClearCollect(colUsersSCS, CRUserAdmin)
+        // Pre-load users into a local collection with a Value column.
+        // Dropdown control renders the "Value" column by default; the raw
+        // CRUserAdmin records have "Title" so a direct bind shows empty.
+        // Build the collection via ForAll so each row has {Value, UserEmail}.
+        // No IsActive filter — the column may be blank on pre-existing rows.
+        Clear(colUsersSCS);
+        ForAll(CRUserAdmin, Collect(colUsersSCS, {Value: Title, UserEmail: Lower(Email)}))
 
     conMainSCS As groupContainer:
         Height: =Parent.Height
@@ -192,9 +193,9 @@
                       Set(gblFormError, "Programme Name is required."));
                     If(IsBlank(gblFormError) And (IsBlank(txtTitleSCS.Text) Or txtTitleSCS.Text = ""),
                       Set(gblFormError, "CR Title is required."));
-                    If(IsBlank(gblFormError) And IsBlank(ddlPMSCS.Selected.Title),
+                    If(IsBlank(gblFormError) And IsBlank(ddlPMSCS.Selected.Value),
                       Set(gblFormError, "Project Manager must be selected."));
-                    If(IsBlank(gblFormError) And IsBlank(ddlSponsorSCS.Selected.Title),
+                    If(IsBlank(gblFormError) And IsBlank(ddlSponsorSCS.Selected.Value),
                       Set(gblFormError, "CR Sponsor must be selected."));
                     If(IsBlank(gblFormError) And IsBlank(dteAIPSGSCS.SelectedDate),
                       Set(gblFormError, "AIPSG Target Date is required."));

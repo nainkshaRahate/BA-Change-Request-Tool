@@ -170,6 +170,7 @@
             =Set(gblDetailCR, ThisItem);
             Navigate('CR Detail Screen', ScreenTransition.None)
         ShowScrollbar: =true
+        TemplateFill: =RGBA(255, 255, 255, 1)
         TemplateHeight: =90
         TemplatePadding: =0
         WrapCount: =1
@@ -178,7 +179,7 @@
         Y: =145
 
         recRowBgVCS As rectangle:
-            Fill: =If(IsEven(ThisItem.ID), RGBA(249, 249, 249, 1), RGBA(255, 255, 255, 1))
+            Fill: =If(Mod(Coalesce(ThisItem.ID, 0), 2) = 0, RGBA(249, 249, 249, 1), RGBA(255, 255, 255, 1))
             Height: =89
             Width: =Parent.Width
             X: =0
@@ -234,8 +235,8 @@
             RadiusBottomRight: =6
             RadiusTopLeft: =6
             RadiusTopRight: =6
-            Width: =80
-            X: =Parent.Width - 280
+            Width: =90
+            X: =Parent.Width - 300
             Y: =10
 
         lblStatusPillVCS As label:
@@ -246,8 +247,8 @@
             Height: =24
             Size: =10
             Text: =ThisItem.CRStatus.Value
-            Width: =80
-            X: =Parent.Width - 280
+            Width: =90
+            X: =Parent.Width - 300
             Y: =10
 
         lblAIPSGDateVCS As label:
@@ -263,8 +264,8 @@
             Height: =24
             Size: =12
             Text: =Text(ThisItem.AIPSGTargetDate, "dd mmm yyyy")
-            Width: =90
-            X: =Parent.Width - 190
+            Width: =115
+            X: =Parent.Width - 205
             Y: =10
 
         lblProgrammeVCS As label:
@@ -308,4 +309,26 @@
             Width: =68
             X: =Parent.Width - 80
             Y: =52
+
+        btnRowClickVCS As button:
+            BorderThickness: =0
+            Color: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =89
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(1, 37, 84, 0.06)
+            OnSelect: |
+                =/* Transparent overlay covering the whole row.
+                   Gallery.OnSelect does not reliably fire when clicking a
+                   child label, so this explicit button guarantees navigation. */
+                Set(gblDetailCR, ThisItem);
+                Navigate('CR Detail Screen', ScreenTransition.None)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(1, 37, 84, 0.12)
+            Text: =""
+            Width: =Parent.Width
+            X: =0
+            Y: =0
 
