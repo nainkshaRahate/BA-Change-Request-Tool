@@ -15,7 +15,15 @@
         // Build the collection via ForAll so each row has {Value, UserEmail}.
         // No IsActive filter — the column may be blank on pre-existing rows.
         Clear(colUsersSCS);
-        ForAll(CRUserAdmin, Collect(colUsersSCS, {Value: Title, UserEmail: Lower(Email)}))
+        // Fall back to Email when Title is blank or contains SP claim strings ("i:0#.f|…"),
+        // so dropdown rows never render as garbled special characters.
+        ForAll(
+          Filter(CRUserAdmin, Not(IsBlank(Email))),
+          Collect(colUsersSCS, {
+            Value: If(IsBlank(Title) Or Len(Trim(Title)) = 0 Or StartsWith(Title, "i:0#"), Email, Title),
+            UserEmail: Lower(Email)
+          })
+        )
 
     conMainSCS As groupContainer:
         Height: =Parent.Height

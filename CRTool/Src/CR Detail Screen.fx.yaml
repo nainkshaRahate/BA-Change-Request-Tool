@@ -104,7 +104,7 @@
                 RadiusTopRight: =6
                 Size: =12
                 Text: ="✎ Edit Draft"
-                Visible: =gblDetailCR.CRStatus.Value = "Draft" And (gblDetailCR.Originator.Email = User().Email Or gblIsPMO Or gblIsAdmin) /* Only owners/PMO/Admins see Edit, and only while the CR is still a Draft. */
+                Visible: =(gblDetailCR.IsDraft = true Or gblDetailCR.CRStatus.Value = "Draft") And (IsBlank(gblDetailCR.Originator.Email) Or Lower(gblDetailCR.Originator.Email) = Lower(User().Email) Or gblIsPMO Or gblIsAdmin) /* Owners / PMO / Admins see Edit while CR is Draft. IsDraft covers rows with blank CRStatus; blank Originator treated as editable so new drafts stay editable. */
                 Width: =90
                 X: =112
                 Y: =btnHomeCDS.Y + 1
