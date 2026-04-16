@@ -5,8 +5,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <!-- Requires .NET 10 SDK. Build: dotnet run -- pack -i <CRTool> -o <output.msapp> -->
-    <!-- Active build command: pac canvas pack --sources CRTool --msapp CRTool_v1.msapp -->
+    <!-- Build: dotnet run - pack -i CRTool -o CRTool_v1.msapp (from repo root) -->
   </PropertyGroup>
 
   <ItemGroup>
