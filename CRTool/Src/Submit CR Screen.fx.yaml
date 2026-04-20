@@ -7,10 +7,20 @@
           Author:  IAG Tech Developer
           Date:    07 Apr 2026
         */
-        // Clear any stale validation error from a previous navigation.
-        // PM/Sponsor dropdowns bind directly to CRUserAdmin (no collection) so
-        // the list loads on first paint without depending on a ForAll/Collect race.
-        Set(gblFormError, "")
+        Set(gblFormError, "");
+        Refresh(CRUserAdmin);
+        ClearCollect(
+          colAllUsers,
+          Sort(
+            AddColumns(
+              Filter(CRUserAdmin, Not(IsBlank(Title))),
+              "Value", Title,
+              "UserEmail", Email
+            ),
+            Value,
+            SortOrder.Ascending
+          )
+        )
 
     conMainSCS As groupContainer:
         Height: =Parent.Height
@@ -176,9 +186,8 @@
                        error message if no earlier check already set one.
                        Multi-branch If with chained ;+comments was fragile through
                        pack/unpack — flat sequential Ifs are stable.
-                       Person columns (PM/Sponsor/Originator) are intentionally omitted
-                       from Patch — incomplete Person records silently abort OnSelect.
-                       They will be saved on Part B via a dedicated Person-column Patch. */
+                       PM/Sponsor saved in a second Patch after main Patch succeeds
+                       (Person columns need separate Patch to avoid aborting the record). */
                     Set(gblFormError, "");
                     If(IsBlank(txtCRNumSCS.Text) Or txtCRNumSCS.Text = "",
                       Set(gblFormError, "CR Number is required."));
@@ -188,9 +197,9 @@
                       Set(gblFormError, "Programme Name is required."));
                     If(IsBlank(gblFormError) And (IsBlank(txtTitleSCS.Text) Or txtTitleSCS.Text = ""),
                       Set(gblFormError, "CR Title is required."));
-                    If(IsBlank(gblFormError) And IsBlank(ddlPMSCS.Selected.Value),
+                    If(IsBlank(gblFormError) And (IsBlank(ddlPMSCS.Selected) Or IsBlank(ddlPMSCS.Selected.Value)),
                       Set(gblFormError, "Project Manager must be selected."));
-                    If(IsBlank(gblFormError) And IsBlank(ddlSponsorSCS.Selected.Value),
+                    If(IsBlank(gblFormError) And (IsBlank(ddlSponsorSCS.Selected) Or IsBlank(ddlSponsorSCS.Selected.Value)),
                       Set(gblFormError, "CR Sponsor must be selected."));
                     If(IsBlank(gblFormError) And IsBlank(dteAIPSGSCS.SelectedDate),
                       Set(gblFormError, "AIPSG Target Date is required."));
@@ -216,6 +225,20 @@
                       );
                       If(IsEmpty(Errors(CRRequests)),
                         Set(gblCRMode, "Edit");
+                        Patch(CRRequests, gblDetailCR,
+                          {
+                            ProjectManager: {
+                              Claims: "i:0#.f|membership|" & ddlPMSCS.Selected.UserEmail,
+                              DisplayName: ddlPMSCS.Selected.Value,
+                              Email: ddlPMSCS.Selected.UserEmail
+                            },
+                            CRSponsor: {
+                              Claims: "i:0#.f|membership|" & ddlSponsorSCS.Selected.UserEmail,
+                              DisplayName: ddlSponsorSCS.Selected.Value,
+                              Email: ddlSponsorSCS.Selected.UserEmail
+                            }
+                          }
+                        );
                         Navigate('Submit CR B Screen', ScreenTransition.None),
                         Set(gblFormError, "Save failed — " & First(Errors(CRRequests)).Message);
                         Notify("Save failed: " & First(Errors(CRRequests)).Message, NotificationType.Error)
@@ -424,22 +447,12 @@
     ddlPMSCS As dropdown:
         AllowEmptySelection: =true
         BorderColor: =RGBA(180, 196, 218, 1)
-        Default: =gblDetailCR.ProjectManager.DisplayName
+        Default: =If(gblCRMode = "Edit", LookUp(colAllUsers, Value = gblDetailCR.ProjectManager.DisplayName), Blank())
         Font: =Font.'Segoe UI'
         Height: =36
-        Items: |
-            =/* Bind directly to CRUserAdmin. AddColumns synthesises a "Value" column
-               which the Dropdown control uses as its display text. Fallback keeps rows
-               visible when Title is blank or contains an SP claim ("i:0#…"). */
-            Sort(
-              AddColumns(
-                Filter(CRUserAdmin, Not(IsBlank(Email))),
-                "Value", If(IsBlank(Title) Or Len(Trim(Title)) = 0 Or StartsWith(Title, "i:0#"), Email, Title)
-              ),
-              Value,
-              SortOrder.Ascending
-            )
+        Items: =colAllUsers
         Size: =13
+        Value: ="Value"
         Width: =640
         X: =16
         Y: =456
@@ -457,21 +470,12 @@
     ddlSponsorSCS As dropdown:
         AllowEmptySelection: =true
         BorderColor: =RGBA(180, 196, 218, 1)
-        Default: =gblDetailCR.CRSponsor.DisplayName
+        Default: =If(gblCRMode = "Edit", LookUp(colAllUsers, Value = gblDetailCR.CRSponsor.DisplayName), Blank())
         Font: =Font.'Segoe UI'
         Height: =36
-        Items: |
-            =/* Direct bind to CRUserAdmin; synthesised "Value" column feeds the dropdown.
-               Matches ddlPMSCS so both dropdowns render identically. */
-            Sort(
-              AddColumns(
-                Filter(CRUserAdmin, Not(IsBlank(Email))),
-                "Value", If(IsBlank(Title) Or Len(Trim(Title)) = 0 Or StartsWith(Title, "i:0#"), Email, Title)
-              ),
-              Value,
-              SortOrder.Ascending
-            )
+        Items: =colAllUsers
         Size: =13
+        Value: ="Value"
         Width: =Parent.Width - 716
         X: =700
         Y: =456

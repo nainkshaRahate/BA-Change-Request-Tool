@@ -9,7 +9,20 @@ App As appinfo:
         */
         // Resolve the current user's record once; derive all role flags from it.
         // Case-insensitive email match — SharePoint stores email verbatim; User().Email casing may differ.
-        Set(gblCurrentUser, LookUp(CRUserAdmin, Lower(Email) = Lower(User().Email)));
+        Concurrent(
+          Set(gblCurrentUser, LookUp(CRUserAdmin, Lower(Email) = Lower(User().Email))),
+          ClearCollect(
+            colAllUsers,
+            Sort(
+              AddColumns(
+                Filter(CRUserAdmin, Not(IsBlank(Email))),
+                "Value", If(IsBlank(Title) Or Len(Trim(Title)) = 0 Or StartsWith(Title, "i:0#"), Email, Title)
+              ),
+              Value,
+              SortOrder.Ascending
+            )
+          )
+        );
         Set(gblCurrentUserRole, gblCurrentUser.Role.Value);
         Set(gblStakeholderGroup, gblCurrentUser.StakeholderGroup.Value);
         // Role permission flags — used throughout the app to show/hide controls.
