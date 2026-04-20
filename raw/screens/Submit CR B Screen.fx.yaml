@@ -1,0 +1,527 @@
+"'Submit CR B Screen' As screen":
+    Fill: =RGBA(245, 247, 250, 1)
+    OnVisible: |
+        =/*
+          Submit CR B Screen — OnVisible
+          Purpose: Part B of the CR submission form — Content, cost impact and settings.
+          Author:  IAG Tech Developer
+          Date:    07 Apr 2026
+        */
+        Set(gblFormError, "")
+
+    conMainSCB As groupContainer:
+        Height: =Parent.Height
+        Width: =Parent.Width
+
+        conHeaderSCB As groupContainer:
+            Height: =50
+            Width: =Parent.Width
+
+            recHeaderSCB As rectangle:
+                Fill: =RGBA(1, 37, 84, 1)
+                Height: =Parent.Height
+                Width: =Parent.Width
+                X: =0
+                Y: =0
+
+            recGoldAccentSCB As rectangle:
+                Fill: =RGBA(186, 150, 46, 1)
+                Height: =3
+                Width: =Parent.Width
+                X: =0
+                Y: =47
+
+            imgLogoSCB As image:
+                Height: =20
+                Image: =""
+                ImagePosition: =ImagePosition.Fit
+                Width: =40
+                X: =8
+                Y: =15
+
+            lblHeaderSCB As label:
+                Align: =Align.Center
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =Parent.Height
+                Size: =15
+                Text: |-
+                    =If(gblCRMode = "New", "Submit New Change Request — Part B: Content & Impact", "Edit Change Request — Part B: Content & Impact")
+                Width: =Parent.Width
+                X: =0
+                Y: =0
+
+        conSubNavSCB As groupContainer:
+            Height: =45
+            Width: =Parent.Width
+            Y: =conHeaderSCB.Y + conHeaderSCB.Height
+
+            recSubNavSCB As rectangle:
+                Fill: =RGBA(0, 22, 55, 1)
+                Height: =Parent.Height
+                Width: =Parent.Width
+                X: =0
+                Y: =0
+
+            btnHomeSCB As button:
+                BorderThickness: =0
+                Fill: =RGBA(0, 22, 55, 1)
+                Height: =36
+                OnSelect: =Navigate('Home Screen', ScreenTransition.None)
+                Size: =16
+                Text: ="🏠"
+                Width: =36
+                X: =8
+                Y: =4
+
+            btnBackSCB As button:
+                BorderThickness: =0
+                Fill: =RGBA(0, 22, 55, 1)
+                Height: =36
+                OnSelect: =Navigate('Submit CR Screen', ScreenTransition.None)
+                Size: =12
+                Text: ="← Previous"
+                Width: =80
+                X: =48
+                Y: =btnHomeSCB.Y
+
+            btnSaveDraftSCB As button:
+                BorderThickness: =0
+                Fill: =RGBA(149, 165, 166, 1)
+                Font: =Font.'Segoe UI'
+                Height: =34
+                OnSelect: |
+                    =Patch(CRRequests, gblDetailCR,
+                      {
+                        CRDescription: txtDescSCB.Text,
+                        ReasonForChange: txtReasonSCB.Text,
+                        DoNothingOption: txtDoNothingSCB.Text,
+                        AdditionalInformation: txtAdditionalSCB.Text,
+                        RE_Delta_PerAircraft: txtRESCB.Text,
+                        NRE_Delta: txtNRESCB.Text,
+                        TotalCostDelta: txtTotalSCB.Text,
+                        WeightDelta_PerAircraft: txtW1SCB.Text,
+                        WeightDelta_AllAircraft: txtWAllSCB.Text,
+                        AnnualCoWImpact: txtCoWSCB.Text,
+                        CostCurrency: {Value: ddlCurrencySCB.Selected.Value},
+                        IsConfidential: ddlConfidentialitySCB.Selected.Value = "Confidential",
+                        IsDraft: true
+                      }
+                    );
+                    If(IsEmpty(Errors(CRRequests)),
+                      Notify("Draft saved.", NotificationType.Success),
+                      Notify("Save failed — " & First(Errors(CRRequests)).Message, NotificationType.Error)
+                    )
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                Size: =13
+                Text: ="Save as Draft"
+                Width: =130
+                X: =Parent.Width - 300
+                Y: =btnHomeSCB.Y + 1
+
+        btnSubmitSCB As button:
+            BorderThickness: =0
+            Fill: =RGBA(192, 57, 43, 1)
+            Font: =Font.'Segoe UI'
+            Height: =34
+            OnSelect: |
+                =If(
+                  IsBlank(txtDescSCB.Text),
+                  Set(gblFormError, "CR Description is required before formal submission"),
+                  If(CountRows(Filter(CRRequests, CRNumber = gblDetailCR.CRNumber And ID <> gblDetailCR.ID)) > 0,
+                    Set(gblFormError, gblDetailCR.CRNumber & " already exists — check the CR number"),
+                    Set(gblFormError, "");
+                    Patch(CRRequests, gblDetailCR, {
+                      CRDescription: txtDescSCB.Text,
+                      ReasonForChange: txtReasonSCB.Text,
+                      DoNothingOption: txtDoNothingSCB.Text,
+                      AdditionalInformation: txtAdditionalSCB.Text,
+                      RE_Delta_PerAircraft: txtRESCB.Text,
+                      NRE_Delta: txtNRESCB.Text,
+                      TotalCostDelta: txtTotalSCB.Text,
+                      WeightDelta_PerAircraft: txtW1SCB.Text,
+                      WeightDelta_AllAircraft: txtWAllSCB.Text,
+                      AnnualCoWImpact: txtCoWSCB.Text,
+                      CostCurrency: {Value: ddlCurrencySCB.Selected.Value},
+                      IsConfidential: ddlConfidentialitySCB.Selected.Value = "Confidential",
+                      IsDraft: false,
+                      CRStatus: {Value: "Submitted"},
+                      SubmittedDate: Today()
+                    });
+                    If(IsEmpty(Errors(CRRequests)),
+                      Navigate('View CRs Screen', ScreenTransition.None);
+                      Notify(gblDetailCR.CRNumber & " submitted successfully.", NotificationType.Success),
+                      Set(gblFormError, "Submission failed — " & First(Errors(CRRequests)).Message)
+                    )
+                  )
+                )
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            Size: =13
+            Text: ="Submit Formally"
+            Width: =150
+            X: =Parent.Width - 162
+            Y: =58
+
+    lblErrorSCB As label:
+        Color: =RGBA(231, 76, 60, 1)
+        Font: =Font.'Segoe UI'
+        Height: =28
+        Size: =12
+        Text: =gblFormError
+        Visible: =Not(IsBlank(gblFormError))
+        Width: =Parent.Width - 32
+        X: =16
+        Y: =100
+
+    recSectionContentSCB As rectangle:
+        Fill: =RGBA(1, 37, 84, 1)
+        Height: =28
+        Width: =Parent.Width
+        X: =0
+        Y: =128
+
+    lblSectionContentSCB As label:
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =28
+        Size: =12
+        Text: ="CR CONTENT"
+        Width: =Parent.Width
+        X: =16
+        Y: =128
+
+    lblDescLblSCB As label:
+        Color: =RGBA(192, 57, 43, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =12
+        Text: ="❗ CR Description *"
+        Width: =Parent.Width - 32
+        X: =16
+        Y: =162
+
+    txtDescSCB As text:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
+        Default: =gblDetailCR.CRDescription
+        Font: =Font.'Segoe UI'
+        Height: =90
+        HintText: ="Describe the change request in detail..."
+        Mode: =TextMode.MultiLine
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =Parent.Width - 32
+        X: =16
+        Y: =182
+
+    lblReasonLblSCB As label:
+        Color: =RGBA(33, 33, 33, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =12
+        Text: ="Reason for Change"
+        Width: =Parent.Width - 32
+        X: =16
+        Y: =278
+
+    txtReasonSCB As text:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
+        Default: =gblDetailCR.ReasonForChange
+        Font: =Font.'Segoe UI'
+        Height: =60
+        Mode: =TextMode.MultiLine
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =Parent.Width - 32
+        X: =16
+        Y: =298
+
+    lblDoNothingLblSCB As label:
+        Color: =RGBA(33, 33, 33, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =12
+        Text: ="Do Nothing Option"
+        Width: =Parent.Width - 32
+        X: =16
+        Y: =364
+
+    txtDoNothingSCB As text:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
+        Default: =gblDetailCR.DoNothingOption
+        Font: =Font.'Segoe UI'
+        Height: =60
+        Mode: =TextMode.MultiLine
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =Parent.Width - 32
+        X: =16
+        Y: =384
+
+    lblAdditionalLblSCB As label:
+        Color: =RGBA(33, 33, 33, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =12
+        Text: ="Additional Information"
+        Width: =Parent.Width - 32
+        X: =16
+        Y: =450
+
+    txtAdditionalSCB As text:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
+        Default: =gblDetailCR.AdditionalInformation
+        Font: =Font.'Segoe UI'
+        Height: =60
+        Mode: =TextMode.MultiLine
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =Parent.Width - 32
+        X: =16
+        Y: =470
+
+    recSectionCostSCB As rectangle:
+        Fill: =RGBA(1, 37, 84, 1)
+        Height: =28
+        Width: =Parent.Width
+        X: =0
+        Y: =536
+
+    lblSectionCostSCB As label:
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =28
+        Size: =12
+        Text: ="COST IMPACT (optional at submission)"
+        Width: =Parent.Width
+        X: =16
+        Y: =536
+
+    lblRELblSCB As label:
+        Color: =RGBA(33, 33, 33, 1)
+        Font: =Font.'Segoe UI'
+        Height: =16
+        Size: =11
+        Text: ="RE Δ (per aircraft)"
+        Width: =300
+        X: =16
+        Y: =570
+
+    txtRESCB As text:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
+        Default: =gblDetailCR.RE_Delta_PerAircraft
+        Font: =Font.'Segoe UI'
+        Height: =32
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Size: =12
+        Width: =300
+        X: =16
+        Y: =588
+
+    lblNRELblSCB As label:
+        Color: =RGBA(33, 33, 33, 1)
+        Font: =Font.'Segoe UI'
+        Height: =16
+        Size: =11
+        Text: ="NRE Δ"
+        Width: =300
+        X: =336
+        Y: =570
+
+    txtNRESCB As text:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
+        Default: =gblDetailCR.NRE_Delta
+        Font: =Font.'Segoe UI'
+        Height: =32
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Size: =12
+        Width: =300
+        X: =336
+        Y: =588
+
+    lblTotalLblSCB As label:
+        Color: =RGBA(33, 33, 33, 1)
+        Font: =Font.'Segoe UI'
+        Height: =16
+        Size: =11
+        Text: ="Total Cost Δ"
+        Width: =300
+        X: =656
+        Y: =570
+
+    txtTotalSCB As text:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
+        Default: =gblDetailCR.TotalCostDelta
+        Font: =Font.'Segoe UI'
+        Height: =32
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Size: =12
+        Width: =300
+        X: =656
+        Y: =588
+
+    lblW1LblSCB As label:
+        Color: =RGBA(33, 33, 33, 1)
+        Font: =Font.'Segoe UI'
+        Height: =16
+        Size: =11
+        Text: ="Weight Δ (1 a/c)"
+        Width: =Parent.Width - 992
+        X: =976
+        Y: =570
+
+    txtW1SCB As text:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
+        Default: =gblDetailCR.WeightDelta_PerAircraft
+        Font: =Font.'Segoe UI'
+        Height: =32
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Size: =12
+        Width: =Parent.Width - 992
+        X: =976
+        Y: =588
+
+    lblWAllLblSCB As label:
+        Color: =RGBA(33, 33, 33, 1)
+        Font: =Font.'Segoe UI'
+        Height: =16
+        Size: =11
+        Text: ="Weight Δ (all a/c)"
+        Width: =300
+        X: =16
+        Y: =626
+
+    txtWAllSCB As text:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
+        Default: =gblDetailCR.WeightDelta_AllAircraft
+        Font: =Font.'Segoe UI'
+        Height: =32
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Size: =12
+        Width: =300
+        X: =16
+        Y: =644
+
+    lblCoWLblSCB As label:
+        Color: =RGBA(33, 33, 33, 1)
+        Font: =Font.'Segoe UI'
+        Height: =16
+        Size: =11
+        Text: ="Annual CoW Impact"
+        Width: =300
+        X: =336
+        Y: =626
+
+    txtCoWSCB As text:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
+        Default: =gblDetailCR.AnnualCoWImpact
+        Font: =Font.'Segoe UI'
+        Height: =32
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Size: =12
+        Width: =300
+        X: =336
+        Y: =644
+
+    recSectionSettingsSCB As rectangle:
+        Fill: =RGBA(1, 37, 84, 1)
+        Height: =28
+        Width: =Parent.Width
+        X: =0
+        Y: =682
+
+    lblSectionSettingsSCB As label:
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =28
+        Size: =12
+        Text: ="SETTINGS"
+        Width: =Parent.Width
+        X: =16
+        Y: =682
+
+    lblCurrencyLblSCB As label:
+        Color: =RGBA(33, 33, 33, 1)
+        Font: =Font.'Segoe UI'
+        Height: =16
+        Size: =11
+        Text: ="Currency"
+        Width: =180
+        X: =16
+        Y: =716
+
+    ddlCurrencySCB As dropdown:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        Font: =Font.'Segoe UI'
+        Height: =32
+        Items: =["USD","GBP","EUR"]
+        Size: =12
+        Width: =180
+        X: =16
+        Y: =734
+
+    lblConfidentialityLblSCB As label:
+        Color: =RGBA(33, 33, 33, 1)
+        Font: =Font.'Segoe UI'
+        Height: =16
+        Size: =11
+        Text: ="Confidentiality"
+        Width: =200
+        X: =216
+        Y: =716
+
+    ddlConfidentialitySCB As dropdown:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        Font: =Font.'Segoe UI'
+        Height: =32
+        Items: =["Internal","Confidential"]
+        Size: =12
+        Width: =200
+        X: =216
+        Y: =734
+

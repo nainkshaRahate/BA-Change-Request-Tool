@@ -1,0 +1,27 @@
+App As appinfo:
+    BackEnabled: =false
+    OnStart: |
+        =/*
+          App.OnStart
+          Purpose: Initialise user role, permissions flags and app-wide defaults.
+          Author:  IAG Tech Developer
+          Date:    07 Apr 2026
+        */
+        // Resolve the current user's record once; derive all role flags from it.
+        // Case-insensitive email match — SharePoint stores email verbatim; User().Email casing may differ.
+        Set(gblCurrentUser, LookUp(CRUserAdmin, Lower(Email) = Lower(User().Email)));
+        Set(gblCurrentUserRole, gblCurrentUser.Role.Value);
+        Set(gblStakeholderGroup, gblCurrentUser.StakeholderGroup.Value);
+        // Role permission flags — used throughout the app to show/hide controls.
+        Set(gblIsPMO,     gblCurrentUserRole = "PMO"  Or gblCurrentUserRole = "Admin");
+        Set(gblIsAdmin,   gblCurrentUserRole = "Admin");
+        Set(gblIsProgMgr, gblCurrentUserRole = "Programme Manager");
+        // gblIsMaker: set true in Studio to reveal developer debug labels.
+        Set(gblIsMaker, false);
+        // App-level state defaults — also reset per-screen in OnVisible.
+        Set(gblCRMode, "View");
+        Set(gblDetailCR, Blank());
+        Set(gblConsolidationCR, Blank());
+        Set(gblFormError, "")
+    StartScreen: ='Home Screen'
+

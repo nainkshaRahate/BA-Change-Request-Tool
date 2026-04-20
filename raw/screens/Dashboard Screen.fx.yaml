@@ -1,0 +1,928 @@
+"'Dashboard Screen' As screen":
+    Fill: =RGBA(245, 247, 250, 1)
+    OnVisible: |
+        =/*
+          Dashboard Screen — OnVisible
+          Purpose: Load aggregated programme-level CR statistics for the dashboard tiles.
+          Author:  IAG Tech Developer
+          Date:    07 Apr 2026
+        */
+        // Use Concurrent for any future additional data calls added to this screen.
+        Concurrent(
+          ClearCollect(colProgrammeStats,
+            AddColumns(
+              GroupBy(Filter(CRRequests, Not(IsBlank(ProgrammeName))), "ProgrammeName", "CRItems"),
+              "Open",         CountIf(CRItems, CRStatus.Value <> "Closed" && CRStatus.Value <> "Rejected" && CRStatus.Value <> "Approved"),
+              "InAssessment", CountIf(CRItems, CRStatus.Value = "In Assessment"),
+              "SGReady",      CountIf(CRItems, CRStatus.Value = "Pre-SG Distribution" || CRStatus.Value = "SG Review"),
+              "Approved",     CountIf(CRItems, CRStatus.Value = "Approved"),
+              "Rejected",     CountIf(CRItems, CRStatus.Value = "Rejected")
+            )
+          ),
+          // Build RAG summary collection for active CRs (not Closed/Approved/Rejected)
+          // Each row gets amber/red/paleblue/green counts from CRStakeholderReviews for that CR
+          ClearCollect(colActiveCRsWithRAG,
+            AddColumns(
+              Filter(CRRequests, CRStatus.Value <> "Closed" && CRStatus.Value <> "Approved" && CRStatus.Value <> "Rejected"),
+              "AmberCount",    CountRows(Filter(CRStakeholderReviews, CRNumber = ThisRecord.CRNumber, RAGStatus.Value = "Amber")),
+              "RedCount",      CountRows(Filter(CRStakeholderReviews, CRNumber = ThisRecord.CRNumber, RAGStatus.Value = "Red")),
+              "PaleBlueCount", CountRows(Filter(CRStakeholderReviews, CRNumber = ThisRecord.CRNumber, RAGStatus.Value = "Pale Blue")),
+              "GreenCount",    CountRows(Filter(CRStakeholderReviews, CRNumber = ThisRecord.CRNumber, RAGStatus.Value = "Green")),
+              "TotalReviews",  CountRows(Filter(CRStakeholderReviews, CRNumber = ThisRecord.CRNumber))
+            )
+          )
+        )
+
+    conMainDS As groupContainer:
+        Height: =Parent.Height
+        Width: =Parent.Width
+
+        conHeaderDS As groupContainer:
+            Height: =50
+            Width: =Parent.Width
+
+            recHeaderDS As rectangle:
+                Fill: =RGBA(1, 37, 84, 1)
+                Height: =Parent.Height
+                Width: =Parent.Width
+                X: =0
+                Y: =0
+
+            recGoldAccentDS As rectangle:
+                Fill: =RGBA(186, 150, 46, 1)
+                Height: =3
+                Width: =Parent.Width
+                X: =0
+                Y: =47
+
+            imgLogoDS As image:
+                Height: =20
+                Image: =""
+                ImagePosition: =ImagePosition.Fit
+                Width: =40
+                X: =8
+                Y: =15
+
+            lblHeaderDS As label:
+                Align: =Align.Center
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =Parent.Height
+                Size: =16
+                Text: ="CR Dashboard"
+                Width: =Parent.Width
+                X: =0
+                Y: =0
+
+        conSubNavDS As groupContainer:
+            Height: =45
+            Width: =Parent.Width
+            Y: =conHeaderDS.Y + conHeaderDS.Height
+
+            recSubNavDS As rectangle:
+                Fill: =RGBA(0, 22, 55, 1)
+                Height: =Parent.Height
+                Width: =Parent.Width
+                X: =0
+                Y: =0
+
+            btnHomeDS As button:
+                BorderThickness: =0
+                Fill: =RGBA(0, 22, 55, 1)
+                Height: =36
+                OnSelect: =Navigate('Home Screen', ScreenTransition.None)
+                Size: =16
+                Text: ="🏠"
+                Width: =36
+                X: =8
+                Y: =4
+
+        recTileAllDS As rectangle:
+            Fill: =RGBA(60, 90, 130, 1)
+            Height: =70
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            Width: =418
+            X: =16
+            Y: =conSubNavDS.Y + conSubNavDS.Height + 13
+
+        lblTileAllLblDS As label:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =24
+            Text: ="All CRs"
+            Width: =300
+            X: =28
+            Y: =recTileAllDS.Y + 8
+
+        lblTileAllCountDS As label:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =32
+            Size: =28
+            Text: =Text(CountRows(CRRequests))
+            Width: =400
+            X: =28
+            Y: =lblTileAllLblDS.Y + lblTileAllLblDS.Height
+            ZIndex: =1
+
+        recTileOpenDS As rectangle:
+            Fill: =RGBA(7, 90, 170, 1)
+            Height: =70
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            Width: =418
+            X: =474
+            Y: =108
+
+        lblTileOpenLblDS As label:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =24
+            Text: ="Open CRs"
+            Width: =300
+            X: =486
+            Y: =116
+
+        lblTileOpenCountDS As label:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =32
+            Size: =28
+            Text: =Text(CountRows(Filter(CRRequests, CRStatus.Value <> "Closed" && CRStatus.Value <> "Rejected" && CRStatus.Value <> "Approved")))
+            Width: =400
+            X: =486
+            Y: =lblTileOpenLblDS.Y + lblTileOpenLblDS.Height
+            ZIndex: =1
+
+        recTileClosedDS As rectangle:
+            Fill: =RGBA(235, 34, 38, 1)
+            Height: =70
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            Width: =418
+            X: =932
+            Y: =108
+
+        lblTileClosedLblDS As label:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =24
+            Text: ="Closed / Approved / Rejected"
+            Width: =300
+            X: =944
+            Y: =116
+
+        lblTileClosedCountDS As label:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =32
+            Size: =28
+            Text: =Text(CountRows(Filter(CRRequests, CRStatus.Value = "Closed" || CRStatus.Value = "Rejected" || CRStatus.Value = "Approved")))
+            Width: =400
+            X: =944
+            Y: =lblTileClosedLblDS.Y + lblTileClosedLblDS.Height
+            ZIndex: =1
+
+        conStatusTiles As groupContainer:
+            X: =0
+            Y: =192
+            Width: =Parent.Width
+            Height: =110
+            Fill: =RGBA(0, 0, 0, 0)
+
+            recStatusNew As rectangle:
+                X: =16
+                Y: =0
+                Width: =140
+                Height: =100
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                Fill: =RGBA(1, 37, 84, 1)
+
+            lblStatusNewLbl As label:
+                X: =4
+                Y: =4
+                Width: =132
+                Height: =45
+                Text: ="Draft"
+                Color: =RGBA(174, 214, 241, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Bold
+                Size: =12
+                Align: =Align.Center
+                Wrap: =true
+
+            lblStatusNewCount As label:
+                X: =4
+                Y: =56
+                Width: =132
+                Height: =32
+                Text: =Text(CountRows(Filter(CRRequests, CRStatus.Value = "Draft")))
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.'Segoe UI'
+                Size: =24
+                FontWeight: =FontWeight.Bold
+                Align: =Align.Center
+
+            recStatusSubmitted As rectangle:
+                X: =164
+                Y: =0
+                Width: =140
+                Height: =100
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                Fill: =RGBA(1, 37, 84, 1)
+
+            lblStatusSubmittedLbl As label:
+                X: =164
+                Y: =4
+                Width: =140
+                Height: =45
+                Text: ="Submitted"
+                Color: =RGBA(174, 214, 241, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Bold
+                Size: =12
+                Align: =Align.Center
+                Wrap: =true
+
+            lblStatusSubmittedCount As label:
+                X: =164
+                Y: =56
+                Width: =140
+                Height: =32
+                Text: =Text(CountRows(Filter(CRRequests, CRStatus.Value = "Submitted")))
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.'Segoe UI'
+                Size: =24
+                FontWeight: =FontWeight.Bold
+                Align: =Align.Center
+
+            recStatusInAssess As rectangle:
+                X: =312
+                Y: =0
+                Width: =140
+                Height: =100
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                Fill: =RGBA(1, 37, 84, 1)
+
+            lblStatusInAssessLbl As label:
+                X: =312
+                Y: =4
+                Width: =140
+                Height: =45
+                Text: ="In Assessment"
+                Color: =RGBA(174, 214, 241, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Bold
+                Size: =12
+                Align: =Align.Center
+                Wrap: =true
+
+            lblStatusInAssessCount As label:
+                X: =312
+                Y: =56
+                Width: =140
+                Height: =32
+                Text: =Text(CountRows(Filter(CRRequests, CRStatus.Value = "In Assessment")))
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.'Segoe UI'
+                Size: =24
+                FontWeight: =FontWeight.Bold
+                Align: =Align.Center
+
+            recStatusPMOCons As rectangle:
+                X: =460
+                Y: =0
+                Width: =140
+                Height: =100
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                Fill: =RGBA(1, 37, 84, 1)
+
+            lblStatusPMOConsLbl As label:
+                X: =460
+                Y: =4
+                Width: =140
+                Height: =45
+                Text: ="PMO Consolidation"
+                Color: =RGBA(174, 214, 241, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Bold
+                Size: =12
+                Align: =Align.Center
+                Wrap: =true
+
+            lblStatusPMOConsCount As label:
+                X: =460
+                Y: =56
+                Width: =140
+                Height: =32
+                Text: =Text(CountRows(Filter(CRRequests, CRStatus.Value = "PMO Consolidation")))
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.'Segoe UI'
+                Size: =24
+                FontWeight: =FontWeight.Bold
+                Align: =Align.Center
+
+            recStatusProgMeet As rectangle:
+                X: =608
+                Y: =0
+                Width: =140
+                Height: =100
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                Fill: =RGBA(1, 37, 84, 1)
+
+            lblStatusProgMeetLbl As label:
+                X: =608
+                Y: =4
+                Width: =140
+                Height: =45
+                Text: ="Programme Meeting"
+                Color: =RGBA(174, 214, 241, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Bold
+                Size: =12
+                Align: =Align.Center
+                Wrap: =true
+
+            lblStatusProgMeetCount As label:
+                X: =608
+                Y: =56
+                Width: =140
+                Height: =32
+                Text: =Text(CountRows(Filter(CRRequests, CRStatus.Value = "Programme Meeting")))
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.'Segoe UI'
+                Size: =24
+                FontWeight: =FontWeight.Bold
+                Align: =Align.Center
+
+            recStatusPreSG As rectangle:
+                X: =756
+                Y: =0
+                Width: =140
+                Height: =100
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                Fill: =RGBA(1, 37, 84, 1)
+
+            lblStatusPreSGLbl As label:
+                X: =756
+                Y: =4
+                Width: =140
+                Height: =45
+                Text: ="Pre-SG Distribution"
+                Color: =RGBA(174, 214, 241, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Bold
+                Size: =12
+                Align: =Align.Center
+                Wrap: =true
+
+            lblStatusPreSGCount As label:
+                X: =756
+                Y: =56
+                Width: =140
+                Height: =32
+                Text: =Text(CountRows(Filter(CRRequests, CRStatus.Value = "Pre-SG Distribution")))
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.'Segoe UI'
+                Size: =24
+                FontWeight: =FontWeight.Bold
+                Align: =Align.Center
+
+            recStatusSGReview As rectangle:
+                X: =904
+                Y: =0
+                Width: =140
+                Height: =100
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                Fill: =RGBA(1, 37, 84, 1)
+
+            lblStatusSGReviewLbl As label:
+                X: =904
+                Y: =4
+                Width: =140
+                Height: =45
+                Text: ="SG Review"
+                Color: =RGBA(174, 214, 241, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Bold
+                Size: =12
+                Align: =Align.Center
+                Wrap: =true
+
+            lblStatusSGReviewCount As label:
+                X: =904
+                Y: =56
+                Width: =140
+                Height: =32
+                Text: =Text(CountRows(Filter(CRRequests, CRStatus.Value = "SG Review")))
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.'Segoe UI'
+                Size: =24
+                FontWeight: =FontWeight.Bold
+                Align: =Align.Center
+
+            recStatusApproved As rectangle:
+                X: =1052
+                Y: =0
+                Width: =140
+                Height: =100
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                Fill: =RGBA(1, 37, 84, 1)
+
+            lblStatusApprovedLbl As label:
+                X: =1052
+                Y: =4
+                Width: =140
+                Height: =45
+                Text: ="Approved"
+                Color: =RGBA(174, 214, 241, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Bold
+                Size: =12
+                Align: =Align.Center
+                Wrap: =true
+
+            lblStatusApprovedCount As label:
+                X: =1052
+                Y: =56
+                Width: =140
+                Height: =32
+                Text: =Text(CountRows(Filter(CRRequests, CRStatus.Value = "Approved")))
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.'Segoe UI'
+                Size: =24
+                FontWeight: =FontWeight.Bold
+                Align: =Align.Center
+
+            recStatusRejected As rectangle:
+                X: =1200
+                Y: =0
+                Width: =140
+                Height: =100
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                Fill: =RGBA(1, 37, 84, 1)
+
+            lblStatusRejectedLbl As label:
+                X: =1200
+                Y: =4
+                Width: =140
+                Height: =45
+                Text: ="Rejected"
+                Color: =RGBA(174, 214, 241, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Bold
+                Size: =12
+                Align: =Align.Center
+                Wrap: =true
+
+            lblStatusRejectedCount As label:
+                X: =1200
+                Y: =56
+                Width: =140
+                Height: =32
+                Text: =Text(CountRows(Filter(CRRequests, CRStatus.Value = "Rejected")))
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.'Segoe UI'
+                Size: =24
+                FontWeight: =FontWeight.Bold
+                Align: =Align.Center
+
+        recTileOnTrackDS As rectangle:
+            Fill: =RGBA(39, 174, 96, 1)
+            Height: =70
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            Width: =418
+            X: =16
+            Y: =304
+
+        lblTileOnTrackLblDS As label:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =24
+            Text: ="On Track (>14 days)"
+            Width: =400
+            X: =28
+            Y: =312
+
+        lblTileOnTrackCountDS As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =32
+            Size: =28
+            Text: =Text(CountRows(Filter(CRRequests, AIPSGTargetDate > DateAdd(Today(), 14, TimeUnit.Days), CRStatus.Value <> "Closed" && CRStatus.Value <> "Approved" && CRStatus.Value <> "Rejected")))
+            Width: =400
+            X: =28
+            Y: =lblTileOnTrackLblDS.Y + lblTileOnTrackLblDS.Height
+            ZIndex: =1
+
+        recTileDueSoonDS As rectangle:
+            Fill: =RGBA(243, 156, 18, 1)
+            Height: =70
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            Width: =418
+            X: =474
+            Y: =304
+
+        lblTileDueSoonLblDS As label:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =24
+            Text: ="Due ≤ 2 Weeks"
+            Width: =400
+            X: =486
+            Y: =312
+
+        lblTileDueSoonCountDS As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =32
+            Size: =28
+            Text: =Text(CountRows(Filter(CRRequests, AIPSGTargetDate <= DateAdd(Today(), 14, TimeUnit.Days), AIPSGTargetDate >= Today(), CRStatus.Value <> "Closed" && CRStatus.Value <> "Approved" && CRStatus.Value <> "Rejected")))
+            Width: =400
+            X: =486
+            Y: =lblTileDueSoonLblDS.Y + lblTileDueSoonLblDS.Height
+            ZIndex: =1
+
+        recTileOverdueDS As rectangle:
+            Fill: =RGBA(192, 57, 43, 1)
+            Height: =70
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            Width: =418
+            X: =932
+            Y: =304
+
+        lblTileOverdueLblDS As label:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =24
+            Text: ="Overdue"
+            Width: =400
+            X: =944
+            Y: =312
+
+        lblTileOverdueCountDS As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =32
+            Size: =28
+            Text: =Text(CountRows(Filter(CRRequests, AIPSGTargetDate < Today(), CRStatus.Value <> "Closed" && CRStatus.Value <> "Approved" && CRStatus.Value <> "Rejected")))
+            Width: =400
+            X: =944
+            Y: =lblTileOverdueLblDS.Y + lblTileOverdueLblDS.Height
+            ZIndex: =1
+
+        recTileAllGreenDS As rectangle:
+            Fill: =RGBA(39, 174, 96, 1)
+            Height: =70
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            Width: =320
+            X: =16
+            Y: =388
+
+        lblTileAllGreenLblDS As label:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =24
+            Text: ="All Green"
+            Width: =300
+            X: =28
+            Y: =396
+
+        lblTileAllGreenCountDS As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =32
+            Size: =28
+            Text: =Text(CountRows(Filter(CRRequests, CRStatus.Value <> "Closed" && CRStatus.Value <> "Approved" && CRStatus.Value <> "Rejected", CountIf(CRStakeholderReviews, CRNumber.CRNumber = ThisRecord.CRNumber, RAGStatus.Value = "Red" || RAGStatus.Value = "Amber") = 0)))
+            Width: =300
+            X: =28
+            Y: =lblTileAllGreenLblDS.Y + lblTileAllGreenLblDS.Height
+            ZIndex: =1
+            Wrap: =true
+
+        recTileHasAmberDS As rectangle:
+            Fill: =RGBA(243, 156, 18, 1)
+            Height: =70
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            Width: =320
+            X: =348
+            Y: =388
+
+        lblTileHasAmberLblDS As label:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =24
+            Text: ="Has Amber"
+            Width: =300
+            X: =360
+            Y: =396
+
+        lblTileHasAmberCountDS As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =32
+            Size: =28
+            Text: =Text(CountRows(Filter(CRRequests, CRStatus.Value <> "Closed", CountIf(CRStakeholderReviews, CRNumber.CRNumber = ThisRecord.CRNumber, RAGStatus.Value = "Red") = 0 && CountIf(CRStakeholderReviews, CRNumber.CRNumber = ThisRecord.CRNumber, RAGStatus.Value = "Amber") > 0)))
+            Width: =300
+            X: =360
+            Y: =lblTileHasAmberLblDS.Y + lblTileHasAmberLblDS.Height
+            ZIndex: =1
+            Wrap: =true
+
+        recTileHasRedDS As rectangle:
+            Fill: =RGBA(192, 57, 43, 1)
+            Height: =70
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            Width: =320
+            X: =680
+            Y: =388
+
+        lblTileHasRedLblDS As label:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =24
+            Text: ="Has Red"
+            Width: =300
+            X: =692
+            Y: =396
+
+        lblTileHasRedCountDS As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =32
+            Size: =28
+            Text: =Text(CountRows(Filter(CRRequests, CRStatus.Value <> "Closed", CountIf(CRStakeholderReviews, CRNumber.CRNumber = ThisRecord.CRNumber, RAGStatus.Value = "Red") > 0)))
+            Width: =300
+            X: =692
+            Y: =lblTileHasRedLblDS.Y + lblTileHasRedLblDS.Height
+            ZIndex: =1
+            Wrap: =true
+
+        recTilePaleBlueDS As rectangle:
+            Fill: =RGBA(174, 214, 241, 1)
+            Height: =70
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            Width: =338
+            X: =1012
+            Y: =388
+
+        lblTilePaleBlueLblDS As label:
+            Color: =RGBA(1, 37, 84, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =24
+            Text: ="Pale Blue Outstanding"
+            Width: =318
+            X: =1024
+            Y: =396
+
+        lblTilePaleBlueCountDS As label:
+            Align: =Align.Center
+            Color: =RGBA(1, 37, 84, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =32
+            Size: =28
+            Text: =Text(CountRows(Filter(CRRequests, CRStatus.Value <> "Closed", CountIf(CRStakeholderReviews, CRNumber.CRNumber = ThisRecord.CRNumber, RAGStatus.Value = "Not Started") > 0)))
+            Width: =318
+            X: =1024
+            Y: =lblTilePaleBlueLblDS.Y + lblTilePaleBlueLblDS.Height
+            ZIndex: =1
+            Wrap: =true
+
+        recProgTableHeaderDS As rectangle:
+            Fill: =RGBA(1, 37, 84, 1)
+            Height: =36
+            Width: =Parent.Width
+            X: =0
+            Y: =470
+
+        lblProgTableProgrammeDS As label:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =36
+            Size: =11
+            Text: ="PROGRAMME"
+            Width: =250
+            X: =8
+            Y: =470
+
+        lblProgTableOpenDS As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =36
+            Size: =11
+            Text: ="OPEN"
+            Width: =100
+            X: =258
+            Y: =470
+
+        lblProgTableInAssessDS As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =36
+            Size: =11
+            Text: ="IN ASSESSMENT"
+            Width: =120
+            X: =358
+            Y: =470
+
+        lblProgTableSGReadyDS As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =36
+            Size: =11
+            Text: ="SG READY"
+            Width: =100
+            X: =478
+            Y: =470
+
+        lblProgTableApprovedDS As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =36
+            Size: =11
+            Text: ="APPROVED"
+            Width: =100
+            X: =578
+            Y: =470
+
+        lblProgTableRejectedDS As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =36
+            Size: =11
+            Text: ="REJECTED"
+            Width: =100
+            X: =678
+            Y: =470
+
+        galProgTableDS As gallery:
+            Height: =Parent.Height - 506
+            Items: =colProgrammeStats
+            TemplateHeight: =40
+            TemplatePadding: =0
+            Width: =Parent.Width
+            X: =0
+            Y: =506
+
+            recProgRowBgDS As rectangle:
+                Fill: =If(Mod(CountRows(Filter(colProgrammeStats, ProgrammeName < ThisItem.ProgrammeName)), 2) = 0, RGBA(249, 249, 249, 1), RGBA(255, 255, 255, 1))
+                Height: =39
+                Width: =Parent.Width
+                X: =0
+                Y: =0
+
+            lblProgNameDS As label:
+                Color: =RGBA(33, 33, 33, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =28
+                Text: =ThisItem.ProgrammeName
+                Width: =248
+                X: =8
+                Y: =8
+
+            lblProgOpenDS As label:
+                Align: =Align.Center
+                Color: =RGBA(33, 33, 33, 1)
+                Font: =Font.'Segoe UI'
+                Height: =28
+                Text: =Text(ThisItem.Open)
+                Width: =100
+                X: =258
+                Y: =8
+
+            lblProgInAssessDS As label:
+                Align: =Align.Center
+                Color: =RGBA(33, 33, 33, 1)
+                Font: =Font.'Segoe UI'
+                Height: =28
+                Text: =Text(ThisItem.InAssessment)
+                Width: =120
+                X: =358
+                Y: =8
+
+            lblProgSGReadyDS As label:
+                Align: =Align.Center
+                Color: =RGBA(33, 33, 33, 1)
+                Font: =Font.'Segoe UI'
+                Height: =28
+                Text: =Text(ThisItem.SGReady)
+                Width: =100
+                X: =478
+                Y: =8
+
+            lblProgApprovedDS As label:
+                Align: =Align.Center
+                Color: =RGBA(39, 174, 96, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =28
+                Text: =Text(ThisItem.Approved)
+                Width: =100
+                X: =578
+                Y: =8
+
+            lblProgRejectedDS As label:
+                Align: =Align.Center
+                Color: =RGBA(192, 57, 43, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =28
+                Text: =Text(ThisItem.Rejected)
+                Width: =100
+                X: =678
+                Y: =8
+

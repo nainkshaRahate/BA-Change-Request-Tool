@@ -1,0 +1,272 @@
+"'Programme Meeting Screen' As screen":
+    Fill: =RGBA(245, 247, 250, 1)
+    OnVisible: |
+        =/*
+          Programme Meeting Screen — OnVisible
+          Purpose: Display CRs in "Programme Meeting" status for attendance confirmation
+                   and progression to Pre-SG Distribution.
+          Author:  IAG Tech Developer
+          Date:    07 Apr 2026
+        */
+        Set(gblFormError, "");
+        // Build AIPSG meeting-date filter (table union via & is NOT supported — use ForAll).
+        ClearCollect(colFilterPMS, {Value: "All Dates", MeetingDate: Blank()});
+        ForAll(AIPSGMeetings, Collect(colFilterPMS, {Value: Text(MeetingDate, "dd mmm yyyy"), MeetingDate: MeetingDate}))
+
+    conMainPMS As groupContainer:
+        Height: =Parent.Height
+        Width: =Parent.Width
+
+        conHeaderPMS As groupContainer:
+            Height: =50
+            Width: =Parent.Width
+
+            recHeaderPMS As rectangle:
+                Fill: =RGBA(1, 37, 84, 1)
+                Height: =Parent.Height
+                Width: =Parent.Width
+                X: =0
+                Y: =0
+
+            recGoldAccentPMS As rectangle:
+                Fill: =RGBA(186, 150, 46, 1)
+                Height: =3
+                Width: =Parent.Width
+                X: =0
+                Y: =47
+
+            imgLogoPMS As image:
+                Height: =20
+                Image: =""
+                ImagePosition: =ImagePosition.Fit
+                Width: =40
+                X: =8
+                Y: =15
+
+            lblHeaderPMS As label:
+                Align: =Align.Center
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =Parent.Height
+                Size: =16
+                Text: ="Programme Meeting View"
+                Width: =Parent.Width
+                X: =0
+                Y: =0
+
+        conSubNavPMS As groupContainer:
+            Height: =45
+            Width: =Parent.Width
+            Y: =conHeaderPMS.Y + conHeaderPMS.Height
+
+            recSubNavPMS As rectangle:
+                Fill: =RGBA(0, 22, 55, 1)
+                Height: =Parent.Height
+                Width: =Parent.Width
+                X: =0
+                Y: =0
+
+            btnHomePMS As button:
+                BorderThickness: =0
+                Fill: =RGBA(0, 22, 55, 1)
+                Height: =36
+                OnSelect: =Navigate('Home Screen', ScreenTransition.None)
+                Size: =16
+                Text: ="🏠"
+                Width: =36
+                X: =8
+                Y: =4
+
+        lblFilterLblPMS As label:
+            Color: =RGBA(33, 33, 33, 1)
+            Font: =Font.'Segoe UI'
+            Height: =28
+            Size: =12
+            Text: |-
+                ="AIPSG Meeting Date:"
+            Width: =168
+            X: =16
+            Y: =conSubNavPMS.Y + conSubNavPMS.Height + 8
+
+        ddlFilterPMS As dropdown:
+            BorderColor: =RGBA(180, 196, 218, 1)
+            Font: =Font.'Segoe UI'
+            Height: =34
+            Items: =colFilterPMS
+            Size: =12
+            Width: =240
+            X: =192
+            Y: =lblFilterLblPMS.Y - 3
+
+        galCRsPMS As gallery:
+            Height: =Parent.Height - Self.Y
+            Items: =Filter(CRRequests, CRStatus.Value = "Programme Meeting", IsBlank(ddlFilterPMS.Selected.MeetingDate) Or AIPSGTargetDate = ddlFilterPMS.Selected.MeetingDate)
+            Layout: =Layout.Vertical
+            TemplateHeight: =140
+            TemplatePadding: =8
+            WrapCount: =1
+            Width: =Parent.Width
+            X: =0
+            Y: =ddlFilterPMS.Y + ddlFilterPMS.Height + 11
+
+            recCardBgPMS As rectangle:
+                Fill: =RGBA(255, 255, 255, 1)
+                Height: =132
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                Width: =Parent.Width - 16
+                X: =0
+                Y: =0
+
+            recCardBorderPMS As rectangle:
+                Fill: =RGBA(1, 37, 84, 1)
+                Height: =132
+                Width: =4
+                X: =0
+                Y: =0
+
+            lblCRNumPMS As label:
+                Color: =RGBA(1, 37, 84, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Bold
+                Height: =28
+                Size: =14
+                Text: =ThisItem.CRNumber
+                Width: =80
+                X: =12
+                Y: =8
+
+            lblTitlePMS As label:
+                Color: =RGBA(33, 33, 33, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =28
+                Text: =ThisItem.CRTitle
+                Width: =Parent.Width - 360
+                X: =100
+                Y: =8
+
+            lblProgrammePMS As label:
+                Color: =RGBA(117, 117, 117, 1)
+                Font: =Font.'Segoe UI'
+                Height: =22
+                Size: =12
+                Text: =ThisItem.ProgrammeName
+                Width: =200
+                X: =12
+                Y: =40
+
+            lblPMPMS As label:
+                Color: =RGBA(117, 117, 117, 1)
+                Font: =Font.'Segoe UI'
+                Height: =22
+                Size: =12
+                Text: =ThisItem.ProjectManager.DisplayName
+                Width: =200
+                X: =220
+                Y: =40
+
+            lblRAGSummaryPMS As label:
+                Font: =Font.'Segoe UI'
+                Height: =28
+                Size: =14
+                Text: |
+                    =Concat(
+                      Filter(CRStakeholderReviews, CRNumber = ThisItem.CRNumber),
+                      Switch(RAGStatus.Value,"Green","🟢","Amber","🟡","Red","🔴","Grey","⬜","🔵") & " "
+                    )
+                Width: =200
+                X: =12
+                Y: =68
+
+            chkAttendancePMS As checkbox:
+                Default: =ThisItem.AttendanceConfirmed
+                Font: =Font.'Segoe UI'
+                Height: =28
+                OnCheck: |-
+                    =Patch(CRRequests, ThisItem, {AttendanceConfirmed: true})
+                OnUncheck: |-
+                    =Patch(CRRequests, ThisItem, {AttendanceConfirmed: false})
+                Size: =12
+                Text: ="✓ Owner Attending"
+                Width: =200
+                X: =220
+                Y: =68
+
+            lblDelegateLblPMS As label:
+                Color: =RGBA(243, 156, 18, 1)
+                Font: =Font.'Segoe UI'
+                Height: =28
+                Size: =12
+                Text: |-
+                    ="⚠ Delegate:"
+                Width: =80
+                X: =430
+                Y: =68
+
+            txtDelegatePMS As text:
+                BorderColor: =RGBA(180, 196, 218, 1)
+                BorderThickness: =1
+                Default: =ThisItem.DelegateAttending
+                Font: =Font.'Segoe UI'
+                Height: =28
+                HintText: ="Delegate name..."
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                Size: =12
+                Width: =200
+                X: =514
+                Y: =68
+
+            btnDeferPMS As button:
+                BorderThickness: =0
+                Fill: =RGBA(149, 165, 166, 1)
+                Font: =Font.'Segoe UI'
+                Height: =32
+                OnSelect: |
+                    =Patch(CRRequests, ThisItem, {CRStatus: {Value: "Deferred"}, SGDecisionNotes: "Deferred at Programme Meeting - no attendance"});
+                    If(IsEmpty(Errors(CRRequests)),
+                      Notify(ThisItem.CRNumber & " deferred — no attending owner or delegate.", NotificationType.Warning),
+                      Notify("Action failed — " & First(Errors(CRRequests)).Message, NotificationType.Error)
+                    )
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                Size: =12
+                Text: ="Defer This CR"
+                Visible: =gblIsPMO
+                Width: =140
+                X: =Parent.Width - 370
+                Y: =96
+
+            btnProceedPMS As button:
+                BorderThickness: =0
+                Fill: =RGBA(39, 174, 96, 1)
+                Font: =Font.'Segoe UI'
+                Height: =32
+                OnSelect: |
+                    =If(Not(ThisItem.AttendanceConfirmed) And IsBlank(ThisItem.DelegateAttending),
+                      Notify("Cannot proceed — no attendance confirmed. Per CR Process Guide V1, a CR with no attending owner or delegate cannot be discussed and must be deferred.", NotificationType.Warning),
+                      Patch(CRRequests, ThisItem, {CRStatus: {Value: "Pre-SG Distribution"}, DelegateAttending: txtDelegatePMS.Text});
+                      If(IsEmpty(Errors(CRRequests)),
+                        Notify(ThisItem.CRNumber & " moved to Pre-SG Distribution.", NotificationType.Success),
+                        Notify("Action failed — " & First(Errors(CRRequests)).Message, NotificationType.Error)
+                      )
+                    )
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                Size: =12
+                Text: ="Proceed to Pre-SG"
+                Visible: =gblIsPMO
+                Width: =180
+                X: =Parent.Width - 220
+                Y: =96
+

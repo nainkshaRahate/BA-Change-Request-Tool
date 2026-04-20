@@ -5,3 +5,6 @@
 .DS_Store
 # Added by code-review-graph
 .code-review-graph/
+
+# graphify — derived graph artifacts, local only
+graphify-out/

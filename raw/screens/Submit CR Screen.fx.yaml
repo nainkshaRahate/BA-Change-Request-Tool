@@ -1,0 +1,522 @@
+"'Submit CR Screen' As screen":
+    Fill: =RGBA(245, 247, 250, 1)
+    OnVisible: |
+        =/*
+          Submit CR Screen — OnVisible
+          Purpose: Part A of the CR submission form — Identification fields.
+          Author:  IAG Tech Developer
+          Date:    07 Apr 2026
+        */
+        // Clear any stale validation error from a previous navigation.
+        // PM/Sponsor dropdowns bind directly to CRUserAdmin (no collection) so
+        // the list loads on first paint without depending on a ForAll/Collect race.
+        Set(gblFormError, "")
+
+    conMainSCS As groupContainer:
+        Height: =Parent.Height
+        Width: =Parent.Width
+
+        conHeaderSCS As groupContainer:
+            Height: =50
+            Width: =Parent.Width
+
+            recHeaderSCS As rectangle:
+                Fill: =RGBA(1, 37, 84, 1)
+                Height: =Parent.Height
+                Width: =Parent.Width
+                X: =0
+                Y: =0
+
+            recGoldAccentSCS As rectangle:
+                Fill: =RGBA(186, 150, 46, 1)
+                Height: =3
+                Width: =Parent.Width
+                X: =0
+                Y: =47
+
+            imgLogoSCS As image:
+                Height: =20
+                Image: =""
+                ImagePosition: =ImagePosition.Fit
+                Width: =40
+                X: =8
+                Y: =15
+
+            lblHeaderSCS As label:
+                Align: =Align.Center
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =Parent.Height
+                Size: =15
+                Text: |-
+                    =If(gblCRMode = "New", "Submit New Change Request — Part A: Identification", "Edit Change Request — Part A: Identification")
+                Width: =Parent.Width
+                X: =0
+                Y: =0
+
+        conSubNavSCS As groupContainer:
+            Height: =45
+            Width: =Parent.Width
+            Y: =conHeaderSCS.Y + conHeaderSCS.Height
+
+            recSubNavSCS As rectangle:
+                Fill: =RGBA(0, 22, 55, 1)
+                Height: =Parent.Height
+                Width: =Parent.Width
+                X: =0
+                Y: =0
+
+            btnHomeSCS As button:
+                BorderThickness: =0
+                Fill: =RGBA(0, 22, 55, 1)
+                Height: =36
+                OnSelect: =Navigate('Home Screen', ScreenTransition.None)
+                Size: =16
+                Text: ="🏠"
+                Width: =36
+                X: =8
+                Y: =4
+
+            btnCancelSCS As button:
+                BorderThickness: =0
+                Fill: =RGBA(0, 22, 55, 1)
+                Height: =36
+                OnSelect: =Navigate('View CRs Screen', ScreenTransition.None)
+                Size: =16
+                Text: ="✕"
+                Width: =36
+                X: =48
+                Y: =btnHomeSCS.Y
+
+            btnClearSCS As button:
+                BorderThickness: =0
+                Fill: =RGBA(108, 117, 125, 1)
+                Font: =Font.'Segoe UI'
+                Height: =34
+                OnSelect: |
+                    =/* Clear all form fields on Part A and reset global state. */
+                    Set(gblDetailCR, Defaults(CRRequests));
+                    Reset(txtCRNumSCS);
+                    Reset(txtProgCodeSCS);
+                    Reset(txtProgNameSCS);
+                    Reset(txtTitleSCS);
+                    Reset(txtSupplierSCS);
+                    Reset(txtSupRefSCS);
+                    Reset(ddlPMSCS);
+                    Reset(ddlSponsorSCS);
+                    Reset(dteAIPSGSCS);
+                    Reset(dteDeadlineSCS);
+                    Set(gblFormError, "");
+                    Notify("Form cleared.", NotificationType.Information)
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                Size: =13
+                Text: ="Clear"
+                Width: =90
+                X: =Parent.Width - 400
+                Y: =btnHomeSCS.Y + 1
+
+            btnSaveDraftSCS As button:
+                BorderThickness: =0
+                Fill: =RGBA(149, 165, 166, 1)
+                Font: =Font.'Segoe UI'
+                Height: =34
+                OnSelect: |
+                    =/* Save as Draft — CR Number is the only required field for a draft.
+                       Person columns (Originator/PM/Sponsor) are intentionally omitted
+                       here: malformed Person records throw silent runtime errors that
+                       abort OnSelect before any Notify can fire. */
+                    Set(gblFormError, "");
+                    If(IsBlank(txtCRNumSCS.Text) Or txtCRNumSCS.Text = "",
+                      Set(gblFormError, "CR Number is required to save a draft.");
+                      Notify("CR Number is required to save a draft.", NotificationType.Warning),
+                      Patch(CRRequests,
+                        If(gblCRMode = "New", Defaults(CRRequests), gblDetailCR),
+                        {
+                          Title: Upper(txtProgCodeSCS.Text) & ": " & txtCRNumSCS.Text & " - " & Upper(txtTitleSCS.Text),
+                          CRNumber: txtCRNumSCS.Text,
+                          ProgrammeCode: Upper(txtProgCodeSCS.Text),
+                          ProgrammeName: txtProgNameSCS.Text,
+                          CRTitle: Upper(txtTitleSCS.Text),
+                          Supplier: txtSupplierSCS.Text,
+                          SupplierReference: txtSupRefSCS.Text,
+                          AIPSGTargetDate: dteAIPSGSCS.SelectedDate,
+                          SubmissionDeadline: dteDeadlineSCS.SelectedDate,
+                          IsDraft: true,
+                          CRStatus: {Value: "Draft"}
+                        }
+                      );
+                      If(IsEmpty(Errors(CRRequests)),
+                        Notify("Draft saved successfully.", NotificationType.Success);
+                        Navigate('View CRs Screen', ScreenTransition.None),
+                        Set(gblFormError, "Save failed — " & First(Errors(CRRequests)).Message);
+                        Notify("Save failed: " & First(Errors(CRRequests)).Message, NotificationType.Error)
+                      )
+                    )
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                Size: =13
+                Text: ="Save as Draft"
+                Width: =130
+                X: =Parent.Width - 300
+                Y: =btnHomeSCS.Y + 1
+
+            btnContinueSCS As button:
+                BorderThickness: =0
+                Fill: =RGBA(1, 37, 84, 1)
+                Font: =Font.'Segoe UI'
+                Height: =34
+                OnSelect: |
+                    =/* Validate required fields sequentially; each check only sets the
+                       error message if no earlier check already set one.
+                       Multi-branch If with chained ;+comments was fragile through
+                       pack/unpack — flat sequential Ifs are stable.
+                       Person columns (PM/Sponsor/Originator) are intentionally omitted
+                       from Patch — incomplete Person records silently abort OnSelect.
+                       They will be saved on Part B via a dedicated Person-column Patch. */
+                    Set(gblFormError, "");
+                    If(IsBlank(txtCRNumSCS.Text) Or txtCRNumSCS.Text = "",
+                      Set(gblFormError, "CR Number is required."));
+                    If(IsBlank(gblFormError) And (IsBlank(txtProgCodeSCS.Text) Or txtProgCodeSCS.Text = ""),
+                      Set(gblFormError, "Programme Code is required."));
+                    If(IsBlank(gblFormError) And (IsBlank(txtProgNameSCS.Text) Or txtProgNameSCS.Text = ""),
+                      Set(gblFormError, "Programme Name is required."));
+                    If(IsBlank(gblFormError) And (IsBlank(txtTitleSCS.Text) Or txtTitleSCS.Text = ""),
+                      Set(gblFormError, "CR Title is required."));
+                    If(IsBlank(gblFormError) And IsBlank(ddlPMSCS.Selected.Value),
+                      Set(gblFormError, "Project Manager must be selected."));
+                    If(IsBlank(gblFormError) And IsBlank(ddlSponsorSCS.Selected.Value),
+                      Set(gblFormError, "CR Sponsor must be selected."));
+                    If(IsBlank(gblFormError) And IsBlank(dteAIPSGSCS.SelectedDate),
+                      Set(gblFormError, "AIPSG Target Date is required."));
+                    If(Not(IsBlank(gblFormError)),
+                      Notify(gblFormError, NotificationType.Warning),
+                      Set(gblDetailCR,
+                        Patch(CRRequests,
+                          If(gblCRMode = "New", Defaults(CRRequests), gblDetailCR),
+                          {
+                            Title: Upper(txtProgCodeSCS.Text) & ": " & txtCRNumSCS.Text & " - " & Upper(txtTitleSCS.Text),
+                            CRNumber: txtCRNumSCS.Text,
+                            ProgrammeCode: Upper(txtProgCodeSCS.Text),
+                            ProgrammeName: txtProgNameSCS.Text,
+                            CRTitle: Upper(txtTitleSCS.Text),
+                            Supplier: txtSupplierSCS.Text,
+                            SupplierReference: txtSupRefSCS.Text,
+                            AIPSGTargetDate: dteAIPSGSCS.SelectedDate,
+                            SubmissionDeadline: dteDeadlineSCS.SelectedDate,
+                            IsDraft: true,
+                            CRStatus: {Value: "Draft"}
+                          }
+                        )
+                      );
+                      If(IsEmpty(Errors(CRRequests)),
+                        Set(gblCRMode, "Edit");
+                        Navigate('Submit CR B Screen', ScreenTransition.None),
+                        Set(gblFormError, "Save failed — " & First(Errors(CRRequests)).Message);
+                        Notify("Save failed: " & First(Errors(CRRequests)).Message, NotificationType.Error)
+                      )
+                    )
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                Size: =13
+                Text: ="Next →"
+                Width: =150
+                X: =Parent.Width - 162
+                Y: =btnHomeSCS.Y + 1
+
+    lblErrorSCS As label:
+        Color: =RGBA(192, 57, 43, 1)
+        Fill: =RGBA(253, 237, 237, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =36
+        PaddingLeft: =8
+        Size: =12
+        Text: =gblFormError
+        Visible: =Not(IsBlank(gblFormError))
+        Width: =Parent.Width - 32
+        X: =16
+        Y: =98
+
+    recSectionIdSCS As rectangle:
+        Fill: =RGBA(1, 37, 84, 1)
+        Height: =28
+        Width: =Parent.Width
+        X: =0
+        Y: =128
+
+    lblSectionIdSCS As label:
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =28
+        Size: =12
+        Text: ="IDENTIFICATION"
+        Width: =Parent.Width
+        X: =16
+        Y: =128
+
+    lblCRNumLblSCS As label:
+        Color: =RGBA(192, 57, 43, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =12
+        Text: ="❗ CR Number *"
+        Width: =400
+        X: =16
+        Y: =164
+
+    txtCRNumSCS As text:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
+        Default: =gblDetailCR.CRNumber
+        Font: =Font.'Segoe UI'
+        Height: =36
+        HintText: ="e.g. CR05 or CR123"
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =400
+        X: =16
+        Y: =184
+
+    lblProgCodeLblSCS As label:
+        Color: =RGBA(192, 57, 43, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =12
+        Text: ="❗ Programme Code *"
+        Width: =640
+        X: =16
+        Y: =232
+
+    txtProgCodeSCS As text:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
+        Default: =gblDetailCR.ProgrammeCode
+        Font: =Font.'Segoe UI'
+        Height: =36
+        HintText: ="e.g. A380, A32X"
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =640
+        X: =16
+        Y: =252
+
+    lblProgNameLblSCS As label:
+        Color: =RGBA(192, 57, 43, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =12
+        Text: ="❗ Programme Name *"
+        Width: =Parent.Width - 716
+        X: =700
+        Y: =232
+
+    txtProgNameSCS As text:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
+        Default: =gblDetailCR.ProgrammeName
+        Font: =Font.'Segoe UI'
+        Height: =36
+        HintText: ="e.g. A380 Horizon"
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =Parent.Width - 716
+        X: =700
+        Y: =252
+
+    lblTitleLblSCS As label:
+        Color: =RGBA(192, 57, 43, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =12
+        Text: ="❗ CR Title *"
+        Width: =Parent.Width - 32
+        X: =16
+        Y: =300
+
+    txtTitleSCS As text:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
+        Default: =gblDetailCR.CRTitle
+        Font: =Font.'Segoe UI'
+        Height: =36
+        HintText: ="Descriptive title (will be uppercased)"
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =Parent.Width - 32
+        X: =16
+        Y: =320
+
+    lblSupplierLblSCS As label:
+        Color: =RGBA(33, 33, 33, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =12
+        Text: ="Supplier"
+        Width: =640
+        X: =16
+        Y: =368
+
+    txtSupplierSCS As text:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
+        Default: =gblDetailCR.Supplier
+        Font: =Font.'Segoe UI'
+        Height: =36
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =640
+        X: =16
+        Y: =388
+
+    lblSupRefLblSCS As label:
+        Color: =RGBA(33, 33, 33, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =12
+        Text: ="Supplier Reference"
+        Width: =Parent.Width - 716
+        X: =700
+        Y: =368
+
+    txtSupRefSCS As text:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
+        Default: =gblDetailCR.SupplierReference
+        Font: =Font.'Segoe UI'
+        Height: =36
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =Parent.Width - 716
+        X: =700
+        Y: =388
+
+    lblPMLblSCS As label:
+        Color: =RGBA(192, 57, 43, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =12
+        Text: ="❗ Project Manager *"
+        Width: =640
+        X: =16
+        Y: =436
+
+    ddlPMSCS As dropdown:
+        AllowEmptySelection: =true
+        BorderColor: =RGBA(180, 196, 218, 1)
+        Default: =gblDetailCR.ProjectManager.DisplayName
+        Font: =Font.'Segoe UI'
+        Height: =36
+        Items: |
+            =/* Bind directly to CRUserAdmin. AddColumns synthesises a "Value" column
+               which the Dropdown control uses as its display text. Fallback keeps rows
+               visible when Title is blank or contains an SP claim ("i:0#…"). */
+            Sort(
+              AddColumns(
+                Filter(CRUserAdmin, Not(IsBlank(Email))),
+                "Value", If(IsBlank(Title) Or Len(Trim(Title)) = 0 Or StartsWith(Title, "i:0#"), Email, Title)
+              ),
+              Value,
+              SortOrder.Ascending
+            )
+        Size: =13
+        Width: =640
+        X: =16
+        Y: =456
+
+    lblSponsorLblSCS As label:
+        Color: =RGBA(192, 57, 43, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =12
+        Text: ="❗ CR Sponsor *"
+        Width: =Parent.Width - 716
+        X: =700
+        Y: =436
+
+    ddlSponsorSCS As dropdown:
+        AllowEmptySelection: =true
+        BorderColor: =RGBA(180, 196, 218, 1)
+        Default: =gblDetailCR.CRSponsor.DisplayName
+        Font: =Font.'Segoe UI'
+        Height: =36
+        Items: |
+            =/* Direct bind to CRUserAdmin; synthesised "Value" column feeds the dropdown.
+               Matches ddlPMSCS so both dropdowns render identically. */
+            Sort(
+              AddColumns(
+                Filter(CRUserAdmin, Not(IsBlank(Email))),
+                "Value", If(IsBlank(Title) Or Len(Trim(Title)) = 0 Or StartsWith(Title, "i:0#"), Email, Title)
+              ),
+              Value,
+              SortOrder.Ascending
+            )
+        Size: =13
+        Width: =Parent.Width - 716
+        X: =700
+        Y: =456
+
+    lblAIPSGLblSCS As label:
+        Color: =RGBA(192, 57, 43, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =12
+        Text: ="❗ AIPSG Target Date *"
+        Width: =640
+        X: =16
+        Y: =504
+
+    dteAIPSGSCS As datepicker:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
+        DefaultDate: =gblDetailCR.AIPSGTargetDate
+        Font: =Font.'Segoe UI'
+        Format: =DateTimeFormat.ShortDate
+        Height: =36
+        Size: =13
+        Width: =640
+        X: =16
+        Y: =524
+
+    lblSubDeadlineLblSCS As label:
+        Color: =RGBA(33, 33, 33, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =12
+        Text: ="Submission Deadline"
+        Width: =Parent.Width - 716
+        X: =700
+        Y: =504
+
+    dteDeadlineSCS As datepicker:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
+        DefaultDate: =gblDetailCR.SubmissionDeadline
+        Font: =Font.'Segoe UI'
+        Format: =DateTimeFormat.ShortDate
+        Height: =36
+        Size: =13
+        Width: =Parent.Width - 716
+        X: =700
+        Y: =524
+

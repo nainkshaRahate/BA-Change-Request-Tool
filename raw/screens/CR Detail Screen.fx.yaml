@@ -1,0 +1,768 @@
+"'CR Detail Screen' As screen":
+    Fill: =RGBA(245, 247, 250, 1)
+    OnVisible: |
+        =/*
+          CR Detail Screen — OnVisible
+          Purpose: Display read-only CR detail and PMO workflow action buttons.
+                   Re-fetches the CR record to reflect any status changes made elsewhere.
+          Author:  IAG Tech Developer
+          Date:    07 Apr 2026
+        */
+        // Refresh gblDetailCR so status pills are always current.
+        If(Not(IsBlank(gblDetailCR)),
+          Set(gblDetailCR, LookUp(CRRequests, ID = gblDetailCR.ID))
+        )
+
+    conMainCDS As groupContainer:
+        Height: =Parent.Height
+        Width: =Parent.Width
+
+        conHeaderCDS As groupContainer:
+            Height: =50
+            Width: =Parent.Width
+
+            recHeaderCDS As rectangle:
+                Fill: =RGBA(1, 37, 84, 1)
+                Height: =Parent.Height
+                Width: =Parent.Width
+                X: =0
+                Y: =0
+
+            recGoldAccentCDS As rectangle:
+                Fill: =RGBA(186, 150, 46, 1)
+                Height: =3
+                Width: =Parent.Width
+                X: =0
+                Y: =47
+
+            imgLogoCDS As image:
+                Height: =20
+                Image: =""
+                ImagePosition: =ImagePosition.Fit
+                Width: =40
+                X: =8
+                Y: =15
+
+            lblHeaderCDS As label:
+                Align: =Align.Center
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =Parent.Height
+                Size: =16
+                Text: ="CR Detail"
+                Width: =Parent.Width
+                X: =0
+                Y: =0
+
+        conSubNavCDS As groupContainer:
+            Height: =45
+            Width: =Parent.Width
+            Y: =conHeaderCDS.Y + conHeaderCDS.Height
+
+            recSubNavCDS As rectangle:
+                Fill: =RGBA(0, 22, 55, 1)
+                Height: =Parent.Height
+                Width: =Parent.Width
+                X: =0
+                Y: =0
+
+            btnHomeCDS As button:
+                BorderThickness: =0
+                Fill: =RGBA(0, 22, 55, 1)
+                Height: =36
+                OnSelect: =Navigate('Home Screen', ScreenTransition.None)
+                Size: =16
+                Text: ="🏠"
+                Width: =36
+                X: =8
+                Y: =4
+
+            btnBackCDS As button:
+                BorderThickness: =0
+                Fill: =RGBA(0, 22, 55, 1)
+                Height: =36
+                OnSelect: =Navigate('View CRs Screen', ScreenTransition.None)
+                Size: =12
+                Text: ="← Back"
+                Width: =60
+                X: =48
+                Y: =btnHomeCDS.Y
+
+            btnEditCDS As button:
+                BorderThickness: =0
+                Color: =RGBA(255, 255, 255, 1)
+                Fill: =RGBA(186, 150, 46, 1)
+                Font: =Font.'Segoe UI'
+                Height: =34
+                OnSelect: |
+                    =Set(gblCRMode, "Edit");
+                    Navigate('Submit CR Screen', ScreenTransition.None)
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                Size: =12
+                Text: ="Edit Draft"
+                Visible: =gblDetailCR.CRStatus.Value = "Draft" And (IsBlank(gblDetailCR.Originator.Email) Or Lower(gblDetailCR.Originator.Email) = Lower(User().Email) Or gblIsPMO Or gblIsAdmin) /* Only Draft CRs are editable. Owner / PMO / Admin gated so non-owners can't hijack somebody else's draft. */
+                Width: =100
+                X: =112
+                Y: =btnHomeCDS.Y + 1
+
+            btnPartBCDS As button:
+                BorderThickness: =0
+                Fill: =RGBA(1, 37, 84, 1)
+                Font: =Font.'Segoe UI'
+                Height: =34
+                OnSelect: =Navigate('Stakeholder Assessment Screen', ScreenTransition.None)
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                Size: =12
+                Text: ="Part B →"
+                Width: =100
+                X: =Parent.Width - 390
+                Y: =btnHomeCDS.Y + 1
+
+    recStatusPillCDS As rectangle:
+        Fill: |
+            =Switch(gblDetailCR.CRStatus.Value,
+              "Draft", RGBA(149,165,166,1),
+              "Submitted", RGBA(110,140,176,1),
+              "PMO Review", RGBA(31,55,100,1),
+              "In Assessment", RGBA(243,156,18,1),
+              "PMO Consolidation", RGBA(243,156,18,1),
+              "Programme Meeting", RGBA(31,55,100,1),
+              "Pre-SG Distribution", RGBA(31,55,100,1),
+              "SG Review", RGBA(31,55,100,1),
+              "Post-Meeting Edits", RGBA(243,156,18,1),
+              "Approved", RGBA(39,174,96,1),
+              "Deferred", RGBA(149,165,166,1),
+              "Rejected", RGBA(192,57,43,1),
+              "Closed", RGBA(149,165,166,1),
+              RGBA(31,55,100,1)
+            )
+        Height: =28
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =90
+        X: =Parent.Width - 280
+        Y: =95
+
+    lblStatusPillCDS As label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =28
+        Size: =10
+        Text: =gblDetailCR.CRStatus.Value
+        Width: =90
+        X: =Parent.Width - 280
+        Y: =95
+
+    recDaysOpenCDS As rectangle:
+        Fill: =RGBA(39, 174, 96, 1)
+        Height: =28
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =70
+        X: =Parent.Width - 182
+        Y: =95
+
+    lblDaysOpenCDS As label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        Height: =28
+        Size: =11
+        Text: =Text(DateDiff(gblDetailCR.SubmittedDate, Today(), TimeUnit.Days)) & " Days"
+        Width: =70
+        X: =Parent.Width - 182
+        Y: =95
+
+    btnDeleteCDS As button:
+        BorderThickness: =0
+        Fill: =RGBA(192, 57, 43, 1)
+        Height: =28
+        OnSelect: |
+            =If(Confirm("Delete this CR? This cannot be undone."),
+              Remove(CRRequests, gblDetailCR);
+              Navigate('View CRs Screen', ScreenTransition.None);
+              Notify("CR deleted.", NotificationType.Warning)
+            )
+        Size: =14
+        Text: ="🗑"
+        Visible: =gblIsAdmin
+        Width: =36
+        X: =Parent.Width - 104
+        Y: =95
+
+    btnAcceptCDS As button:
+        BorderThickness: =0
+        Fill: =RGBA(39, 174, 96, 1)
+        Font: =Font.'Segoe UI'
+        Height: =34
+        OnSelect: |
+            =Patch(CRRequests, gblDetailCR, {CRStatus: {Value: "In Assessment"}});
+            If(IsEmpty(Errors(CRRequests)),
+              Set(gblDetailCR, LookUp(CRRequests, CRNumber = gblDetailCR.CRNumber));
+              Notify(gblDetailCR.CRNumber & " accepted and distributed for assessment.", NotificationType.Success),
+              Notify("Action failed — " & First(Errors(CRRequests)).Message, NotificationType.Error)
+            )
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Size: =12
+        Text: ="✓ Accept & Distribute"
+        Visible: =gblIsPMO And gblDetailCR.CRStatus.Value = "PMO Review"
+        Width: =150
+        X: =Parent.Width - 340
+        Y: =92
+
+    btnReturnCDS As button:
+        BorderThickness: =0
+        Fill: =RGBA(149, 165, 166, 1)
+        Font: =Font.'Segoe UI'
+        Height: =34
+        OnSelect: |
+            =Patch(CRRequests, gblDetailCR, {CRStatus: {Value: "Submitted"}});
+            If(IsEmpty(Errors(CRRequests)),
+              Set(gblDetailCR, LookUp(CRRequests, CRNumber = gblDetailCR.CRNumber));
+              Notify(gblDetailCR.CRNumber & " returned to owner.", NotificationType.Warning),
+              Notify("Action failed — " & First(Errors(CRRequests)).Message, NotificationType.Error)
+            )
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Size: =12
+        Text: ="↩ Return to Owner"
+        Visible: =gblIsPMO And gblDetailCR.CRStatus.Value = "PMO Review"
+        Width: =140
+        X: =Parent.Width - 490
+        Y: =92
+
+    btnReadySGCDS As button:
+        BorderThickness: =0
+        Fill: =RGBA(1, 37, 84, 1)
+        Font: =Font.'Segoe UI'
+        Height: =34
+        OnSelect: |
+            =If(CountRows(Filter(CRStakeholderReviews,
+                CRNumber = gblDetailCR.CRNumber, RAGStatus.Value = "Pale Blue")) > 0,
+              Notify("Cannot proceed — " &
+                Text(CountRows(Filter(CRStakeholderReviews, CRNumber = gblDetailCR.CRNumber, RAGStatus.Value = "Pale Blue"))) &
+                " stakeholder group(s) are still Pale Blue. All assessments must be complete before SG distribution.",
+                NotificationType.Error),
+              Patch(CRRequests, gblDetailCR, {CRStatus: {Value: "Pre-SG Distribution"}});
+              If(IsEmpty(Errors(CRRequests)),
+                Set(gblDetailCR, LookUp(CRRequests, CRNumber = gblDetailCR.CRNumber));
+                Notify("CR marked ready for Pre-SG Distribution.", NotificationType.Success),
+                Notify("Action failed — " & First(Errors(CRRequests)).Message, NotificationType.Error)
+              )
+            )
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Size: =12
+        Text: ="Mark Ready for SG"
+        Visible: =gblIsPMO And gblDetailCR.CRStatus.Value = "PMO Consolidation"
+        Width: =150
+        X: =Parent.Width - 490
+        Y: =92
+
+    btnSGDecisionCDS As button:
+        BorderThickness: =0
+        Fill: =RGBA(243, 156, 18, 1)
+        Font: =Font.'Segoe UI'
+        Height: =34
+        OnSelect: =Notify("Use the SG Decision panel below to record the outcome.", NotificationType.Information)
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Size: =12
+        Text: ="Record SG Decision"
+        Visible: =gblIsPMO And gblDetailCR.CRStatus.Value = "SG Review"
+        Width: =160
+        X: =Parent.Width - 400
+        Y: =92
+
+    btnCloseCDS As button:
+        BorderThickness: =0
+        Fill: =RGBA(149, 165, 166, 1)
+        Font: =Font.'Segoe UI'
+        Height: =34
+        OnSelect: |
+            =Patch(CRRequests, gblDetailCR, {CRStatus: {Value: "Closed"}, ClosedDate: Today()});
+            If(IsEmpty(Errors(CRRequests)),
+              Set(gblDetailCR, LookUp(CRRequests, CRNumber = gblDetailCR.CRNumber));
+              Notify(gblDetailCR.CRNumber & " closed.", NotificationType.Success),
+              Notify("Action failed — " & First(Errors(CRRequests)).Message, NotificationType.Error)
+            )
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Size: =12
+        Text: ="Close CR"
+        Visible: =gblIsPMO And gblDetailCR.CRStatus.Value = "Approved"
+        Width: =100
+        X: =Parent.Width - 340
+        Y: =92
+
+    recTitleRowCDS As rectangle:
+        Fill: =RGBA(1, 37, 84, 1)
+        Height: =40
+        Width: =Parent.Width
+        X: =0
+        Y: =95
+
+    lblCRTitleCDS As label:
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =40
+        Size: =14
+        Text: =gblDetailCR.Title
+        Width: =Parent.Width - 32
+        X: =16
+        Y: =95
+
+    recProgHeaderCDS As rectangle:
+        Fill: =RGBA(13, 71, 88, 1)
+        Height: =60
+        Width: =Parent.Width
+        X: =0
+        Y: =135
+
+    lblProgLblCDS As label:
+        Align: =Align.Center
+        Color: =RGBA(174, 214, 241, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =25
+        Size: =9
+        Text: ="PROGRAMME"
+        Width: =Parent.Width / 6
+        X: =0
+        Y: =135
+
+    lblProgValCDS As label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =35
+        Size: =12
+        Text: =gblDetailCR.ProgrammeName
+        Width: =Parent.Width / 6
+        X: =0
+        Y: =160
+
+    lblSupplierLblCDS As label:
+        Align: =Align.Center
+        Color: =RGBA(174, 214, 241, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =25
+        Size: =9
+        Text: ="SUPPLIER"
+        Width: =Parent.Width / 6
+        X: =Parent.Width / 6
+        Y: =135
+
+    lblSupplierValCDS As label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        Height: =35
+        Size: =12
+        Text: =If(IsBlank(gblDetailCR.Supplier), "—", gblDetailCR.Supplier)
+        Width: =Parent.Width / 6
+        X: =Parent.Width / 6
+        Y: =160
+
+    lblSupRefLblCDS As label:
+        Align: =Align.Center
+        Color: =RGBA(174, 214, 241, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =25
+        Size: =9
+        Text: ="SUPPLIER REF"
+        Width: =Parent.Width / 6
+        X: =Parent.Width / 3
+        Y: =135
+
+    lblSupRefValCDS As label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        Height: =35
+        Size: =12
+        Text: =If(IsBlank(gblDetailCR.SupplierReference), "—", gblDetailCR.SupplierReference)
+        Width: =Parent.Width / 6
+        X: =Parent.Width / 3
+        Y: =160
+
+    lblPMLblCDS As label:
+        Align: =Align.Center
+        Color: =RGBA(174, 214, 241, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =25
+        Size: =9
+        Text: ="PROJECT MANAGER"
+        Width: =Parent.Width / 6
+        X: =Parent.Width / 2
+        Y: =135
+
+    lblPMValCDS As label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        Height: =35
+        Size: =12
+        Text: =gblDetailCR.ProjectManager.DisplayName
+        Width: =Parent.Width / 6
+        X: =Parent.Width / 2
+        Y: =160
+
+    lblSponsorLblCDS As label:
+        Align: =Align.Center
+        Color: =RGBA(174, 214, 241, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =25
+        Size: =9
+        Text: ="CR SPONSOR"
+        Width: =Parent.Width / 6
+        X: =2 * Parent.Width / 3
+        Y: =135
+
+    lblSponsorValCDS As label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        Height: =35
+        Size: =12
+        Text: =gblDetailCR.CRSponsor.DisplayName
+        Width: =Parent.Width / 6
+        X: =2 * Parent.Width / 3
+        Y: =160
+
+    lblAIPSGLblCDS As label:
+        Align: =Align.Center
+        Color: =RGBA(174, 214, 241, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =25
+        Size: =9
+        Text: ="AIPSG DATE"
+        Width: =Parent.Width / 6
+        X: =5 * Parent.Width / 6
+        Y: =135
+
+    lblAIPSGValCDS As label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        Height: =35
+        Size: =12
+        Text: =Text(gblDetailCR.AIPSGTargetDate, "dd mmm yyyy")
+        Width: =Parent.Width / 6
+        X: =5 * Parent.Width / 6
+        Y: =160
+
+    recDescHeaderCDS As rectangle:
+        Fill: =RGBA(1, 37, 84, 1)
+        Height: =28
+        Width: =Parent.Width
+        X: =0
+        Y: =195
+
+    lblDescHeaderCDS As label:
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =28
+        Size: =12
+        Text: ="CR DESCRIPTION"
+        Width: =Parent.Width
+        X: =16
+        Y: =195
+
+    lblDescBodyCDS As label:
+        Color: =RGBA(33, 33, 33, 1)
+        Font: =Font.'Segoe UI'
+        Height: =80
+        Text: =gblDetailCR.CRDescription
+        Width: =Parent.Width - 32
+        X: =16
+        Y: =230
+
+    recReasonHeaderCDS As rectangle:
+        Fill: =RGBA(1, 37, 84, 1)
+        Height: =28
+        Visible: =Not(IsBlank(gblDetailCR.ReasonForChange))
+        Width: =Parent.Width
+        X: =0
+        Y: =318
+
+    lblReasonHeaderCDS As label:
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =28
+        Size: =12
+        Text: ="REASON FOR CHANGE"
+        Visible: =Not(IsBlank(gblDetailCR.ReasonForChange))
+        Width: =Parent.Width
+        X: =16
+        Y: =318
+
+    lblReasonBodyCDS As label:
+        Color: =RGBA(33, 33, 33, 1)
+        Font: =Font.'Segoe UI'
+        Height: =60
+        Text: =gblDetailCR.ReasonForChange
+        Visible: =Not(IsBlank(gblDetailCR.ReasonForChange))
+        Width: =Parent.Width - 32
+        X: =16
+        Y: =353
+
+    recDoNothingHeaderCDS As rectangle:
+        Fill: =RGBA(1, 37, 84, 1)
+        Height: =28
+        Visible: =Not(IsBlank(gblDetailCR.DoNothingOption))
+        Width: =Parent.Width
+        X: =0
+        Y: =421
+
+    lblDoNothingHeaderCDS As label:
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =28
+        Size: =12
+        Text: ="DO NOTHING OPTION"
+        Visible: =Not(IsBlank(gblDetailCR.DoNothingOption))
+        Width: =Parent.Width
+        X: =16
+        Y: =421
+
+    lblDoNothingBodyCDS As label:
+        Color: =RGBA(33, 33, 33, 1)
+        Font: =Font.'Segoe UI'
+        Height: =60
+        Text: =gblDetailCR.DoNothingOption
+        Visible: =Not(IsBlank(gblDetailCR.DoNothingOption))
+        Width: =Parent.Width - 32
+        X: =16
+        Y: =456
+
+    recCostBarCDS As rectangle:
+        Fill: =RGBA(1, 37, 84, 1)
+        Height: =60
+        Width: =Parent.Width
+        X: =0
+        Y: =524
+
+    lblCostBarTitleCDS As label:
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =48
+        Size: =11
+        Text: ="COST IMPACT"
+        Width: =100
+        X: =8
+        Y: =530
+
+    lblRELblCDS As label:
+        Color: =RGBA(174, 214, 241, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =9
+        Text: ="RE Δ (1 a/c)"
+        Width: =160
+        X: =110
+        Y: =526
+
+    lblREValCDS As label:
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =28
+        Text: =If(IsBlank(gblDetailCR.RE_Delta_PerAircraft), "NA", gblDetailCR.RE_Delta_PerAircraft)
+        Width: =160
+        X: =110
+        Y: =546
+
+    lblNRELblCDS As label:
+        Color: =RGBA(174, 214, 241, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =9
+        Text: ="NRE Δ"
+        Width: =160
+        X: =278
+        Y: =526
+
+    lblNREValCDS As label:
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =28
+        Text: =If(IsBlank(gblDetailCR.NRE_Delta), "NA", gblDetailCR.NRE_Delta)
+        Width: =160
+        X: =278
+        Y: =546
+
+    lblTotalLblCDS As label:
+        Color: =RGBA(174, 214, 241, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =9
+        Text: ="Total Cost Δ"
+        Width: =160
+        X: =446
+        Y: =526
+
+    lblTotalValCDS As label:
+        Color: =RGBA(174, 214, 241, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Bold
+        Height: =28
+        Size: =14
+        Text: =If(IsBlank(gblDetailCR.TotalCostDelta), "NA", gblDetailCR.TotalCostDelta)
+        Width: =160
+        X: =446
+        Y: =546
+
+    lblW1LblCDS As label:
+        Color: =RGBA(174, 214, 241, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =9
+        Text: ="Weight Δ (1 a/c)"
+        Width: =160
+        X: =614
+        Y: =526
+
+    lblW1ValCDS As label:
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =28
+        Text: =If(IsBlank(gblDetailCR.WeightDelta_PerAircraft), "NA", gblDetailCR.WeightDelta_PerAircraft)
+        Width: =160
+        X: =614
+        Y: =546
+
+    lblWAllLblCDS As label:
+        Color: =RGBA(174, 214, 241, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =9
+        Text: ="Weight Δ (all a/c)"
+        Width: =160
+        X: =782
+        Y: =526
+
+    lblWAllValCDS As label:
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =28
+        Text: =If(IsBlank(gblDetailCR.WeightDelta_AllAircraft), "NA", gblDetailCR.WeightDelta_AllAircraft)
+        Width: =160
+        X: =782
+        Y: =546
+
+    lblCoWLblCDS As label:
+        Color: =RGBA(174, 214, 241, 1)
+        Font: =Font.'Segoe UI'
+        Height: =18
+        Size: =9
+        Text: ="Annual CoW Impact"
+        Width: =160
+        X: =950
+        Y: =526
+
+    lblCoWValCDS As label:
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =28
+        Text: =If(IsBlank(gblDetailCR.AnnualCoWImpact), "NA", gblDetailCR.AnnualCoWImpact)
+        Width: =160
+        X: =950
+        Y: =546
+
+    recRAGBarCDS As rectangle:
+        Fill: =RGBA(1, 37, 84, 1)
+        Height: =60
+        Width: =Parent.Width
+        X: =0
+        Y: =592
+
+    lblRAGBarTitleCDS As label:
+        Color: =RGBA(255, 255, 255, 1)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Semibold
+        Height: =48
+        Size: =11
+        Text: ="CR STATUS"
+        Width: =120
+        X: =8
+        Y: =598
+
+    galRAGBarCDS As gallery:
+        Height: =56
+        Items: =Filter(CRStakeholderReviews, CRNumber = gblDetailCR.CRNumber)
+        Layout: =Layout.Horizontal
+        TemplatePadding: =8
+        TemplateWidth: =160
+        Width: =Parent.Width - 135
+        X: =135
+        Y: =596
+
+        lblRAGGroupCDS As label:
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =28
+            Size: =10
+            Text: =ThisItem.StakeholderGroup
+            Width: =120
+            X: =0
+            Y: =0
+
+        recRAGColorCDS As rectangle:
+            Fill: |
+                =Switch(ThisItem.RAGStatus.Value,
+                  "Green", RGBA(39,174,96,1),
+                  "Amber", RGBA(243,156,18,1),
+                  "Red", RGBA(192,57,43,1),
+                  "Grey", RGBA(149,165,166,1),
+                  RGBA(174,214,241,1)
+                )
+            Height: =28
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            Width: =30
+            X: =120
+            Y: =4
+

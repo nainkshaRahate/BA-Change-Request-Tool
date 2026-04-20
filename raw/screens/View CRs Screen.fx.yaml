@@ -1,0 +1,360 @@
+"'View CRs Screen' As screen":
+    Fill: =RGBA(245, 247, 250, 1)
+    OnVisible: |
+        =/*
+          View CRs Screen — OnVisible
+          Purpose: Refresh the CR list on every visit so status changes are current.
+          Author:  IAG Tech Developer
+          Date:    07 Apr 2026
+        */
+        // Reset any stale form error from a previous submission attempt.
+        Set(gblFormError, "");
+        // Build programme filter options (table union via & is NOT supported in Power Apps — use ForAll).
+        ClearCollect(colProgrammesVCS, {Value: "All Programmes"});
+        ForAll(Sort(Distinct(CRRequests, ProgrammeName), Value, SortOrder.Ascending), Collect(colProgrammesVCS, {Value: Value}));
+        // Build AIPSG meeting-date filter options.
+        ClearCollect(colAIPSGVCS, {Value: "All Dates", MeetingDate: Blank()});
+        ForAll(AIPSGMeetings, Collect(colAIPSGVCS, {Value: Text(MeetingDate, "dd mmm yyyy"), MeetingDate: MeetingDate}))
+
+    conMainVCS As groupContainer:
+        Height: =Parent.Height
+        Width: =Parent.Width
+
+        conHeaderVCS As groupContainer:
+            Height: =50
+            Width: =Parent.Width
+
+            recHeaderVCS As rectangle:
+                Fill: =RGBA(1, 37, 84, 1)
+                Height: =Parent.Height
+                Width: =Parent.Width
+                X: =0
+                Y: =0
+
+            recGoldAccentVCS As rectangle:
+                Fill: =RGBA(186, 150, 46, 1)
+                Height: =3
+                Width: =Parent.Width
+                X: =0
+                Y: =47
+
+            imgLogoVCS As image:
+                Height: =20
+                Image: =""
+                ImagePosition: =ImagePosition.Fit
+                Width: =40
+                X: =8
+                Y: =15
+
+            lblHeaderVCS As label:
+                Align: =Align.Center
+                Color: =RGBA(255, 255, 255, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Semibold
+                Height: =Parent.Height
+                Size: =16
+                Text: ="Engineering Change Requests"
+                Width: =Parent.Width
+                X: =0
+                Y: =0
+
+        conSubNavVCS As groupContainer:
+            Height: =45
+            Width: =Parent.Width
+            Y: =conHeaderVCS.Y + conHeaderVCS.Height
+
+            recSubNavVCS As rectangle:
+                Fill: =RGBA(0, 22, 55, 1)
+                Height: =Parent.Height
+                Width: =Parent.Width
+                X: =0
+                Y: =0
+
+            btnHomeVCS As button:
+                BorderThickness: =0
+                Fill: =RGBA(0, 22, 55, 1)
+                Height: =36
+                OnSelect: =Navigate('Home Screen', ScreenTransition.None)
+                Size: =16
+                Text: ="🏠"
+                Width: =36
+                X: =8
+                Y: =4
+
+            btnAddCRVCS As button:
+                BorderThickness: =0
+                Fill: =RGBA(192, 57, 43, 1)
+                Font: =Font.'Segoe UI'
+                FontWeight: =FontWeight.Bold
+                Height: =36
+                OnSelect: |
+                    =Set(gblCRMode, "New");
+                    Set(gblDetailCR, Defaults(CRRequests));
+                    Navigate('Submit CR Screen', ScreenTransition.None)
+                RadiusBottomLeft: =6
+                RadiusBottomRight: =6
+                RadiusTopLeft: =6
+                RadiusTopRight: =6
+                Size: =20
+                Text: ="+"
+                Width: =36
+                X: =Parent.Width - 44
+                Y: =btnHomeVCS.Y
+
+    recFilterBarVCS As rectangle:
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =50
+        Width: =Parent.Width
+        X: =0
+        Y: =95
+
+    txtSearchVCS As text:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        BorderThickness: =1
+        Font: =Font.'Segoe UI'
+        Height: =34
+        HintText: ="Search CR number or title..."
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =300
+        X: =16
+        Y: =103
+
+    ddlStatusVCS As dropdown:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        Font: =Font.'Segoe UI'
+        Height: =34
+        Items: =["All","Draft","Submitted","In Assessment","PMO Consolidation","Programme Meeting","Pre-SG Distribution","SG Review","Approved","Rejected","Closed"]
+        Size: =12
+        Width: =180
+        X: =326
+        Y: =103
+
+    ddlProgrammeVCS As dropdown:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        Font: =Font.'Segoe UI'
+        Height: =34
+        Items: =colProgrammesVCS
+        Size: =12
+        Width: =200
+        X: =516
+        Y: =103
+
+    ddlAIPSGVCS As dropdown:
+        BorderColor: =RGBA(180, 196, 218, 1)
+        Font: =Font.'Segoe UI'
+        Height: =34
+        Items: =colAIPSGVCS
+        Size: =12
+        Width: =200
+        X: =726
+        Y: =103
+
+    galCRsVCS As gallery:
+        Height: =Parent.Height - 145
+        Items: |
+            =Sort(
+              Filter(CRRequests,
+                (IsBlank(txtSearchVCS.Text) Or txtSearchVCS.Text in Title Or txtSearchVCS.Text in CRNumber),
+                (ddlStatusVCS.Selected.Value = "All" Or CRStatus.Value = ddlStatusVCS.Selected.Value),
+                (ddlProgrammeVCS.Selected.Value = "All Programmes" Or ProgrammeName = ddlProgrammeVCS.Selected.Value),
+                (IsBlank(ddlAIPSGVCS.Selected.MeetingDate) Or ddlAIPSGVCS.Selected.MeetingDate = AIPSGTargetDate),
+                (Not(IsDraft) Or IsBlank(Originator.Email) Or Lower(Originator.Email) = Lower(User().Email) Or gblIsPMO)
+              ),
+              AIPSGTargetDate, SortOrder.Ascending
+            )
+        Layout: =Layout.Vertical
+        OnSelect: |
+            =Set(gblDetailCR, ThisItem);
+            Navigate('CR Detail Screen', ScreenTransition.None)
+        ShowScrollbar: =true
+        TemplateFill: =RGBA(255, 255, 255, 1)
+        TemplateHeight: =120 /* Raised from 90 to fit Supplier + Sponsor rows without wrap overflow. */
+        TemplatePadding: =0
+        WrapCount: =1
+        Width: =Parent.Width
+        X: =0
+        Y: =145
+
+        recRowBgVCS As rectangle:
+            Fill: =If(Mod(Coalesce(ThisItem.ID, 0), 2) = 0, RGBA(249, 249, 249, 1), RGBA(255, 255, 255, 1))
+            Height: =119
+            Width: =Parent.Width
+            X: =0
+            Y: =0
+
+        recRowBorderVCS As rectangle:
+            Fill: =RGBA(224, 224, 224, 1)
+            Height: =1
+            Width: =Parent.Width
+            X: =0
+            Y: =118
+
+        lblCRNumVCS As label:
+            Color: =RGBA(1, 37, 84, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Bold
+            Height: =30
+            Size: =14
+            Text: =ThisItem.CRNumber
+            Width: =80
+            X: =12
+            Y: =8
+
+        lblTitleVCS As label:
+            Color: =RGBA(33, 33, 33, 1)
+            Font: =Font.'Segoe UI'
+            Height: =30
+            Overflow: =Overflow.Hidden
+            Size: =13
+            Text: =ThisItem.CRTitle
+            Width: =Parent.Width - 420
+            X: =100
+            Y: =8
+
+        recStatusPillVCS As rectangle:
+            Fill: |
+                =Switch(ThisItem.CRStatus.Value,
+                  "Draft", RGBA(149,165,166,1),
+                  "Submitted", RGBA(110,140,176,1),
+                  "PMO Review", RGBA(31,55,100,1),
+                  "In Assessment", RGBA(243,156,18,1),
+                  "PMO Consolidation", RGBA(243,156,18,1),
+                  "Programme Meeting", RGBA(31,55,100,1),
+                  "Pre-SG Distribution", RGBA(31,55,100,1),
+                  "SG Review", RGBA(31,55,100,1),
+                  "Post-Meeting Edits", RGBA(243,156,18,1),
+                  "Approved", RGBA(39,174,96,1),
+                  "Deferred", RGBA(149,165,166,1),
+                  "Rejected", RGBA(192,57,43,1),
+                  "Closed", RGBA(149,165,166,1),
+                  RGBA(31,55,100,1)
+                )
+            Height: =24
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            Width: =90
+            X: =Parent.Width - 300
+            Y: =10
+
+        lblStatusPillVCS As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            FontWeight: =FontWeight.Semibold
+            Height: =24
+            Size: =10
+            Text: =ThisItem.CRStatus.Value
+            Width: =90
+            X: =Parent.Width - 300
+            Y: =10
+
+        lblAIPSGDateVCS As label:
+            Color: |
+                =If(
+                  ThisItem.AIPSGTargetDate < Today() And ThisItem.CRStatus.Value <> "Closed" And ThisItem.CRStatus.Value <> "Approved" And ThisItem.CRStatus.Value <> "Rejected",
+                  RGBA(192, 57, 43, 1),
+                  DateDiff(Today(), ThisItem.AIPSGTargetDate, TimeUnit.Days) <= 14,
+                  RGBA(243, 156, 18, 1),
+                  RGBA(117, 117, 117, 1)
+                )
+            Font: =Font.'Segoe UI'
+            Height: =24
+            Size: =12
+            Text: ="AIPSG: " & Text(ThisItem.AIPSGTargetDate, "dd mmm yyyy") /* Prefixed so row is self-describing. */
+            Width: =190
+            X: =Parent.Width - 200
+            Y: =10
+
+        lblProgrammeVCS As label:
+            Color: =RGBA(117, 117, 117, 1)
+            Font: =Font.'Segoe UI'
+            Height: =22
+            Overflow: =Overflow.Hidden
+            Size: =12
+            Text: ="Prog: " & ThisItem.ProgrammeName
+            Width: =(Parent.Width - 24) / 2 - 8
+            X: =12
+            Y: =46
+
+        lblSupplierVCS As label:
+            Color: =RGBA(117, 117, 117, 1)
+            Font: =Font.'Segoe UI'
+            Height: =22
+            Overflow: =Overflow.Hidden
+            Size: =12
+            Text: ="Supplier: " & If(IsBlank(ThisItem.Supplier), "—", ThisItem.Supplier)
+            Width: =(Parent.Width - 24) / 2 - 8
+            X: =(Parent.Width - 24) / 2 + 12
+            Y: =46
+
+        lblPMVCS As label:
+            Color: =RGBA(117, 117, 117, 1)
+            Font: =Font.'Segoe UI'
+            Height: =22
+            Overflow: =Overflow.Hidden
+            Size: =12
+            Text: ="PM: " & If(IsBlank(ThisItem.ProjectManager.DisplayName), "—", ThisItem.ProjectManager.DisplayName)
+            Width: =(Parent.Width - 24) / 2 - 8
+            X: =12
+            Y: =72
+
+        lblSponsorVCS As label:
+            Color: =RGBA(117, 117, 117, 1)
+            Font: =Font.'Segoe UI'
+            Height: =22
+            Overflow: =Overflow.Hidden
+            Size: =12
+            Text: ="Sponsor: " & If(IsBlank(ThisItem.CRSponsor.DisplayName), "—", ThisItem.CRSponsor.DisplayName)
+            Width: =(Parent.Width - 24) / 2 - 8
+            X: =(Parent.Width - 24) / 2 + 12
+            Y: =72
+
+        recDaysOpenVCS As rectangle:
+            Fill: =RGBA(1, 37, 84, 1)
+            Height: =22
+            RadiusBottomLeft: =6
+            RadiusBottomRight: =6
+            RadiusTopLeft: =6
+            RadiusTopRight: =6
+            Width: =68
+            X: =Parent.Width - 80
+            Y: =94
+
+        lblDaysOpenVCS As label:
+            Align: =Align.Center
+            Color: =RGBA(255, 255, 255, 1)
+            Font: =Font.'Segoe UI'
+            Height: =22
+            Size: =11
+            Text: =If(IsBlank(ThisItem.SubmittedDate), "—", Text(DateDiff(ThisItem.SubmittedDate, Today(), TimeUnit.Days)) & " Days")
+            Width: =68
+            X: =Parent.Width - 80
+            Y: =94
+
+        btnRowClickVCS As button:
+            BorderThickness: =0
+            Color: =RGBA(0, 0, 0, 0)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =119
+            HoverBorderColor: =RGBA(0, 0, 0, 0)
+            HoverColor: =RGBA(0, 0, 0, 0)
+            HoverFill: =RGBA(1, 37, 84, 0.06)
+            OnSelect: |
+                =/* Transparent overlay covering the whole row.
+                   Gallery.OnSelect does not reliably fire when clicking a
+                   child label, so this explicit button guarantees navigation. */
+                Set(gblDetailCR, ThisItem);
+                Navigate('CR Detail Screen', ScreenTransition.None)
+            PressedBorderColor: =RGBA(0, 0, 0, 0)
+            PressedColor: =RGBA(0, 0, 0, 0)
+            PressedFill: =RGBA(1, 37, 84, 0.12)
+            Text: =""
+            Width: =Parent.Width
+            X: =0
+            Y: =0
+
